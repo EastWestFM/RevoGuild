@@ -21,9 +21,8 @@ public class StoreSQLITE implements Store {
 	}
 
 	@Override
-	public void connect() {
-		// TODO Auto-generated method stub
-
+	public boolean connect() {
+		return false;
 	}
 
 	@Override

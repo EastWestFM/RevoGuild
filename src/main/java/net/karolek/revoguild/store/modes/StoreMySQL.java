@@ -33,18 +33,17 @@ public class StoreMySQL implements Store {
 		this.t = new Thread(this, "MySQL Thread");
 		this.t.start();
 
-		this.connect();
-
 	}
 
 	@Override
-	public void connect() {
+	public boolean connect() {
 		long start = System.currentTimeMillis();
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			Logger.info("jdbc:mysql://" + this.host + ":" + this.port + "/" + this.name, this.user, this.pass);
 			this.conn = DriverManager.getConnection("jdbc:mysql://" + this.host + ":" + this.port + "/" + this.name, this.user, this.pass);
 			Logger.info("Connected to the MySQL server!", "Connection ping " + (System.currentTimeMillis() - start) + "ms!");
+			return true;
 		} catch (ClassNotFoundException e) {
 			Logger.warning("JDBC driver not found!", "Error: " + e.getMessage());
 			e.printStackTrace();
@@ -52,6 +51,7 @@ public class StoreMySQL implements Store {
 			Logger.warning("Can not connect to a MySQL server!", "Error: " + e.getMessage());
 			e.printStackTrace();
 		}
+		return false;
 	}
 
 	@Override

@@ -26,12 +26,17 @@ public class GuildPlugin extends JavaPlugin {
 		Config.loadConfig();
 		
 		if (!Config.ENABLED) {
-			Logger.info("This plugin is not activated in the configuration!", "To activate it, set the value 'enabled' to true!");
+			Logger.info("This plugin is not activated in the configuration!", "To activate it, set the value 'enabled' to true!", "Plugin will be disabled!");
 			Bukkit.getPluginManager().disablePlugin(this);
 			return;
 		}
 
-		registerDatabase();
+		if(!registerDatabase()) {
+			Logger.info("Can not connect to a MySQL server!", "Plugin will be disabled!");
+			Bukkit.getPluginManager().disablePlugin(this);
+			return;
+		}
+		
 		registerCommands();
 		registerListeners();
 		registerTasks();
@@ -51,16 +56,17 @@ public class GuildPlugin extends JavaPlugin {
 
 	}
 
-	protected void registerDatabase() {
+	protected boolean registerDatabase() {
 		Logger.info("Register database...");
 		switch (StoreMode.getByName(Config.DATABASE_MODE)) {
 			case MYSQL:
 			case SQLITE:
 			default:
 				store = new StoreMySQL(Config.DATABASE_MYSQL_HOST, Config.DATABASE_MYSQL_PORT, Config.DATABASE_MYSQL_USER, Config.DATABASE_MYSQL_PASS, Config.DATABASE_MYSQL_NAME, Config.DATABASE_TABLEPREFIX);
-				break;
+				return store.connect();
 		}
 	}
+	
 
 	protected void registerCommands() {
 		Logger.info("Register commands...");

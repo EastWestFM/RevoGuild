@@ -7,7 +7,7 @@ public interface Store extends Runnable {
 
 	public Connection getConnection();
 	
-	public void connect();
+	public boolean connect();
 	
 	public void disconnect();
 	
