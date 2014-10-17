@@ -16,7 +16,7 @@ public class GuildPlugin extends JavaPlugin {
 	@Getter
 	private static GuildPlugin	plugin;
 	@Getter
-	private static Store store;
+	private static Store store = null;
 
 	@Override
 	public void onEnable() {
@@ -33,6 +33,7 @@ public class GuildPlugin extends JavaPlugin {
 
 		if(!registerDatabase()) {
 			Logger.info("Can not connect to a MySQL server!", "Plugin will be disabled!");
+			store = null;
 			Bukkit.getPluginManager().disablePlugin(this);
 			return;
 		}
@@ -52,6 +53,10 @@ public class GuildPlugin extends JavaPlugin {
 		
 		Manager.unload();
 		
+		if(store != null) {
+			store.disconnect();
+		}
+		
 		plugin = null;
 
 	}
@@ -63,7 +68,11 @@ public class GuildPlugin extends JavaPlugin {
 			case SQLITE:
 			default:
 				store = new StoreMySQL(Config.DATABASE_MYSQL_HOST, Config.DATABASE_MYSQL_PORT, Config.DATABASE_MYSQL_USER, Config.DATABASE_MYSQL_PASS, Config.DATABASE_MYSQL_NAME, Config.DATABASE_TABLEPREFIX);
-				return store.connect();
+				boolean conn = store.connect();
+				if(conn) {
+					store.updateNow("CREATE TABLE IF NOT EXISTS `{P}guilds` (`id` int(10) NOT NULL AUTO_INCREMENT,`tag` varchar(4) COLLATE utf8_polish_ci NOT NULL,`name` varchar(32) COLLATE utf8_polish_ci NOT NULL,`owner` varchar(36) COLLATE utf8_polish_ci NOT NULL,`leader` varchar(36) COLLATE utf8_polish_ci NOT NULL,`cuboidWorld` varchar(32) COLLATE utf8_polish_ci NOT NULL,`cuboidX` int(10) NOT NULL,`cuboidZ` int(10) NOT NULL,`cuboidSize` int(10) NOT NULL,`homeWorld` varchar(32) COLLATE utf8_polish_ci NOT NULL,`homeX` int(10) NOT NULL,`homeY` int(10) NOT NULL,`homeZ` int(10) NOT NULL,`lives` int(2) NOT NULL DEFAULT '3',`createTime` bigint(13) NOT NULL DEFAULT '0',`expireTime` bigint(13) NOT NULL DEFAULT '0',`pvp` int(1) NOT NULL DEFAULT '0',PRIMARY KEY (`id`)) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci AUTO_INCREMENT=1 ;");
+				}
+				return conn;
 		}
 	}
 	

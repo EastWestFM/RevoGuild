@@ -54,8 +54,16 @@ public class StoreMySQL implements Store {
 		return false;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void disconnect() {
+		
+		if(this.t != null) 
+			this.t.stop();
+		
+		for(String query : queries) 
+			updateNow(query);
+		
 		if (this.conn != null)
 			try {
 				this.conn.close();
