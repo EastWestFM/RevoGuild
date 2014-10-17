@@ -1,0 +1,6 @@
+name: 'RevoGuild'
+main: 'net.karolek.revoguild.GuildPlugin'
+version: '${project.version}'
+author: Karolek
+website: 'http://karolek.net/plugins/revoguild'
+description: '${project.description}'
