@@ -44,12 +44,12 @@ public class StoreMySQL implements Store {
 			Class.forName("com.mysql.jdbc.Driver");
 			Logger.info("jdbc:mysql://" + this.host + ":" + this.port + "/" + this.name, this.user, this.pass);
 			this.conn = DriverManager.getConnection("jdbc:mysql://" + this.host + ":" + this.port + "/" + this.name, this.user, this.pass);
-			Logger.info("Nawiazano polaczenie z serwerem MySQL!", "Polaczenie trwalo " + (System.currentTimeMillis() - start) + "ms!");
+			Logger.info("Connected to the MySQL server!", "Connection ping " + (System.currentTimeMillis() - start) + "ms!");
 		} catch (ClassNotFoundException e) {
-			Logger.warning("Nie znaleziono sterownika JDBC!", "Blad: " + e.getMessage());
+			Logger.warning("JDBC driver not found!", "Error: " + e.getMessage());
 			e.printStackTrace();
 		} catch (SQLException e) {
-			Logger.warning("Nie mozna nawiazac polaczenia z serwerem MySQL!", "Blad: " + e.getMessage());
+			Logger.warning("Can not connect to a MySQL server!", "Error: " + e.getMessage());
 			e.printStackTrace();
 		}
 	}
@@ -60,7 +60,7 @@ public class StoreMySQL implements Store {
 			try {
 				this.conn.close();
 			} catch (SQLException e) {
-				Logger.warning("Nie mozna zamknac polaczenia z serwerem MySQL!", "Blad: " + e.getMessage());
+				Logger.warning("Can not close the connection to the MySQL server!", "Error: " + e.getMessage());
 				e.printStackTrace();
 			}
 	}
@@ -86,7 +86,7 @@ public class StoreMySQL implements Store {
 			return conn.createStatement().executeQuery(query.replace("{P}", this.prefix));
 
 		} catch (SQLException e) {
-			Logger.warning("Wystapil blad z zapytaniem '" + query.replace("{P}", this.prefix) + "'!", "Blad: " + e.getMessage());
+			Logger.warning("An error occurred with given query '" + query.replace("{P}", this.prefix) + "'!", "Error: " + e.getMessage());
 			e.printStackTrace();
 		}
 		return null;
@@ -107,7 +107,7 @@ public class StoreMySQL implements Store {
 			stmt.executeUpdate(update.replace("{P}", this.prefix), Statement.RETURN_GENERATED_KEYS);
 			return stmt.getGeneratedKeys();
 		} catch (SQLException e) {
-			Logger.warning("Wystapil blad z zapytaniem '" + update.replace("{P}", this.prefix) + "'!", "Blad: " + e.getMessage());
+			Logger.warning("An error occurred with given query '" + update.replace("{P}", this.prefix) + "'!", "Error: " + e.getMessage());
 			e.printStackTrace();
 			return null;
 		}
@@ -150,7 +150,7 @@ public class StoreMySQL implements Store {
 				}
 
 			} catch (Exception e) {
-				Logger.severe("Wystapil blad w glownej petli zapisu!");
+				Logger.severe("An error in the main store loop!");
 				e.printStackTrace();
 			}
 		}
