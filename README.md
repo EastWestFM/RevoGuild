@@ -1,4 +1,4 @@
 RevoGuild
 =========
 
-Rewelacyjny system gildii na Twój serwer! ;)
+Rewolucyjny system gildii na Twój serwer! ;)
