@@ -1,6 +1,7 @@
 package net.karolek.revoguild;
 
 import lombok.Getter;
+import net.karolek.revoguild.commands.GuildCommand;
 import net.karolek.revoguild.data.Config;
 import net.karolek.revoguild.manager.Manager;
 import net.karolek.revoguild.store.Store;
@@ -38,11 +39,12 @@ public class GuildPlugin extends JavaPlugin {
 			return;
 		}
 		
+		Manager.load();
+		
 		registerCommands();
 		registerListeners();
 		registerTasks();
 		
-		Manager.load();
 
 	}
 
@@ -79,6 +81,7 @@ public class GuildPlugin extends JavaPlugin {
 
 	protected void registerCommands() {
 		Logger.info("Register commands...");
+		Manager.COMMAND.register(new GuildCommand());
 	}
 
 	protected void registerListeners() {

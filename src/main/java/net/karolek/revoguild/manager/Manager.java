@@ -2,12 +2,13 @@ package net.karolek.revoguild.manager;
 
 import java.lang.reflect.Field;
 
-import net.karolek.revoguild.manager.types.GuildManager;
+import net.karolek.revoguild.manager.types.*;
 import net.karolek.revoguild.utils.Logger;
 
 public class Manager {
 
 	public static GuildManager	GUILD	= null;
+	public static CommandManager COMMAND = null;
 		
 	public static void load() {
 		try {
