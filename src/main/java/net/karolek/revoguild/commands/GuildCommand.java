@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import lombok.Getter;
-import net.karolek.revoguild.commands.user.CreateCommand;
+import net.karolek.revoguild.commands.user.*;
 import net.karolek.revoguild.data.Lang;
 import net.karolek.revoguild.manager.Manager;
 import net.karolek.revoguild.utils.Util;
@@ -20,6 +20,20 @@ public class GuildCommand extends SubCommand {
 	public GuildCommand() {
 		super("gildia", "glowna komenda systemu gildii", "", "rg.cmd.user", "gildie", "guild", "g");
 		subCommands.add(new CreateCommand());
+		subCommands.add(new DeleteCommand());
+		subCommands.add(new HomeCommand());
+		subCommands.add(new InfoCommand());
+		subCommands.add(new InviteCommand());
+		subCommands.add(new JoinCommand());
+		subCommands.add(new KickCommand());
+		subCommands.add(new LeaderCommand());
+		subCommands.add(new OwnerCommand());
+		subCommands.add(new LeaveCommand());
+		subCommands.add(new ListCommand());
+		subCommands.add(new PvpCommand());
+		subCommands.add(new ResizeCommand());
+		subCommands.add(new SetHomeCommand());
+
 		for(SubCommand sc : subCommands) 
 			Manager.COMMAND.register(sc);
 	}

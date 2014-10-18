@@ -7,9 +7,10 @@ import net.karolek.revoguild.utils.Logger;
 
 public class Manager {
 
-	public static GuildManager	GUILD	= null;
-	public static CommandManager COMMAND = null;
-		
+	public static TeleportManager	TELEPORT	= null;
+	public static GuildManager		GUILD		= null;
+	public static CommandManager	COMMAND	= null;
+
 	public static void load() {
 		try {
 			for (Field f : Manager.class.getFields()) {
@@ -39,15 +40,14 @@ public class Manager {
 			for (Field f : Manager.class.getFields()) {
 				Class<?> clazz = f.getType();
 
-				if(f.get(null) == null) continue;
-				
+				if (f.get(null) == null)
+					continue;
+
 				if (!clazz.getInterfaces()[0].getSimpleName().equalsIgnoreCase("IManager"))
 					continue;
 
-				Object manager = clazz.newInstance();
+				clazz.getMethod("disable").invoke(f.get(null));
 				f.set(null, null);
-
-				clazz.getMethod("disable").invoke(manager);
 				Logger.info("Manager '" + f.getName().replace("Manager", "") + "' has been correctly disabled!");
 
 			}

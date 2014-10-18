@@ -105,7 +105,6 @@ public class Lang {
 
 	public static void saveLang() {
 		try {
-			FileConfiguration c = GuildPlugin.getPlugin().getConfig();
 			for (Field f : Lang.class.getFields())
 				c.set(prefix + f.getName().toLowerCase().replaceFirst("_", ",").replace(",", "."), f.get(null));
 
