@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 public class GuildCommand extends SubCommand {
 
 	public GuildCommand() {
-		super("gildia", "glowna komenda systemu gildii", "", "sguilds.cmd.user", "gildie", "guild", "g");
+		super("gildia", "glowna komenda systemu gildii", "", "rg.cmd.user", "gildie", "guild", "g");
 	}
 
 	@Override

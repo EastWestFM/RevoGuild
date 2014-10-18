@@ -3,6 +3,7 @@ package net.karolek.revoguild;
 import lombok.Getter;
 import net.karolek.revoguild.commands.GuildCommand;
 import net.karolek.revoguild.data.Config;
+import net.karolek.revoguild.data.Lang;
 import net.karolek.revoguild.manager.Manager;
 import net.karolek.revoguild.store.Store;
 import net.karolek.revoguild.store.StoreMode;
@@ -40,6 +41,7 @@ public class GuildPlugin extends JavaPlugin {
 		}
 		
 		Manager.load();
+		Lang.loadLang();
 		
 		registerCommands();
 		registerListeners();

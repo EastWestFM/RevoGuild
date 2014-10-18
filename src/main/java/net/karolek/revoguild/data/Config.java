@@ -11,6 +11,7 @@ public class Config {
 	private static final String	prefix					= "config.";
 
 	public static boolean			ENABLED					= false;
+
 	public static String				DATABASE_MODE			= "mysql";
 	public static String				DATABASE_TABLEPREFIX	= "ks_";
 	public static String				DATABASE_MYSQL_HOST	= "localhost";
@@ -18,6 +19,14 @@ public class Config {
 	public static String				DATABASE_MYSQL_USER	= "root";
 	public static String				DATABASE_MYSQL_PASS	= "";
 	public static String				DATABASE_MYSQL_NAME	= "minecraft";
+
+	public static int					LIVES_AMOUNT			= 3;
+	public static int					LIVES_TIME				= 24;
+
+	public static int					SIZE_ADD					= 1;
+	public static int					SIZE_START				= 24;
+	public static int					SIZE_END					= 74;
+	public static int SIZE_BETWEEN = 50;
 
 	public static void loadConfig() {
 		try {
