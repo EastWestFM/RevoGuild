@@ -19,67 +19,65 @@ import net.karolek.revoguild.commands.SubCommand;
 
 public class Lang {
 
-	private static final String		prefix	= "lang.";
-	private static File					file		= new File(GuildPlugin.getPlugin().getDataFolder(), "lang.yml");
-	private static FileConfiguration	c			= null;
-	
-	public static String	CMD_ONLY_PLAYER;
-	public static String	CMD_NO_PERM;
-	public static String	CMD_MAIN_HELP;
-	public static String	CMD_CORRECT_USAGE;
+	private static final String		prefix										= "lang.";
+	private static File					file											= new File(GuildPlugin.getPlugin().getDataFolder(), "lang.yml");
+	private static FileConfiguration	c												= null;
 
-	public static String	ERROR_HAVE_GUILD;
-	public static String	ERROR_TAG_AND_NAME_FORMAT;
-	public static String	ERROR_TAG_AND_NAME_ALFANUM;
-	public static String	ERROR_GUILD_EXISTS;
-	public static String	ERROR_NEARBY_IS_GUILD;
-	public static String	ERROR_DONT_HAVE_ITEMS;
-	public static String	ERROR_DONT_HAVE_GUILD;
-	public static String	ERROR_DONT_HAVE_INVITE;
-	public static String	ERROR_NOT_OWNER;
-	public static String	ERROR_NOT_LEADER;
-	public static String	ERROR_CANT_FIND_PLAYER;
-	public static String	ERROR_CANT_FIND_GUILD;
-	public static String	ERROR_PLAYER_IS_MEMBER;
-	public static String ERROR_PLAYER_ISNT_MEMBER;
-	public static String ERROR_CANT_KICK_LEADER_OR_OWNER;
-	public static String ERROR_OWNER_CANT_LEAVE_GUILD;
-	public static String ERROR_MAX_SIZE;
-	public static String ERROR_CANT_SET_HOME_OUTSIDE_CUBOID;
-	public static String ERROR_NOT_YOUR_GUILD;
-	public static String ERROR_EXPLODE_TNT;
+	public static String					CMD_MAIN_HELP								= "Dostepne komendy: \n/zaloz <tag> <nazwa> - tworzy gildie";
+	public static String					CMD_CORRECT_USAGE							= "Prawidlowe uzycie: /g {NAME} {USAGE}!";
 
-	public static String	INFO_CONFIRM_DELETE;
-	public static String	INFO_INVITE_SEND;
-	public static String	INFO_INVITE_BACK;
-	public static String	INFO_INVITE_CANCEL;
-	public static String	INFO_INVITE_NEW;
-	public static String	INFO_JOINED;
-	public static String INFO_LEADER_CHANGED;
-	public static String INFO_OWNER_CHANGED;
-	public static String INFO_NOW_LEADER;
-	public static String INFO_NOW_OWNER;
-	public static String INFO_RESIZED;
-	public static String INFO_PVP_ON;
-	public static String INFO_PVP_OFF;
-	public static String INFO_HOME_SET;
-	public static String INFO_MOVE_IN;
-	public static String INFO_MOVE_OUT;
-	public static String INFO_GUILD;
-	
-	public static String TELEPORT_START;
-	public static String TELEPORT_END;
-	public static String TELEPORT_ERROR;
-		
-	public static String LIST_HEADER;
-	public static String LIST_ELEMENT;
-	public static String LIST_FOOTER;
+	public static String					ERROR_HAVE_GUILD							= "Blad: Masz juz gildie!";
+	public static String					ERROR_TAG_AND_NAME_FORMAT				= "Blad: Tag oraz nazwa musza miec odpowiednia dlugosc!";
+	public static String					ERROR_TAG_AND_NAME_ALFANUM				= "Blad: Tag oraz nazwa musza byc alfanumeryczne! (AZaz09)";
+	public static String					ERROR_GUILD_EXISTS						= "Blad: Istnieje juz taka gildia!";
+	public static String					ERROR_NEARBY_IS_GUILD					= "Blad: W poblizu znajduje sie gildia!";
+	public static String					ERROR_DONT_HAVE_ITEMS					= "Blad: Nie posiadasz wystarczajacej ilosci przedmiotow!";
+	public static String					ERROR_DONT_HAVE_GUILD					= "Blad: Nie posiadasz gildii!";
+	public static String					ERROR_DONT_HAVE_INVITE					= "Blad: nie posiadasz zaproszenia do gildii!";
+	public static String					ERROR_NOT_OWNER							= "Blad: Nie jestes zalozycielem!";
+	public static String					ERROR_NOT_LEADER							= "Blad: Nie jestes liderem!";
+	public static String					ERROR_CANT_FIND_PLAYER					= "Blad: Gracz jest offline!";
+	public static String					ERROR_CANT_FIND_GUILD					= "Blad: Taka gildia nie istnieje!";
+	public static String					ERROR_PLAYER_IS_MEMBER					= "Blad: Gracz jest czlonkiem Twojej gildii!";
+	public static String					ERROR_PLAYER_ISNT_MEMBER				= "Blad: Gracz nie jest czlonkiem Twojej gildii!";
+	public static String					ERROR_CANT_KICK_LEADER_OR_OWNER		= "Blad: Nie mozesz wyrzucic lidera i zalozyciela gildii!";
+	public static String					ERROR_OWNER_CANT_LEAVE_GUILD			= "Blad: Zalozyciel nie moze opuscic gildii!";
+	public static String					ERROR_MAX_SIZE								= "Blad: Twoja gildia ma juz maksymalny rozmiar!";
+	public static String					ERROR_CANT_SET_HOME_OUTSIDE_CUBOID	= "Blad: Dom gildii musi byc na jej terenie!";
+	public static String					ERROR_NOT_YOUR_GUILD						= "Blad: To nie Twoja gildia!";
+	public static String					ERROR_EXPLODE_TNT							= "Blad: Przed chwila wybuchlo TNT! Nie mozesz budowac przez 60 sekund!";
 
-	public static String	BC_GUILD_CREATED;
-	public static String	BC_GUILD_DELETED;
-	public static String	BC_GUILD_JOINED;
-	public static String BC_GUILD_KICKED;
-	public static String BC_GUILD_LEAVED;
+	public static String					INFO_CONFIRM_DELETE						= "Potwierdz usuniecie gildii: /g usun!";
+	public static String					INFO_INVITE_SEND							= "Zaproszenie zostalo wyslane!";
+	public static String					INFO_INVITE_BACK							= "Zaproszenie zostalo cofniete!";
+	public static String					INFO_INVITE_CANCEL						= "Zaproszenie do gildii [{TAG}] {NAME} zostalo cofniete!";
+	public static String					INFO_INVITE_NEW							= "Zotales zaproszony do gildii [{TAG}] {NAME}! Zaakceptuj zaproszenie: /g dolacz {TAG}!";
+	public static String					INFO_JOINED									= "Dolaczyles do gildii!";
+	public static String					INFO_LEADER_CHANGED						= "Lider zostal zmieniony!";
+	public static String					INFO_OWNER_CHANGED						= "Zalozyciel zostal zmieniony!";
+	public static String					INFO_NOW_LEADER							= "Awansowales na lidera gildii!";
+	public static String					INFO_NOW_OWNER								= "Awansowales na zalozyciela gildii!";
+	public static String					INFO_RESIZED								= "Powiekszono!";
+	public static String					INFO_PVP_ON									= "PVP w gildii zostalo wlaczone!";
+	public static String					INFO_PVP_OFF								= "PVP w gildii zostalo wylaczone!";
+	public static String					INFO_HOME_SET								= "Dom zostal ustawiony!";
+	public static String					INFO_MOVE_IN								= "Wkroczyles na teren gildii [{TAG}] {NAME}!";
+	public static String					INFO_MOVE_OUT								= "Opusciles teren gildii [{TAG}] {NAME}!";
+	public static String					INFO_GUILD									= "Informacje o gildii [{TAG}] {NAME}:";
+
+	public static String					TELEPORT_START								= "Teleport nastapi za {TIME} sekund! Prosze sie nie ruszac!";
+	public static String					TELEPORT_END								= "Przeteleportowano!";
+	public static String					TELEPORT_ERROR								= "Teleport przerwany!";
+
+	public static String					LIST_HEADER									= "======= Lista wszystkich gildii =======";
+	public static String					LIST_ELEMENT								= "{TAG}  --  {NAME}  --  {OWNER}";
+	public static String					LIST_FOOTER									= "=======================================";
+
+	public static String					BC_GUILD_CREATED							= "Gildia [{TAG}] {NAME} zostala utworzona przez {OWNER}!";
+	public static String					BC_GUILD_DELETED							= "Gildia [{TAG}] {NAME} zostala usunieta przez {OWNER}!";
+	public static String					BC_GUILD_JOINED							= "Gracz {PLAYER} dolaczyl do gildii [{TAG}] {NAME}!";
+	public static String					BC_GUILD_KICKED							= "Gracz {PLAYER} zostal wyrzucony z gildii [{TAG}] {NAME}!";
+	public static String					BC_GUILD_LEAVED							= "Gracz {PLAYER} opuscil gildie [{TAG}] {NAME}!";
 
 	public static void loadLang() {
 		try {
@@ -129,7 +127,7 @@ public class Lang {
 		msg = msg.replace("{PERM}", sc.getPermission());
 		return Util.fixColor(msg);
 	}
-	
+
 	public static String parse(String msg, Guild g) {
 		msg = msg.replace("{TAG}", g.getTag());
 		msg = msg.replace("{NAME}", g.getName());
