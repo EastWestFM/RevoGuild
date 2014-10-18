@@ -17,7 +17,7 @@ import org.bukkit.inventory.ItemStack;
 public class CreateCommand extends SubCommand {
 
 	public CreateCommand() {
-		super("zaloz", "tworzenie gildii", "<tag> <nazwa>", "sguilds.cmd.user.create", "nowa", "create");
+		super("zaloz", "tworzenie gildii", "<tag> <nazwa>", "rg.cmd.user.create", "nowa", "create");
 	}
 
 	@Override
