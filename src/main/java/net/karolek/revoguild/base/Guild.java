@@ -12,6 +12,7 @@ import org.bukkit.entity.EnderCrystal;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import lombok.Data;
 import net.karolek.revoguild.GuildPlugin;
@@ -36,8 +37,8 @@ public class Guild implements Entry {
 	private Entity				crystal;
 	private boolean			pvp;
 	private boolean			preDeleted;
-	private final Set<UUID>	members		= new HashSet<UUID>();
-	private final Set<UUID>	invites		= new HashSet<UUID>();
+	private final Set<UUID>	members	= new HashSet<UUID>();
+	private final Set<UUID>	invites	= new HashSet<UUID>();
 
 	public Guild(String tag, String name, Player owner) {
 		this.tag = tag;
@@ -54,7 +55,6 @@ public class Guild implements Entry {
 		this.crystal = owner.getWorld().spawnEntity(cuboid.getCenter(), EntityType.ENDER_CRYSTAL);
 		this.pvp = false;
 		this.preDeleted = false;
-		addMember(owner.getUniqueId());
 	}
 
 	public Guild(ResultSet rs) throws SQLException {
@@ -69,19 +69,36 @@ public class Guild implements Entry {
 		this.lastExplodeTime = System.currentTimeMillis();
 		this.lastTakenLifeTime = rs.getLong("lastTakenLifeTime");
 		this.lives = rs.getInt("lives");
-		this.crystal = cuboid.getWorld().spawnEntity(cuboid.getCenter(), EntityType.ENDER_CRYSTAL);
+		// this.crystal = cuboid.getWorld().spawnEntity(cuboid.getCenter(),
+		// EntityType.ENDER_CRYSTAL);
 		this.pvp = (rs.getInt("pvp") == 1);
 		this.preDeleted = false;
 		ResultSet r = GuildPlugin.getStore().query("SELECT * FROM `{P}members` WHERE `tag` = '" + this.tag + "'");
 		while (r.next())
 			this.members.add(UUID.fromString(r.getString("uuid")));
+
+		new BukkitRunnable() {
+
+			@Override
+			public void run() {
+				crystal = cuboid.getWorld().spawnEntity(cuboid.getCenter(), EntityType.ENDER_CRYSTAL);
+
+			}
+
+		}.runTaskLater(GuildPlugin.getPlugin(), 20);
+
 	}
-	
+
 	public Entity getCrystal(Location loc) {
-		Entity en = cuboid.getWorld().spawnEntity(loc, EntityType.UNKNOWN);
-		for(Entity e : en.getNearbyEntities(1.5, 1.5, 1.5)) 
-			if(e instanceof EnderCrystal)
-			return e;
+		Entity en = cuboid.getWorld().spawnEntity(loc, EntityType.SILVERFISH);
+		en.setTicksLived(1);
+		for (Entity e : en.getNearbyEntities(1.5, 1.5, 1.5)) {
+			if (e instanceof EnderCrystal) {
+				en.remove();
+				return e;
+			}
+		}
+		en.remove();
 		return null;
 	}
 
@@ -159,7 +176,7 @@ public class Guild implements Entry {
 	@Override
 	public void delete() {
 		GuildPlugin.getStore().updateNow("DELETE FROM `{P}guilds` WHERE `tag` = '" + this.tag + "'");
-		GuildPlugin.getStore().updateNow("DELETE FROM `{P}members` WHERE `tag` = '" + this.tag + "'");	
+		GuildPlugin.getStore().updateNow("DELETE FROM `{P}members` WHERE `tag` = '" + this.tag + "'");
 	}
 
 }

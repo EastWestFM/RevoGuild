@@ -46,6 +46,7 @@ public class Lang {
 	public static String					ERROR_CANT_SET_HOME_OUTSIDE_CUBOID	= "Blad: Dom gildii musi byc na jej terenie!";
 	public static String					ERROR_NOT_YOUR_GUILD						= "Blad: To nie Twoja gildia!";
 	public static String					ERROR_EXPLODE_TNT							= "Blad: Przed chwila wybuchlo TNT! Nie mozesz budowac przez 60 sekund!";
+	public static String					ERROR_CANT_TAKE_LIFE						= "Blad: Nie mozna teraz zabrac zycia gildii! Musi uplynac minimum 24h od ostatniej takiej akcji!";
 
 	public static String					INFO_CONFIRM_DELETE						= "Potwierdz usuniecie gildii: /g usun!";
 	public static String					INFO_INVITE_SEND							= "Zaproszenie zostalo wyslane!";
@@ -78,6 +79,8 @@ public class Lang {
 	public static String					BC_GUILD_JOINED							= "Gracz {PLAYER} dolaczyl do gildii [{TAG}] {NAME}!";
 	public static String					BC_GUILD_KICKED							= "Gracz {PLAYER} zostal wyrzucony z gildii [{TAG}] {NAME}!";
 	public static String					BC_GUILD_LEAVED							= "Gracz {PLAYER} opuscil gildie [{TAG}] {NAME}!";
+	public static String					BC_GUILD_LIFE_TAKEN						= "Gracz [{2TAG}] {PLAYER} zaatakowal gildie [{TAG}] {NAME}!";
+	public static String					BC_GUILD_TAKEN								= "Gracz [{2TAG}] {PLAYER} zniszczyl gildie [{TAG}] {NAME}!";
 
 	public static void loadLang() {
 		try {
@@ -95,7 +98,7 @@ public class Lang {
 
 				if (c.isSet(prefix + f.getName().toLowerCase().replaceFirst("_", ",").replace(",", ".")))
 					f.set(null, c.get(prefix + f.getName().toLowerCase().replaceFirst("_", ",").replace(",", ".")));
-				//System.out.println(f.getName() + " -> " + f.get(null));
+				// System.out.println(f.getName() + " -> " + f.get(null));
 
 			}
 		} catch (Exception e) {
@@ -139,6 +142,12 @@ public class Lang {
 		msg = msg.replace("{MEMBERS}", getMembers(g));
 		msg = msg.replace("{ONLINENUM}", Integer.toString(g.getOnlineMembers().size()));
 		msg = msg.replace("{MEMBERSNUM}", Integer.toString(g.getMembers().size()));
+		return Util.fixColor(msg);
+	}
+
+	public static String parse(String msg, Guild g, Guild g1, OfflinePlayer p) {
+		msg = parse(msg, g, g1);
+		msg = parse(msg, p);
 		return Util.fixColor(msg);
 	}
 

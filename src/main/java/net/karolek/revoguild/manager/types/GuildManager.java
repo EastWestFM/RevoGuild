@@ -24,12 +24,14 @@ public class GuildManager implements IManager {
 		Guild g = new Guild(tag, name, owner);
 		g.insert();
 		g.addInvite(owner.getUniqueId());
+		g.addMember(owner.getUniqueId());
 		guilds.add(g);
 		return g;
 	}
 
 	public void removeGuild(Guild g) {
 		g.delete();
+		g.getCrystal().remove();
 		guilds.remove(g);
 	}
 
