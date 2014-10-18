@@ -95,7 +95,7 @@ public class Lang {
 
 				if (c.isSet(prefix + f.getName().toLowerCase().replaceFirst("_", ",").replace(",", ".")))
 					f.set(null, c.get(prefix + f.getName().toLowerCase().replaceFirst("_", ",").replace(",", ".")));
-				System.out.println(f.getName() + " -> " + f.get(null));
+				//System.out.println(f.getName() + " -> " + f.get(null));
 
 			}
 		} catch (Exception e) {

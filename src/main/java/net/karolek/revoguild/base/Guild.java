@@ -8,6 +8,9 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.EnderCrystal;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
 import lombok.Data;
@@ -19,17 +22,23 @@ import net.karolek.revoguild.utils.TimeUtil;
 @Data
 public class Guild implements Entry {
 
-	private final String	tag, name;
-	private UUID			owner, leader;
-	private final Cuboid	cuboid;
-	private Location		home;
-	private final long	createTime;
-	private long			expireTime, lastExplodeTime, lastTakenLifeTime;
-	private int				lives;
-	private boolean		pvp, preDeleted = false;
-	private final Set<UUID>	members	= new HashSet<UUID>(),
-			invites = new HashSet<UUID>();
-	
+	private final String		tag;
+	private final String		name;
+	private UUID				owner;
+	private UUID				leader;
+	private final Cuboid		cuboid;
+	private Location			home;
+	private final long		createTime;
+	private long				expireTime;
+	private long				lastExplodeTime;
+	private long				lastTakenLifeTime;
+	private int					lives;
+	private Entity				crystal;
+	private boolean			pvp;
+	private boolean			preDeleted;
+	private final Set<UUID>	members		= new HashSet<UUID>();
+	private final Set<UUID>	invites		= new HashSet<UUID>();
+
 	public Guild(String tag, String name, Player owner) {
 		this.tag = tag;
 		this.name = name;
@@ -39,8 +48,13 @@ public class Guild implements Entry {
 		this.home = owner.getLocation();
 		this.createTime = System.currentTimeMillis();
 		this.expireTime = System.currentTimeMillis() + TimeUtil.WEEK.getTime(2);
+		this.lastExplodeTime = System.currentTimeMillis();
+		this.lastTakenLifeTime = System.currentTimeMillis() + TimeUtil.HOUR.getTime(Config.LIVES_TIME);
 		this.lives = Config.LIVES_AMOUNT;
+		this.crystal = owner.getWorld().spawnEntity(cuboid.getCenter(), EntityType.ENDER_CRYSTAL);
 		this.pvp = false;
+		this.preDeleted = false;
+		addMember(owner.getUniqueId());
 	}
 
 	public Guild(ResultSet rs) throws SQLException {
@@ -52,12 +66,25 @@ public class Guild implements Entry {
 		this.home = new Location(Bukkit.getWorld(rs.getString("homeWorld")), rs.getInt("homeX"), rs.getInt("homeY"), rs.getInt("homeZ"));
 		this.createTime = rs.getLong("createTime");
 		this.expireTime = rs.getLong("expireTime");
+		this.lastExplodeTime = System.currentTimeMillis();
+		this.lastTakenLifeTime = rs.getLong("lastTakenLifeTime");
+		this.lives = rs.getInt("lives");
+		this.crystal = cuboid.getWorld().spawnEntity(cuboid.getCenter(), EntityType.ENDER_CRYSTAL);
 		this.pvp = (rs.getInt("pvp") == 1);
+		this.preDeleted = false;
 		ResultSet r = GuildPlugin.getStore().query("SELECT * FROM `{P}members` WHERE `tag` = '" + this.tag + "'");
 		while (r.next())
 			this.members.add(UUID.fromString(r.getString("uuid")));
 	}
 	
+	public Entity getCrystal(Location loc) {
+		Entity en = cuboid.getWorld().spawnEntity(loc, EntityType.UNKNOWN);
+		for(Entity e : en.getNearbyEntities(1.5, 1.5, 1.5)) 
+			if(e instanceof EnderCrystal)
+			return e;
+		return null;
+	}
+
 	public Set<Player> getOnlineMembers() {
 		Set<Player> online = new HashSet<Player>();
 		for (UUID u : this.members) {
@@ -117,12 +144,12 @@ public class Guild implements Entry {
 
 	@Override
 	public void insert() {
-		GuildPlugin.getStore().update("INSERT INTO `{P}guilds` SET `tag` = '" + this.tag + "',  `name` = '" + this.name + "',  `owner` = '" + this.owner + "',  `leader` = '" + this.leader + "',  `cuboidWorld` = '" + this.cuboid.getWorld().getName() + "',  `cuboidX` = '" + this.cuboid.getCenterX() + "',  `cuboidZ` = '" + this.cuboid.getCenterZ() + "',  `cuboidSize` = '" + this.cuboid.getSize() + "',  `homeWorld` = '" + this.home.getWorld().getName() + "',  `homeX` = '" + this.home.getBlockX() + "',  `homeY` = '" + this.home.getBlockY() + "',  `homeZ` = '" + this.home.getBlockZ() + "',  `lives` = '" + this.lives + "', `createTime` = '" + this.createTime + "',  `expireTime` = '" + this.expireTime + "',  `pvp` = '" + (this.pvp ? 1 : 0) + "'");
+		GuildPlugin.getStore().update("INSERT INTO `{P}guilds` SET `tag` = '" + this.tag + "',  `name` = '" + this.name + "',  `owner` = '" + this.owner + "',  `leader` = '" + this.leader + "',  `cuboidWorld` = '" + this.cuboid.getWorld().getName() + "',  `cuboidX` = '" + this.cuboid.getCenterX() + "',  `cuboidZ` = '" + this.cuboid.getCenterZ() + "',  `cuboidSize` = '" + this.cuboid.getSize() + "',  `homeWorld` = '" + this.home.getWorld().getName() + "',  `homeX` = '" + this.home.getBlockX() + "',  `homeY` = '" + this.home.getBlockY() + "',  `homeZ` = '" + this.home.getBlockZ() + "',  `lives` = '" + this.lives + "', `createTime` = '" + this.createTime + "',  `expireTime` = '" + this.expireTime + "',  `lastTakenLifeTime` = '" + this.lastTakenLifeTime + "', `pvp` = '" + (this.pvp ? 1 : 0) + "'");
 	}
 
 	@Override
 	public void update(boolean now) {
-		String update = "UPDATE `{P}guilds` SET `owner`='" + this.owner + "', `leader`='" + this.leader + "', `cuboidWorld`='" + this.cuboid.getWorld().getName() + "', `cuboidX`='" + this.cuboid.getCenterX() + "', `cuboidZ`='" + this.cuboid.getCenterZ() + "', `cuboidSize`='" + this.cuboid.getSize() + "', `homeWorld`='" + this.home.getWorld().getName() + "', `homeX`='" + this.home.getBlockX() + "', `homeY`='" + this.home.getBlockY() + "', `homeZ`='" + this.home.getBlockZ() + "', `createTime`='" + this.createTime + "', `expireTime`='" + this.expireTime + "', `lives` = '" + this.lives + "', `pvp`='" + (this.pvp ? 1 : 0) + "' WHERE `tag`='" + this.tag + "'";
+		String update = "UPDATE `{P}guilds` SET `owner`='" + this.owner + "', `leader`='" + this.leader + "', `cuboidWorld`='" + this.cuboid.getWorld().getName() + "', `cuboidX`='" + this.cuboid.getCenterX() + "', `cuboidZ`='" + this.cuboid.getCenterZ() + "', `cuboidSize`='" + this.cuboid.getSize() + "', `homeWorld`='" + this.home.getWorld().getName() + "', `homeX`='" + this.home.getBlockX() + "', `homeY`='" + this.home.getBlockY() + "', `homeZ`='" + this.home.getBlockZ() + "', `createTime`='" + this.createTime + "', `expireTime`='" + this.expireTime + "', `lastTakenLifeTime` = '" + this.lastTakenLifeTime + "', `lives` = '" + this.lives + "', `pvp`='" + (this.pvp ? 1 : 0) + "' WHERE `tag`='" + this.tag + "'";
 		if (now)
 			GuildPlugin.getStore().updateNow(update);
 		else
@@ -131,8 +158,8 @@ public class Guild implements Entry {
 
 	@Override
 	public void delete() {
-		// TODO Auto-generated method stub
-
+		GuildPlugin.getStore().updateNow("DELETE FROM `{P}guilds` WHERE `tag` = '" + this.tag + "'");
+		GuildPlugin.getStore().updateNow("DELETE FROM `{P}members` WHERE `tag` = '" + this.tag + "'");	
 	}
 
 }

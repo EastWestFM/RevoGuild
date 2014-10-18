@@ -24,7 +24,6 @@ public class GuildManager implements IManager {
 		Guild g = new Guild(tag, name, owner);
 		g.insert();
 		g.addInvite(owner.getUniqueId());
-		g.addMember(owner.getUniqueId());
 		guilds.add(g);
 		return g;
 	}

@@ -25,7 +25,7 @@ public class Cuboid {
 	}
 
 	public Location getCenter() {
-		return new Location(this.world, this.centerX, 10.0D, this.centerZ);
+		return new Location(this.world, this.centerX, 60.0D, this.centerZ);
 	}
 
 	public boolean addSize() {

@@ -4,6 +4,7 @@ import lombok.Getter;
 import net.karolek.revoguild.commands.GuildCommand;
 import net.karolek.revoguild.data.Config;
 import net.karolek.revoguild.data.Lang;
+import net.karolek.revoguild.listeners.*;
 import net.karolek.revoguild.manager.Manager;
 import net.karolek.revoguild.store.Store;
 import net.karolek.revoguild.store.StoreMode;
@@ -11,6 +12,7 @@ import net.karolek.revoguild.store.modes.StoreMySQL;
 import net.karolek.revoguild.utils.Logger;
 
 import org.bukkit.Bukkit;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class GuildPlugin extends JavaPlugin {
@@ -75,7 +77,7 @@ public class GuildPlugin extends JavaPlugin {
 				store = new StoreMySQL(Config.DATABASE_MYSQL_HOST, Config.DATABASE_MYSQL_PORT, Config.DATABASE_MYSQL_USER, Config.DATABASE_MYSQL_PASS, Config.DATABASE_MYSQL_NAME, Config.DATABASE_TABLEPREFIX);
 				boolean conn = store.connect();
 				if(conn) {
-					store.updateNow("CREATE TABLE IF NOT EXISTS `{P}guilds` (`id` int(10) NOT NULL AUTO_INCREMENT,`tag` varchar(4) COLLATE utf8_polish_ci NOT NULL,`name` varchar(32) COLLATE utf8_polish_ci NOT NULL,`owner` varchar(36) COLLATE utf8_polish_ci NOT NULL,`leader` varchar(36) COLLATE utf8_polish_ci NOT NULL,`cuboidWorld` varchar(32) COLLATE utf8_polish_ci NOT NULL,`cuboidX` int(10) NOT NULL,`cuboidZ` int(10) NOT NULL,`cuboidSize` int(10) NOT NULL,`homeWorld` varchar(32) COLLATE utf8_polish_ci NOT NULL,`homeX` int(10) NOT NULL,`homeY` int(10) NOT NULL,`homeZ` int(10) NOT NULL,`lives` int(2) NOT NULL DEFAULT '3',`createTime` bigint(13) NOT NULL DEFAULT '0',`expireTime` bigint(13) NOT NULL DEFAULT '0',`pvp` int(1) NOT NULL DEFAULT '0',PRIMARY KEY (`id`)) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci AUTO_INCREMENT=1 ;");
+					store.updateNow("CREATE TABLE IF NOT EXISTS `{P}guilds` (`id` int(10) NOT NULL AUTO_INCREMENT,`tag` varchar(4) COLLATE utf8_polish_ci NOT NULL,`name` varchar(32) COLLATE utf8_polish_ci NOT NULL,`owner` varchar(36) COLLATE utf8_polish_ci NOT NULL,`leader` varchar(36) COLLATE utf8_polish_ci NOT NULL,`cuboidWorld` varchar(32) COLLATE utf8_polish_ci NOT NULL,`cuboidX` int(10) NOT NULL,`cuboidZ` int(10) NOT NULL,`cuboidSize` int(10) NOT NULL,`homeWorld` varchar(32) COLLATE utf8_polish_ci NOT NULL,`homeX` int(10) NOT NULL,`homeY` int(10) NOT NULL,`homeZ` int(10) NOT NULL,`lives` int(2) NOT NULL DEFAULT '3',`createTime` bigint(13) NOT NULL DEFAULT '0',`expireTime` bigint(13) NOT NULL DEFAULT '0',`lastTakenLifeTime` bigint(13) NOT NULL DEFAULT '0',`pvp` int(1) NOT NULL DEFAULT '0',PRIMARY KEY (`id`)) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci AUTO_INCREMENT=1 ;");
 					store.updateNow("CREATE TABLE IF NOT EXISTS `{P}members` (`id` int(10) NOT NULL AUTO_INCREMENT,`uuid` varchar(36) COLLATE utf8_polish_ci NOT NULL,`tag` varchar(4) COLLATE utf8_polish_ci NOT NULL,PRIMARY KEY (`id`),UNIQUE KEY `uuid` (`uuid`)) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci AUTO_INCREMENT=1 ;");
 				}
 				return conn;
@@ -90,6 +92,8 @@ public class GuildPlugin extends JavaPlugin {
 
 	protected void registerListeners() {
 		Logger.info("Register listeners...");
+		PluginManager pm = Bukkit.getPluginManager();
+		pm.registerEvents(new CrystalListener(), this);
 	}
 
 	protected void registerTasks() {

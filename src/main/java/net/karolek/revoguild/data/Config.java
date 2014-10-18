@@ -52,7 +52,7 @@ public class Config {
 
 				if (c.isSet(prefix + f.getName().toLowerCase().replace("_", ".")))
 					f.set(null, c.get(prefix + f.getName().toLowerCase().replace("_", ".")));
-				System.out.println(f.getName() + " -> " + f.get(null));
+				//System.out.println(f.getName() + " -> " + f.get(null));
 
 			}
 		} catch (Exception e) {
