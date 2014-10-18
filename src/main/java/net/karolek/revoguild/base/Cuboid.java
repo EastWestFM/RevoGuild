@@ -29,7 +29,7 @@ public class Cuboid {
 	}
 
 	public boolean addSize() {
-		if (this.size >= Config.SIZE_END)
+		if (this.size >= Config.SIZE_MAX)
 			return false;
 		this.size += Config.SIZE_ADD;
 		return true;

@@ -18,9 +18,9 @@ import net.karolek.revoguild.utils.Logger;
 public class GuildManager implements IManager {
 
 	@Getter
-	private static Set<Guild>	guilds	= null;
+	private Set<Guild>	guilds	= null;
 
-	public static Guild createGuild(String tag, String name, Player owner) {
+	public Guild createGuild(String tag, String name, Player owner) {
 		Guild g = new Guild(tag, name, owner);
 		g.insert();
 		g.addInvite(owner.getUniqueId());
@@ -29,34 +29,34 @@ public class GuildManager implements IManager {
 		return g;
 	}
 
-	public static void removeGuild(Guild g) {
+	public void removeGuild(Guild g) {
 		g.delete();
 		guilds.remove(g);
 	}
 
-	public static Guild getGuild(String tag) {
+	public Guild getGuild(String tag) {
 		for (Guild g : guilds)
 			if ((g.getTag().equalsIgnoreCase(tag)) || (g.getName().equalsIgnoreCase(tag)))
 				return g;
 		return null;
 	}
 
-	public static Guild getGuild(Location loc) {
+	public Guild getGuild(Location loc) {
 		for (Guild g : guilds)
 			if (g.getCuboid().isInCuboid(loc))
 				return g;
 		return null;
 	}
 
-	public static Guild getGuild(Player p) {
+	public Guild getGuild(Player p) {
 		for (Guild g : guilds)
 			if (g.isMember(p.getUniqueId()))
 				return g;
 		return null;
 	}
 
-	public static boolean canCreateGuild(Location loc) {
-		int mindistance = Config.SIZE_END * 2 + Config.SIZE_BETWEEN;
+	public boolean canCreateGuild(Location loc) {
+		int mindistance = Config.SIZE_MAX * 2 + Config.SIZE_BETWEEN;
 		for (Guild g : guilds)
 			if ((Math.abs(g.getCuboid().getCenterX() - loc.getBlockX()) <= mindistance) && (Math.abs(g.getCuboid().getCenterZ() - loc.getBlockZ()) <= mindistance))
 				return false;

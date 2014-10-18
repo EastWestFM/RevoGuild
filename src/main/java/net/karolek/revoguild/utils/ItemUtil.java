@@ -10,7 +10,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class Items {
+public class ItemUtil {
 
 	public static ItemStack getItem(Material m, int a, String name, String... lore) {
 		ItemStack item = new ItemStack(m, a);
