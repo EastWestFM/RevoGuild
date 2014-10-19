@@ -48,7 +48,6 @@ public class LeaderCommand extends SubCommand {
 			return Util.sendMsg(p, Lang.ERROR_DONT_HAVE_ITEMS);
 
 		g.setLeader(o.getUniqueId());
-		g.update(true);
 
 		Util.sendMsg(p, Lang.INFO_LEADER_CHANGED);
 		return Util.sendMsg(o, Lang.INFO_NOW_LEADER);

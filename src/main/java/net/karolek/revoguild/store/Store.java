@@ -3,7 +3,7 @@ package net.karolek.revoguild.store;
 import java.sql.Connection;
 import java.sql.ResultSet;
 
-public interface Store extends Runnable {
+public interface Store {
 
 	public Connection getConnection();
 	
@@ -17,10 +17,8 @@ public interface Store extends Runnable {
 	
 	public ResultSet query(String query);
 	
-	public void update(String update);
+	public void update(boolean now, String update);
 		
-	public ResultSet updateNow(String update);
-	
 	public StoreMode getStoreMode();
 	
 }

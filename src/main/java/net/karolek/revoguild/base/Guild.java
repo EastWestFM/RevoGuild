@@ -117,6 +117,17 @@ public class Guild implements Entry {
 		}
 		return online;
 	}
+	
+	public void setOwner(UUID u) {
+		this.owner = u;
+		GuildPlugin.getStore().update(false, "UPDATE `{P}guilds` SET `owner` = '" + u + "' WHERE `tag` = '" + this.tag + "'");
+	}
+
+	
+	public void setLeader(UUID u) {
+		this.leader = u;
+		GuildPlugin.getStore().update(false, "UPDATE `{P}guilds` SET `leader` = '" + u + "' WHERE `tag` = '" + this.tag + "'");
+	}
 
 	public boolean isOwner(UUID u) {
 		return this.owner.equals(u);
@@ -153,7 +164,7 @@ public class Guild implements Entry {
 			return false;
 		removeInvite(u);
 		this.members.add(u);
-		GuildPlugin.getStore().update("INSERT INTO `{P}members` SET `uuid` = '" + u + "', `tag` = '" + this.tag + "'");
+		GuildPlugin.getStore().update(false, "INSERT INTO `{P}members` SET `uuid` = '" + u + "', `tag` = '" + this.tag + "'");
 		return true;
 	}
 
@@ -161,28 +172,27 @@ public class Guild implements Entry {
 		if (!isMember(u))
 			return false;
 		this.members.remove(u);
-		GuildPlugin.getStore().update("DELETE FROM `{P}members` WHERE `uuid` = '" + u + "' AND `tag` = '" + this.tag + "'");
+		GuildPlugin.getStore().update(false,"DELETE FROM `{P}members` WHERE `uuid` = '" + u + "' AND `tag` = '" + this.tag + "'");
 		return true;
 	}
 
 	@Override
 	public void insert() {
-		GuildPlugin.getStore().update("INSERT INTO `{P}guilds` SET `tag` = '" + this.tag + "',  `name` = '" + this.name + "',  `owner` = '" + this.owner + "',  `leader` = '" + this.leader + "',  `cuboidWorld` = '" + this.cuboid.getWorld().getName() + "',  `cuboidX` = '" + this.cuboid.getCenterX() + "',  `cuboidZ` = '" + this.cuboid.getCenterZ() + "',  `cuboidSize` = '" + this.cuboid.getSize() + "',  `homeWorld` = '" + this.home.getWorld().getName() + "',  `homeX` = '" + this.home.getBlockX() + "',  `homeY` = '" + this.home.getBlockY() + "',  `homeZ` = '" + this.home.getBlockZ() + "',  `lives` = '" + this.lives + "', `createTime` = '" + this.createTime + "',  `expireTime` = '" + this.expireTime + "',  `lastTakenLifeTime` = '" + this.lastTakenLifeTime + "', `pvp` = '" + (this.pvp ? 1 : 0) + "'");
+		GuildPlugin.getStore().update(false, "INSERT INTO `{P}guilds` SET `tag` = '" + this.tag + "',  `name` = '" + this.name + "',  `owner` = '" + this.owner + "',  `leader` = '" + this.leader + "',  `cuboidWorld` = '" + this.cuboid.getWorld().getName() + "',  `cuboidX` = '" + this.cuboid.getCenterX() + "',  `cuboidZ` = '" + this.cuboid.getCenterZ() + "',  `cuboidSize` = '" + this.cuboid.getSize() + "',  `homeWorld` = '" + this.home.getWorld().getName() + "',  `homeX` = '" + this.home.getBlockX() + "',  `homeY` = '" + this.home.getBlockY() + "',  `homeZ` = '" + this.home.getBlockZ() + "',  `lives` = '" + this.lives + "', `createTime` = '" + this.createTime + "',  `expireTime` = '" + this.expireTime + "',  `lastTakenLifeTime` = '" + this.lastTakenLifeTime + "', `pvp` = '" + (this.pvp ? 1 : 0) + "'");
 	}
 
 	@Override
 	public void update(boolean now) {
 		String update = "UPDATE `{P}guilds` SET `owner`='" + this.owner + "', `leader`='" + this.leader + "', `cuboidWorld`='" + this.cuboid.getWorld().getName() + "', `cuboidX`='" + this.cuboid.getCenterX() + "', `cuboidZ`='" + this.cuboid.getCenterZ() + "', `cuboidSize`='" + this.cuboid.getSize() + "', `homeWorld`='" + this.home.getWorld().getName() + "', `homeX`='" + this.home.getBlockX() + "', `homeY`='" + this.home.getBlockY() + "', `homeZ`='" + this.home.getBlockZ() + "', `createTime`='" + this.createTime + "', `expireTime`='" + this.expireTime + "', `lastTakenLifeTime` = '" + this.lastTakenLifeTime + "', `lives` = '" + this.lives + "', `pvp`='" + (this.pvp ? 1 : 0) + "' WHERE `tag`='" + this.tag + "'";
 		if (now)
-			GuildPlugin.getStore().updateNow(update);
-		else
-			GuildPlugin.getStore().update(update);
+			GuildPlugin.getStore().update(now, update);
+
 	}
 
 	@Override
 	public void delete() {
-		GuildPlugin.getStore().updateNow("DELETE FROM `{P}guilds` WHERE `tag` = '" + this.tag + "'");
-		GuildPlugin.getStore().updateNow("DELETE FROM `{P}members` WHERE `tag` = '" + this.tag + "'");
+		GuildPlugin.getStore().update(true, "DELETE FROM `{P}guilds` WHERE `tag` = '" + this.tag + "'");
+		GuildPlugin.getStore().update(true, "DELETE FROM `{P}members` WHERE `tag` = '" + this.tag + "'");
 	}
 
 }

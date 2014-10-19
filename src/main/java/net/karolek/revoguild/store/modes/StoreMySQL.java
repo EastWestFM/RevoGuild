@@ -4,23 +4,24 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
+import net.karolek.revoguild.GuildPlugin;
 import net.karolek.revoguild.store.Store;
 import net.karolek.revoguild.store.StoreMode;
 import net.karolek.revoguild.utils.Logger;
+import net.karolek.revoguild.utils.TimeUtil;
+
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class StoreMySQL implements Store {
 
-	private final String					host, user, pass, name, prefix;
-	private final int						port;
-	private Connection					conn;
-	private Thread							t;
-
-	private final LinkedList<String>	queries	= new LinkedList<String>();
+	private final String	host, user, pass, name, prefix;
+	private final int		port;
+	private Connection	conn;
+	private long			time;
+	private Executor		executor;
 
 	public StoreMySQL(String host, int port, String user, String pass, String name, String prefix) {
 		this.host = host;
@@ -30,8 +31,18 @@ public class StoreMySQL implements Store {
 		this.name = name;
 		this.prefix = prefix;
 
-		this.t = new Thread(this, "MySQL Thread");
-		this.t.start();
+		this.executor = Executors.newSingleThreadExecutor();
+
+		this.time = System.currentTimeMillis();
+
+		new BukkitRunnable() {
+
+			@Override
+			public void run() {
+				if (System.currentTimeMillis() - time > TimeUtil.SECOND.getTime(30))
+					update(false, "DO 1");
+			}
+		}.runTaskTimer(GuildPlugin.getPlugin(), 20 * 30, 20 * 30);
 
 	}
 
@@ -54,16 +65,29 @@ public class StoreMySQL implements Store {
 		return false;
 	}
 
-	@SuppressWarnings("deprecation")
+	public void update(boolean now, final String update) {
+		time = System.currentTimeMillis();
+		Runnable r = new Runnable() {
+			@Override
+			public void run() {
+				try {
+					conn.createStatement().executeUpdate(update.replace("{P}", prefix));
+				} catch (SQLException e) {
+					Logger.warning("An error occurred with given query '" + update.replace("{P}", prefix) + "'!", "Error: " + e.getMessage());
+					e.printStackTrace();
+				}
+			}
+		};
+
+		if (now) {
+			r.run();
+		} else {
+			executor.execute(r);
+		}
+	}
+
 	@Override
 	public void disconnect() {
-		
-		if(this.t != null) 
-			this.t.stop();
-		
-		for(String query : queries) 
-			updateNow(query);
-		
 		if (this.conn != null)
 			try {
 				this.conn.close();
@@ -101,27 +125,6 @@ public class StoreMySQL implements Store {
 	}
 
 	@Override
-	public void update(String update) {
-		synchronized (this.queries) {
-			this.queries.add(update);
-		}
-	}
-
-	@Override
-	public ResultSet updateNow(String update) {
-		try {
-			Statement stmt = conn.createStatement();
-
-			stmt.executeUpdate(update.replace("{P}", this.prefix), Statement.RETURN_GENERATED_KEYS);
-			return stmt.getGeneratedKeys();
-		} catch (SQLException e) {
-			Logger.warning("An error occurred with given query '" + update.replace("{P}", this.prefix) + "'!", "Error: " + e.getMessage());
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-	@Override
 	public Connection getConnection() {
 		return this.conn;
 	}
@@ -129,39 +132,6 @@ public class StoreMySQL implements Store {
 	@Override
 	public StoreMode getStoreMode() {
 		return StoreMode.MYSQL;
-	}
-
-	@Override
-	public void run() {
-		while (true) {
-			try {
-
-				Thread.sleep(30000);
-
-				if (!this.isConnected())
-					this.reconnect();
-
-				if (this.queries.size() > 0) {
-					List<String> list = new ArrayList<String>();
-					synchronized (this.queries) {
-						list.addAll(this.queries);
-						this.queries.clear();
-					}
-					for (String query : list)
-						updateNow(query);
-
-				} else {
-
-					Statement s = this.conn.createStatement();
-					s.executeQuery("DO 1");
-
-				}
-
-			} catch (Exception e) {
-				Logger.severe("An error in the main store loop!");
-				e.printStackTrace();
-			}
-		}
 	}
 
 }

@@ -9,12 +9,6 @@ import net.karolek.revoguild.store.StoreMode;
 public class StoreSQLITE implements Store {
 
 	@Override
-	public void run() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public Connection getConnection() {
 		// TODO Auto-generated method stub
 		return null;
@@ -50,15 +44,9 @@ public class StoreSQLITE implements Store {
 	}
 
 	@Override
-	public void update(String update) {
+	public void update(boolean now, String update) {
 		// TODO Auto-generated method stub
 
-	}
-
-	@Override
-	public ResultSet updateNow(String update) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
