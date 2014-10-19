@@ -52,6 +52,10 @@ public class JoinCommand extends SubCommand {
 		ItemUtil.removeItems(items, p);
 				
 		Util.sendMsg(p, Lang.parse(Lang.INFO_JOINED, g));
+		
+		Manager.TAG.getNameTag().joinToGuild(g, p);
+
+		
 		return Util.sendMsg(Util.getOnlinePlayers(), Lang.parse(Lang.BC_GUILD_JOINED, g, p));
 
 

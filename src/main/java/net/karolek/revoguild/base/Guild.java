@@ -50,7 +50,7 @@ public class Guild implements Entry {
 		this.createTime = System.currentTimeMillis();
 		this.expireTime = System.currentTimeMillis() + TimeUtil.WEEK.getTime(2);
 		this.lastExplodeTime = System.currentTimeMillis();
-		this.lastTakenLifeTime = System.currentTimeMillis() + TimeUtil.HOUR.getTime(Config.LIVES_TIME);
+		this.lastTakenLifeTime = System.currentTimeMillis();
 		this.lives = Config.LIVES_AMOUNT;
 		this.crystal = owner.getWorld().spawnEntity(cuboid.getCenter(), EntityType.ENDER_CRYSTAL);
 		this.pvp = false;
@@ -100,6 +100,13 @@ public class Guild implements Entry {
 		}
 		en.remove();
 		return null;
+	}
+
+	public Entity spawnCrystal() {
+		if ((this.crystal != null && this.crystal.isDead()) || this.crystal.isDead())
+			this.crystal.remove();
+		this.crystal = cuboid.getWorld().spawnEntity(cuboid.getCenter(), EntityType.ENDER_CRYSTAL);
+		return this.crystal;
 	}
 
 	public Set<Player> getOnlineMembers() {

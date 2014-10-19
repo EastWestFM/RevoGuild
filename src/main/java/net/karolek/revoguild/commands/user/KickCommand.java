@@ -1,7 +1,5 @@
 package net.karolek.revoguild.commands.user;
 
-import java.util.Set;
-
 import net.karolek.revoguild.base.Guild;
 import net.karolek.revoguild.commands.SubCommand;
 import net.karolek.revoguild.data.Lang;
@@ -40,9 +38,7 @@ public class KickCommand extends SubCommand {
 		if (!g.removeMember(op.getUniqueId()))
 			return Util.sendMsg(p, Lang.ERROR_PLAYER_ISNT_MEMBER);
 
-		Set<Player> players = g.getOnlineMembers();
-		if (op.isOnline())
-			players.add(op.getPlayer());
+		Manager.TAG.getNameTag().leaveFromGuild(g, op);
 
 		return Util.sendMsg(Util.getOnlinePlayers(), Lang.parse(Lang.BC_GUILD_KICKED, g, op));
 	}

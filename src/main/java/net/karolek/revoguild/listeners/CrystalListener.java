@@ -64,7 +64,7 @@ public class CrystalListener implements Listener {
 			return;
 		}
 		
-		if(g.getLastTakenLifeTime() + TimeUtil.HOUR.getTime(Config.LIVES_TIME) < System.currentTimeMillis()) {
+		if((g.getLastTakenLifeTime() + TimeUtil.HOUR.getTime(Config.LIVES_TIME)) > System.currentTimeMillis()) {
 			Util.sendMsg(d, Lang.ERROR_CANT_TAKE_LIFE);
 			e.setCancelled(true);
 			return;
@@ -73,9 +73,12 @@ public class CrystalListener implements Listener {
 		if(g.getLives() <= 1) {
 			Manager.GUILD.removeGuild(g);
 			Util.sendMsg(Util.getOnlinePlayers(), Lang.parse(Lang.BC_GUILD_TAKEN, g, dG, d));
+			e.setCancelled(false);
 		} else {
 			g.setLives(g.getLives() - 1);
 			g.setLastTakenLifeTime(System.currentTimeMillis());
+			g.update(false);
+			e.setCancelled(true);
 			Util.sendMsg(Util.getOnlinePlayers(), Lang.parse(Lang.BC_GUILD_LIFE_TAKEN, g, dG, d));
 			return;
 		}

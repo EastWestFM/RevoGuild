@@ -2,23 +2,24 @@ package net.karolek.revoguild.manager.types;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashSet;
-import java.util.Set;
-
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
+import java.util.ArrayList;
+import java.util.List;
 
 import lombok.Getter;
 import net.karolek.revoguild.GuildPlugin;
 import net.karolek.revoguild.base.Guild;
 import net.karolek.revoguild.data.Config;
 import net.karolek.revoguild.manager.IManager;
+import net.karolek.revoguild.manager.Manager;
 import net.karolek.revoguild.utils.Logger;
+
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
 public class GuildManager implements IManager {
 
 	@Getter
-	private Set<Guild>	guilds	= null;
+	private List<Guild>	guilds	= null;
 
 	public Guild createGuild(String tag, String name, Player owner) {
 		Guild g = new Guild(tag, name, owner);
@@ -26,13 +27,22 @@ public class GuildManager implements IManager {
 		g.addInvite(owner.getUniqueId());
 		g.addMember(owner.getUniqueId());
 		guilds.add(g);
+		Manager.TAG.getNameTag().createGuild(g, owner);
 		return g;
 	}
 
 	public void removeGuild(Guild g) {
 		g.delete();
+		Manager.TAG.getNameTag().removeGuild(g);
 		g.getCrystal().remove();
-		guilds.remove(g);
+		if (!guilds.remove(g)) {
+			for (int i = 0; i < guilds.size(); i++) {
+				if (guilds.get(i).equals(g)) {
+					guilds.remove(i);
+					break;
+				}
+			}
+		}
 	}
 
 	public Guild getGuild(String tag) {
@@ -66,7 +76,7 @@ public class GuildManager implements IManager {
 
 	@Override
 	public void enable() throws Exception {
-		guilds = new HashSet<Guild>();
+		guilds = new ArrayList<Guild>();
 		ResultSet rs = GuildPlugin.getStore().query("SELECT * FROM `{P}guilds`");
 		try {
 			while (rs.next()) {

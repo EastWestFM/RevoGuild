@@ -20,6 +20,14 @@ public class Config {
 	public static String				DATABASE_MYSQL_PASS	= "";
 	public static String				DATABASE_MYSQL_NAME	= "minecraft";
 
+	public static String				TAG_MODE					= "tagapi";
+	public static String				TAG_FORMAT				= "&8[{COLOR}{TAG}&8] {COLOR}";
+	public static String				TAG_COLOR_NOGUILD		= "&7";
+	public static String				TAG_COLOR_FRIEND		= "&a";
+	public static String				TAG_COLOR_FRIENDPVP	= "&9";
+	public static String				TAG_COLOR_ENEMY		= "&c";
+	public static String				TAG_COLOR_ALLIANCE	= "&6";
+
 	public static int					LIVES_AMOUNT			= 3;
 	public static int					LIVES_TIME				= 24;
 
@@ -52,7 +60,7 @@ public class Config {
 
 				if (c.isSet(prefix + f.getName().toLowerCase().replace("_", ".")))
 					f.set(null, c.get(prefix + f.getName().toLowerCase().replace("_", ".")));
-				//System.out.println(f.getName() + " -> " + f.get(null));
+				// System.out.println(f.getName() + " -> " + f.get(null));
 
 			}
 		} catch (Exception e) {

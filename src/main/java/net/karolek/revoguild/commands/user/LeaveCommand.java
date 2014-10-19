@@ -1,7 +1,5 @@
 package net.karolek.revoguild.commands.user;
 
-import java.util.Set;
-
 import net.karolek.revoguild.base.Guild;
 import net.karolek.revoguild.commands.SubCommand;
 import net.karolek.revoguild.data.Lang;
@@ -33,9 +31,7 @@ public class LeaveCommand extends SubCommand {
 
 		g.removeMember(p.getUniqueId());
 
-		Set<Player> players = g.getOnlineMembers();
-		players.add(p);
-
+		Manager.TAG.getNameTag().leaveFromGuild(g, p);
 
 		return Util.sendMsg(Util.getOnlinePlayers(), Lang.parse(Lang.BC_GUILD_LEAVED, g, p));
 	}

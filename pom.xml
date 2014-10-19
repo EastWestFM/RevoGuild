@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.karolek</groupId>
 	<artifactId>revoguild</artifactId>
-	<version>0.0.1-b37</version>
+	<version>0.0.1-b55</version>
 	<name>RevoGuild</name>
 	<description>Plugin na gildie.</description>
 	<properties>
@@ -10,8 +10,12 @@
 	</properties>
 	<repositories>
 		<repository>
-		<id>bukkit-repo</id>
-		<url>http://repo.bukkit.org/content/groups/public/</url>
+			<id>bukkit-repo</id>
+			<url>http://repo.bukkit.org/content/groups/public/</url>
+		</repository>
+		<repository> 
+			<id>tagapi-repo</id> 
+			<url>http://repo.kitteh.org/content/repositories/public/</url> 
 		</repository>
 	</repositories>
 	<dependencies>
@@ -21,6 +25,12 @@
 			<version>1.7.9-R0.2-SNAPSHOT</version>
 			<type>jar</type>
 			<scope>provided</scope>
+		</dependency>
+		<dependency> 
+			<groupId>org.kitteh</groupId> 
+			<artifactId>tagapi</artifactId> 
+			<version>3.0.6-SNAPSHOT</version> 
+			<scope>provided</scope> 
 		</dependency>
 		<!--<dependency>
 			<groupId>org.bukkit</groupId>

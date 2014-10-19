@@ -79,8 +79,8 @@ public class Lang {
 	public static String					BC_GUILD_JOINED							= "Gracz {PLAYER} dolaczyl do gildii [{TAG}] {NAME}!";
 	public static String					BC_GUILD_KICKED							= "Gracz {PLAYER} zostal wyrzucony z gildii [{TAG}] {NAME}!";
 	public static String					BC_GUILD_LEAVED							= "Gracz {PLAYER} opuscil gildie [{TAG}] {NAME}!";
-	public static String					BC_GUILD_LIFE_TAKEN						= "Gracz [{2TAG}] {PLAYER} zaatakowal gildie [{TAG}] {NAME}!";
-	public static String					BC_GUILD_TAKEN								= "Gracz [{2TAG}] {PLAYER} zniszczyl gildie [{TAG}] {NAME}!";
+	public static String					BC_GUILD_LIFE_TAKEN						= "Gracz [{TAG2}] {PLAYER} zaatakowal gildie [{TAG}] {NAME}!";
+	public static String					BC_GUILD_TAKEN								= "Gracz [{TAG2}] {PLAYER} zniszczyl gildie [{TAG}] {NAME}!";
 
 	public static void loadLang() {
 		try {

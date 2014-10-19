@@ -30,6 +30,8 @@ public class PvpCommand extends SubCommand {
 		for (Player o : g.getOnlineMembers())
 			Util.sendMsg(o, g.isPvp() ? Lang.INFO_PVP_ON : Lang.INFO_PVP_OFF);
 		
+		Manager.TAG.getNameTag().setPvp(g);
+
 		return true;
 	}
 }

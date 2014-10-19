@@ -20,7 +20,7 @@ import org.bukkit.scheduler.BukkitTask;
 public class TeleportManager implements IManager {
 
 	@Getter
-	private static HashMap<UUID, BukkitTask>	teleports	= null;	;
+	private HashMap<UUID, BukkitTask>	teleports	= null;	;
 
 	public void teleport(Player p, Location loc, int time) {
 		if (p.hasPermission("sguilds.teleport.nodelay"))
