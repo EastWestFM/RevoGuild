@@ -48,11 +48,11 @@ public class Guild implements Entry {
 		this.cuboid = new Cuboid(owner.getWorld().getName(), owner.getLocation().getBlockX(), owner.getLocation().getBlockZ(), 24);
 		this.home = owner.getLocation();
 		this.createTime = System.currentTimeMillis();
-		this.expireTime = System.currentTimeMillis() + TimeUtil.WEEK.getTime(2);
+		this.expireTime = System.currentTimeMillis() + TimeUtil.WEEK.getTime(Config.TIME_START);
 		this.lastExplodeTime = System.currentTimeMillis();
 		this.lastTakenLifeTime = System.currentTimeMillis();
 		this.lives = Config.LIVES_AMOUNT;
-		this.crystal = owner.getWorld().spawnEntity(cuboid.getCenter(), EntityType.ENDER_CRYSTAL);
+		this.crystal = spawnCrystal();
 		this.pvp = false;
 		this.preDeleted = false;
 	}
@@ -81,8 +81,7 @@ public class Guild implements Entry {
 
 			@Override
 			public void run() {
-				crystal = cuboid.getWorld().spawnEntity(cuboid.getCenter(), EntityType.ENDER_CRYSTAL);
-
+				spawnCrystal();
 			}
 
 		}.runTaskLater(GuildPlugin.getPlugin(), 20);
@@ -103,7 +102,7 @@ public class Guild implements Entry {
 	}
 
 	public Entity spawnCrystal() {
-		if ((this.crystal != null && this.crystal.isDead()) || this.crystal.isDead())
+		if (this.crystal != null)
 			this.crystal.remove();
 		this.crystal = cuboid.getWorld().spawnEntity(cuboid.getCenter(), EntityType.ENDER_CRYSTAL);
 		return this.crystal;

@@ -38,7 +38,7 @@ public class AsyncTagListener implements Listener {
 				tag = Config.TAG_COLOR_FRIEND;
 			}
 
-			// } else if ((g != null) && (AllianceManager.hasAlliance(g, o))) {
+			// } else if ((g != null) && (AllianceManager.hasAlliance(g, o))) { //TODO sojusze
 			// tag = Config.TAG_COLOR_ALLIANCE;
 		} else {
 			tag = Config.TAG_COLOR_ENEMY;

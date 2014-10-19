@@ -59,10 +59,10 @@ public class GuildPlugin extends JavaPlugin {
 	public void onDisable() {
 
 		Config.saveConfig();
-		Lang.saveLang();
 
 		if (enabled) {
 
+			Lang.saveLang();
 			Manager.unload();
 
 			if (store != null) 
@@ -70,6 +70,8 @@ public class GuildPlugin extends JavaPlugin {
 			
 		}
 
+		enabled = false;
+		
 		plugin = null;
 
 	}

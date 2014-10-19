@@ -24,7 +24,7 @@ public class SetHomeCommand extends SubCommand {
 		if (!g.isOwner(p.getUniqueId()))
 			return Util.sendMsg(p, Lang.ERROR_NOT_OWNER);
 
-		if (Manager.GUILD.getGuild(p.getLocation()) != null)
+		if (Manager.GUILD.getGuild(p.getLocation()) != null && !Manager.GUILD.getGuild(p.getLocation()).equals(g))
 			return Util.sendMsg(p, Lang.ERROR_CANT_SET_HOME_OUTSIDE_CUBOID);
 
 		g.setHome(p.getLocation());
