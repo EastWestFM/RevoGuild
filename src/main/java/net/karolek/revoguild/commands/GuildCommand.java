@@ -6,6 +6,7 @@ import java.util.Set;
 
 import lombok.Getter;
 import net.karolek.revoguild.commands.user.*;
+import net.karolek.revoguild.data.Config;
 import net.karolek.revoguild.data.Lang;
 import net.karolek.revoguild.manager.Manager;
 import net.karolek.revoguild.utils.Util;
@@ -15,8 +16,8 @@ import org.bukkit.entity.Player;
 public class GuildCommand extends SubCommand {
 
 	@Getter
-	private static final Set<SubCommand> subCommands = new HashSet<SubCommand>();
-	
+	private static final Set<SubCommand>	subCommands	= new HashSet<SubCommand>();
+
 	public GuildCommand() {
 		super("gildia", "glowna komenda systemu gildii", "", "rg.cmd.user", "gildie", "guild", "g");
 		subCommands.add(new CreateCommand());
@@ -34,7 +35,10 @@ public class GuildCommand extends SubCommand {
 		subCommands.add(new ResizeCommand());
 		subCommands.add(new SetHomeCommand());
 
-		for(SubCommand sc : subCommands) 
+		if (Config.TREASURE_ENABLED)
+			subCommands.add(new TreasureCommand());
+
+		for (SubCommand sc : subCommands)
 			Manager.COMMAND.register(sc);
 	}
 
@@ -47,17 +51,18 @@ public class GuildCommand extends SubCommand {
 		String name = args[0];
 
 		SubCommand sc = getSub(name);
-		
+
 		if (sc == null)
 			return Util.sendMsg(p, Lang.CMD_MAIN_HELP);
 
 		return sc.onCommand(p, Arrays.copyOfRange(args, 1, args.length));
 
 	}
-	
+
 	private SubCommand getSub(String sub) {
-		for(SubCommand sc : subCommands) 
-			if(sc.getName().equalsIgnoreCase(sub) || sc.getAliases().contains(sub)) return sc; 
+		for (SubCommand sc : subCommands)
+			if (sc.getName().equalsIgnoreCase(sub) || sc.getAliases().contains(sub))
+				return sc;
 		return null;
 	}
 

@@ -57,10 +57,10 @@ public class StoreMySQL implements Store {
 			return true;
 		} catch (ClassNotFoundException e) {
 			Logger.warning("JDBC driver not found!", "Error: " + e.getMessage());
-			e.printStackTrace();
+			Logger.exception(e);
 		} catch (SQLException e) {
 			Logger.warning("Can not connect to a MySQL server!", "Error: " + e.getMessage());
-			e.printStackTrace();
+			Logger.exception(e);
 		}
 		return false;
 	}
@@ -74,7 +74,7 @@ public class StoreMySQL implements Store {
 					conn.createStatement().executeUpdate(update.replace("{P}", prefix));
 				} catch (SQLException e) {
 					Logger.warning("An error occurred with given query '" + update.replace("{P}", prefix) + "'!", "Error: " + e.getMessage());
-					e.printStackTrace();
+					Logger.exception(e);
 				}
 			}
 		};
@@ -93,7 +93,7 @@ public class StoreMySQL implements Store {
 				this.conn.close();
 			} catch (SQLException e) {
 				Logger.warning("Can not close the connection to the MySQL server!", "Error: " + e.getMessage());
-				e.printStackTrace();
+				Logger.exception(e);
 			}
 	}
 
@@ -107,7 +107,7 @@ public class StoreMySQL implements Store {
 		try {
 			return !(this.conn.isClosed()) || (this.conn == null);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			Logger.exception(e);
 		}
 		return false;
 	}
@@ -119,7 +119,7 @@ public class StoreMySQL implements Store {
 
 		} catch (SQLException e) {
 			Logger.warning("An error occurred with given query '" + query.replace("{P}", this.prefix) + "'!", "Error: " + e.getMessage());
-			e.printStackTrace();
+			Logger.exception(e);
 		}
 		return null;
 	}

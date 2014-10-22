@@ -58,6 +58,8 @@ public class AsyncTagListener implements Listener {
 		format = format.replace("{COLOR}", tag);
 
 		format = o == null ? Util.fixColor(format) : Lang.parse(format, o);
+		
+		format = format.substring(0, Math.min(format.length(), 16));
 
 		if (!t.getPrefix().equals(format))
 			t.setPrefix(format);

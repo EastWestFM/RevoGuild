@@ -32,7 +32,7 @@ public class Manager {
 			}
 		} catch (Exception e) {
 			Logger.severe("An error occurred while loading manager!");
-			e.printStackTrace();
+			Logger.exception(e);
 		}
 	}
 
@@ -54,7 +54,7 @@ public class Manager {
 			}
 		} catch (Exception e) {
 			Logger.severe("An error occurred while unloading manager!");
-			e.printStackTrace();
+			Logger.exception(e);
 		}
 	}
 

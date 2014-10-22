@@ -8,17 +8,14 @@ import org.bukkit.entity.Player;
 
 public class PacketUtil {
 
-	public static void sendPacket(Player player, Object...objects) {
-		Class<?> packetClass = Reflection.getMinecraftClass("Packet");
-		Object handle = getHandle(player);
-		FieldAccessor<Object> f = Reflection.getSimpleField(handle.getClass(), "playerConnection");
-		MethodInvoker m = Reflection.getMethod(f.get(handle).getClass(), "sendPacket", packetClass);
-		for(Object o : objects) 
-			m.invoke(f.get(handle), o);
+	private static MethodInvoker				handleMethod		= Reflection.getMethod(Entity.class, "getHandle");
+	private static MethodInvoker				sendPacket			= Reflection.getMethod(Reflection.getMinecraftClass("PlayerConnection"), "sendPacket", Reflection.getMinecraftClass("Packet"));
+	private static FieldAccessor<Object>	playerConnection	= Reflection.getSimpleField(Reflection.getMinecraftClass("EntityPlayer"), "playerConnection");
+
+	public static void sendPacket(Player player, Object... objects) {
+		Object handle = handleMethod.invoke(player);
+		for (Object o : objects)
+			sendPacket.invoke(playerConnection.get(handle), o);
 	}
-	
-	public static Object getHandle(Entity en) {
-		return Reflection.getMethod(en.getClass(), "getHandle").invoke(en);
-	}
-	
+
 }

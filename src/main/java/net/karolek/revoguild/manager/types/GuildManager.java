@@ -12,8 +12,10 @@ import net.karolek.revoguild.data.Config;
 import net.karolek.revoguild.manager.IManager;
 import net.karolek.revoguild.manager.Manager;
 import net.karolek.revoguild.utils.Logger;
+import net.karolek.revoguild.utils.SpaceUtil;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 public class GuildManager implements IManager {
@@ -26,15 +28,16 @@ public class GuildManager implements IManager {
 		g.insert();
 		g.addInvite(owner.getUniqueId());
 		g.addMember(owner.getUniqueId());
+		g.addTreasureUser(owner.getUniqueId());
 		guilds.add(g);
 		Manager.TAG.getNameTag().createGuild(g, owner);
+		setGuildRoom(g);
 		return g;
 	}
 
 	public void removeGuild(Guild g) {
 		g.delete();
 		Manager.TAG.getNameTag().removeGuild(g);
-		g.getCrystal().remove();
 		if (!guilds.remove(g)) {
 			for (int i = 0; i < guilds.size(); i++) {
 				if (guilds.get(i).equals(g)) {
@@ -73,6 +76,17 @@ public class GuildManager implements IManager {
 				return false;
 		return true;
 	}
+	
+	private void setGuildRoom(Guild g) {
+		Location center  = g.getCuboid().getCenter();
+		for(Location loc : SpaceUtil.getSquare(center, 4)) loc.getBlock().setType(Material.OBSIDIAN);
+		center.add(0,1,0);
+		center.getBlock().setType(Material.DRAGON_EGG);
+		for(Location loc : SpaceUtil.getCorners(center, 4, 4)) loc.getBlock().setType(Material.OBSIDIAN);
+		center.add(0,4,0);
+		for(Location loc : SpaceUtil.getWalls(center, 4)) loc.getBlock().setType(Material.OBSIDIAN);
+		g.getCuboid().getCenter().getBlock().setType(Material.BEDROCK);;
+	}
 
 	@Override
 	public void enable() throws Exception {
@@ -86,7 +100,7 @@ public class GuildManager implements IManager {
 			Logger.info("Loaded " + guilds.size() + " guilds!");
 		} catch (SQLException e) {
 			Logger.warning("An error occurred while loading guilds!", "Error: " + e.getMessage());
-			e.printStackTrace();
+			Logger.exception(e);
 		}
 	}
 

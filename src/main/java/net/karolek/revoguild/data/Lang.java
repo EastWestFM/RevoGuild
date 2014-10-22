@@ -13,6 +13,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import net.karolek.revoguild.GuildPlugin;
+import net.karolek.revoguild.utils.Logger;
 import net.karolek.revoguild.utils.Util;
 import net.karolek.revoguild.base.Guild;
 import net.karolek.revoguild.commands.SubCommand;
@@ -23,7 +24,7 @@ public class Lang {
 	private static File					file											= new File(GuildPlugin.getPlugin().getDataFolder(), "lang.yml");
 	private static FileConfiguration	c												= null;
 
-	public static String					CMD_MAIN_HELP								= "Dostepne komendy: \n/zaloz <tag> <nazwa> - tworzy gildie";
+	public static String					CMD_MAIN_HELP								= "Dostepne komendy: \n/g zaloz <tag> <nazwa> - tworzy gildie\n/g usun - usuwa gildie\n/g dom - teleportuje do domu gildii\n/g info <tag/nazwa> - wyswietla informacje o gildii\n/g zapros <gracz> - zaprasza gracza do gildii\n/g dolacz <tag/nazwa> - dolacza do wybranej gildii\n/g wyrzuc <gracz> - wyrzuca gracza z gildii \n/g lider <gracz> - zmienia lidera gildii\n/g opusc - opuszcza gildie\n/g lista - wyswietla liste wszystkich gildii\n/g zalozyciel <gracz> - zmienia zalozyciela gidldii\n/g pvp - zmienia status pvp w gildii\n/g powieksz - powieksza teren gildii\n/g ustawdom - ustawia dom gildii\n/g skarbiec [dodaj <gracz> | usun <gracz> | lista] - otwiera skarbiec gildii [dodaje gracza do skarbca | usuwa gracza ze skarbca | lista graczy uprawniony do skarbca]";
 	public static String					CMD_CORRECT_USAGE							= "Prawidlowe uzycie: /g {NAME} {USAGE}!";
 
 	public static String					ERROR_HAVE_GUILD							= "Blad: Masz juz gildie!";
@@ -47,6 +48,11 @@ public class Lang {
 	public static String					ERROR_NOT_YOUR_GUILD						= "Blad: To nie Twoja gildia!";
 	public static String					ERROR_EXPLODE_TNT							= "Blad: Przed chwila wybuchlo TNT! Nie mozesz budowac przez 60 sekund!";
 	public static String					ERROR_CANT_TAKE_LIFE						= "Blad: Nie mozna teraz zabrac zycia gildii! Musi uplynac minimum 24h od ostatniej takiej akcji!";
+	public static String					ERROR_CANT_OPEN_TREASURE				= "Blad: Nie jestes uprawniony do otwierania skarbca gildii!";
+	public static String					ERROR_PLAYER_IS_TREASURE_USER			= "Blad: Gracz jest juz uzytkownikiem skarbca gildii!";
+	public static String					ERROR_PLAYER_ISNT_TREASURE_USER		= "Bad: Gracz nie jest uzytkownikiem skarbca gildii!";
+	public static String					ERROR_TREASURE_NOT_ENABLED				= "Blad: Skarbce gildii nie zostaly aktywowane!";
+	public static String					ERROR_CANT_ATTACK_PLAYER				= "Blad: Nie mozesz atakowac tego gracza!";
 
 	public static String					INFO_CONFIRM_DELETE						= "Potwierdz usuniecie gildii: /g usun!";
 	public static String					INFO_INVITE_SEND							= "Zaproszenie zostalo wyslane!";
@@ -65,6 +71,12 @@ public class Lang {
 	public static String					INFO_MOVE_IN								= "Wkroczyles na teren gildii [{TAG}] {NAME}!";
 	public static String					INFO_MOVE_OUT								= "Opusciles teren gildii [{TAG}] {NAME}!";
 	public static String					INFO_GUILD									= "Informacje o gildii [{TAG}] {NAME}:";
+	public static String					INFO_TREASURE_OPENED						= "Otwarto skarbiec gildii!";
+	public static String					INFO_TREASURE_USER_ADD					= "Gracz {PLAYER} jest od teraz uzytkownikiem skarbca gildii!";
+	public static String					INFO_TREASURE_USER_ADD_INFO			= "Gracz {PLAYER} nadal Ci uprawnienia do skarbca gildii!";
+	public static String					INFO_TREASURE_USER_REMOVE				= "Gracz {PLAYER} nie jest od teraz uzytkownikiem skarbca gildii!";
+	public static String					INFO_TREASURE_USER_REMOVE_INFO		= "Gracz {PLAYER} odebral Ci uprawnienia do skarbca gildii!";
+	public static String					INFO_TREASURE_USERS						= "Lista uzytkownikow skarbca: {USERS}";
 
 	public static String					TELEPORT_START								= "Teleport nastapi za {TIME} sekund! Prosze sie nie ruszac!";
 	public static String					TELEPORT_END								= "Przeteleportowano!";
@@ -102,7 +114,7 @@ public class Lang {
 
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			Logger.exception(e);
 		}
 	}
 
@@ -113,7 +125,7 @@ public class Lang {
 
 			c.save(file);
 		} catch (Exception e) {
-			e.printStackTrace();
+			Logger.exception(e);
 		}
 	}
 
@@ -178,7 +190,7 @@ public class Lang {
 		return Util.fixColor(msg);
 	}
 
-	private static String getMembers(Guild g) {
+	public static String getMembers(Guild g) {
 		String[] members = new String[g.getMembers().size()];
 
 		int i = 0;
@@ -194,4 +206,19 @@ public class Lang {
 		return StringUtils.join(members, ChatColor.GRAY + ", " + ChatColor.RESET);
 	}
 
+	public static String getTreasureUsers(Guild g) {
+		String[] members = new String[g.getMembers().size()];
+
+		int i = 0;
+		for (UUID u : g.getTreasureUsers()) {
+			OfflinePlayer op = Bukkit.getOfflinePlayer(u);
+			if (op.isOnline()) {
+				members[i] = ChatColor.GREEN + op.getName();
+			} else {
+				members[i] = ChatColor.RED + op.getName();
+			}
+			i++;
+		}
+		return StringUtils.join(members, ChatColor.GRAY + ", " + ChatColor.RESET);
+	}
 }
