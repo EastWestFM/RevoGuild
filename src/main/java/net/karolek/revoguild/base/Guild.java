@@ -11,6 +11,7 @@ import net.karolek.revoguild.GuildPlugin;
 import net.karolek.revoguild.data.Config;
 import net.karolek.revoguild.store.Entry;
 import net.karolek.revoguild.utils.TimeUtil;
+import net.karolek.revoguild.utils.Util;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -59,8 +60,8 @@ public class Guild implements Entry {
 	public Guild(ResultSet rs) throws SQLException {
 		this.tag = rs.getString("tag");
 		this.name = rs.getString("name");
-		this.owner = UUID.fromString(rs.getString("owner"));
-		this.leader = UUID.fromString(rs.getString("leader"));
+		this.owner = Util.getUUID(rs.getString("owner"));
+		this.leader = Util.getUUID(rs.getString("leader"));
 		this.cuboid = new Cuboid(rs.getString("cuboidWorld"), rs.getInt("cuboidX"), rs.getInt("cuboidZ"), rs.getInt("cuboidSize"));
 		this.treasure = new Treasure(this, GuildPlugin.getStore().query("SELECT * FROM `{P}treasures` WHERE `tag` = '" + this.tag + "'"));
 		this.home = new Location(Bukkit.getWorld(rs.getString("homeWorld")), rs.getInt("homeX"), rs.getInt("homeY"), rs.getInt("homeZ"));
@@ -74,11 +75,11 @@ public class Guild implements Entry {
 
 		ResultSet r = GuildPlugin.getStore().query("SELECT * FROM `{P}members` WHERE `tag` = '" + this.tag + "'");
 		while (r.next())
-			this.members.add(UUID.fromString(r.getString("uuid")));
+			this.members.add(Util.getUUID(r.getString("uuid")));
 
 		ResultSet r1 = GuildPlugin.getStore().query("SELECT * FROM `{P}treasure_users` WHERE `tag` = '" + this.tag + "'");
 		while (r1.next())
-			this.treasureUsers.add(UUID.fromString(r1.getString("uuid")));
+			this.treasureUsers.add(Util.getUUID(r1.getString("uuid")));
 
 	}
 
