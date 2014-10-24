@@ -25,6 +25,7 @@ Komenda|Permisja|Opis działania
 /powieksz|rg.cmd.user.enlarge|powiekszanie terenu gildii
 /przedluz|rg.cmd.user.prolong|przedluzanie waznosci gildii
 
+`test`
 
 
 
