@@ -5,7 +5,7 @@ Rewolucyjny system gildii na Twój serwer! ;)
 
 ##### Komendy:
 Komenda|Permisja|Opis działania
-:-------------:|:-------------:|:-------------:
+:-------------|:-------------:|:-------------
 /g (subkomenda)|rg.cmd.user|główna komenda systemu gildii
 /zaloz (tag) (nazwa)|rg.cmd.user.create|tworzenie gildii
 /usun|rg.cmd.user.delete|usuwanie gildii
