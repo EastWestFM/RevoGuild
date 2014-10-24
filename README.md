@@ -31,7 +31,6 @@ Komenda|Permisja|Opis działania
 Wszystkie komendy mogą być wykonywane jako **subkomenda** do komendy `/g` (przykład: `/g zaloz (tag) (nazwa)`) lub jako **osobne**, **indywidualne** komendy (przykład: `/zaloz (tag) (nazwa)`)
 
 ======
-
 #### Konfiguracja (plik config.yml):
 ````yaml
 config:
@@ -109,3 +108,20 @@ config:
 ````
 
 =======
+#### Zmienne (plik lang.yml):
+
+Komenda|Opis działania
+:-------------|:-------------
+{TAG}|tag gildii
+{NAME}|nazwa gildii
+{OWNER}|zalozyciel gildii
+{LEADER}|lider gildii
+{CREATETIME}|data utworzenia gildii
+{EXPIRETIME}|data wygasniecia gildii
+{SIZE}|rozmiar gildii
+{MEMBERS}|czlonkowie gildii
+{MEMBERNUM}|liczba czlonkow w gildii
+{ONLINENUM}|liczba czlonkow online w gildii
+{PLAYER}|nick gracza
+
+Istnieją również zmienne dotyczące drugiej gildii, jednak ze względu na ich budowę pokażę tylko schemat: `{TAG2}` - zwróci nam tag drugiej gildii.
