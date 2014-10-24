@@ -26,7 +26,7 @@ Komenda|Permisja|Opis działania
 /przedluz|rg.cmd.user.prolong|przedluzanie waznosci gildii
 
 
-Wszystkie komendy mogą być wykonywane jako subkomenda do komendy `/g` (przykład: `/g zaloz (tag) (nazwa)`) lub jako osobne, indywidualne komendy (przykład: `/zaloz (tag) (nazwa)`)
+Wszystkie komendy mogą być wykonywane jako **subkomenda** do komendy `/g` (przykład: `/g zaloz (tag) (nazwa)`) lub jako **osobne**, **indywidualne** komendy (przykład: `/zaloz (tag) (nazwa)`)
 
 
 
