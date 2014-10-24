@@ -3,7 +3,12 @@ RevoGuild
 
 Rewolucyjny system gildii na Twój serwer! ;)
 
+###### Komendy:
+Komenda|Permisja|Opis działania
+-------------|-------------|-------------
+/g <subkomenda>|rg.cmd.user|główna komenda systemu gildii
 
+###### Konfiguracja (plik config.yml):
 ````yaml
 config:
   enabled: true #Czy plugin ma byc aktywny: true/false
@@ -78,3 +83,5 @@ config:
     teleport: 10 #Czas oczekiwania na teleport (sekundy)
 
 ````
+
+
