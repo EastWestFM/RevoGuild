@@ -6,7 +6,7 @@ Rewolucyjny system gildii na Twój serwer! ;)
 ###### Komendy:
 Komenda|Permisja|Opis działania
 -------------|-------------|-------------
-/g <subkomenda>|rg.cmd.user|główna komenda systemu gildii
+/g (subkomenda)|rg.cmd.user|główna komenda systemu gildii
 
 ###### Konfiguracja (plik config.yml):
 ````yaml
