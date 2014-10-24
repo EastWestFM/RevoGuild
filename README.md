@@ -2,9 +2,9 @@ RevoGuild
 =========
 
 Rewolucyjny system gildii na Twój serwer! ;)
-
+========
 #### Komendy:
-=========
+
 Komenda|Permisja|Opis działania
 :-------------|:-------------:|:-------------
 /g (subkomenda)|rg.cmd.user|główna komenda systemu gildii
