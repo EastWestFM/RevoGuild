@@ -32,8 +32,10 @@ public class GuildCommand extends SubCommand {
 		subCommands.add(new LeaveCommand());
 		subCommands.add(new ListCommand());
 		subCommands.add(new PvpCommand());
-		subCommands.add(new ResizeCommand());
+		subCommands.add(new EnlargeCommand());
 		subCommands.add(new SetHomeCommand());
+		subCommands.add(new ProlongCommand());
+		subCommands.add(new AllianceCommand());
 
 		if (Config.TREASURE_ENABLED)
 			subCommands.add(new TreasureCommand());

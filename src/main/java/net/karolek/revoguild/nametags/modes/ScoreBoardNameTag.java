@@ -35,11 +35,9 @@ public class ScoreBoardNameTag implements NameTag {
 				} else {
 					t.setPrefix(parse(Config.TAG_COLOR_FRIEND, o));
 				}
-			}
-			// else if (this.plugin.getManager().hasAliance(o, g)) { //TODO sojusze
-			// t.setPrefix(ALLIANCE_GUILD_START + o.getTag() +
-			// ALLIANCE_GUILD_END);}
-			else {
+			} else if (Manager.ALLIANCE.hasAlliance(o, g)) {
+				t.setPrefix(parse(Config.TAG_COLOR_ALLIANCE, o));
+			} else {
 				t.setPrefix(parse(Config.TAG_COLOR_ENEMY, o));
 			}
 		}

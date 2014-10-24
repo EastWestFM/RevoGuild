@@ -79,6 +79,7 @@ public class GuildManager implements IManager {
 	
 	private void setGuildRoom(Guild g) {
 		Location center  = g.getCuboid().getCenter();
+		for(Location loc : SpaceUtil.getSquare(center, 4, 5)) loc.getBlock().setType(Material.AIR);
 		for(Location loc : SpaceUtil.getSquare(center, 4)) loc.getBlock().setType(Material.OBSIDIAN);
 		center.add(0,1,0);
 		center.getBlock().setType(Material.DRAGON_EGG);

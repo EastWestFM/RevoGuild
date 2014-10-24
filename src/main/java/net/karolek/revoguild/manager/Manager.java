@@ -11,6 +11,7 @@ public class Manager {
 	public static GuildManager		GUILD		= null;
 	public static CommandManager	COMMAND	= null;
 	public static TagManager		TAG		= null;
+	public static AllianceManager	ALLIANCE	= null;
 
 	public static void load() {
 		try {

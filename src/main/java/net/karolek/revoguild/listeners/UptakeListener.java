@@ -48,6 +48,8 @@ public class UptakeListener implements Listener {
 
 		if (o == null)
 			return;
+		
+		if(Manager.ALLIANCE.hasAlliance(g, o)) return;
 
 		if ((g.getLastTakenLifeTime() + TimeUtil.HOUR.getTime(Config.UPTAKE_LIVES_TIME)) > System.currentTimeMillis()) {
 			Util.sendMsg(p, Lang.ERROR_CANT_TAKE_LIFE);

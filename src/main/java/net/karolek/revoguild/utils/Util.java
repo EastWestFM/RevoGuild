@@ -15,7 +15,6 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -89,10 +88,6 @@ public class Util {
 				return (Player) p.getShooter();
 		}
 		return null;
-	}
-
-	public static UUID getUUID(String s) {
-		return UUID.fromString(s.replaceFirst("(\\w{8})(\\w{4})(\\w{4})(\\w{4})(\\w{12})", "$1-$2-$3-$4-$5"));
 	}
 
 	public static void copy(InputStream in, File file) {

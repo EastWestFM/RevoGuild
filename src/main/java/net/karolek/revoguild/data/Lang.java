@@ -53,6 +53,8 @@ public class Lang {
 	public static String					ERROR_PLAYER_ISNT_TREASURE_USER		= "Bad: Gracz nie jest uzytkownikiem skarbca gildii!";
 	public static String					ERROR_TREASURE_NOT_ENABLED				= "Blad: Skarbce gildii nie zostaly aktywowane!";
 	public static String					ERROR_CANT_ATTACK_PLAYER				= "Blad: Nie mozesz atakowac tego gracza!";
+	public static String					ERROR_CANT_ADD_TIME						= "Blad: Waznosc gildii nie moze byc wieksza niz 14 dni!";
+	public static String					ERROR_OWNER_NOT_ONLINE					= "Blad: Zalozyciel gildii nie jest online!";
 
 	public static String					INFO_CONFIRM_DELETE						= "Potwierdz usuniecie gildii: /g usun!";
 	public static String					INFO_INVITE_SEND							= "Zaproszenie zostalo wyslane!";
@@ -77,6 +79,9 @@ public class Lang {
 	public static String					INFO_TREASURE_USER_REMOVE				= "Gracz {PLAYER} nie jest od teraz uzytkownikiem skarbca gildii!";
 	public static String					INFO_TREASURE_USER_REMOVE_INFO		= "Gracz {PLAYER} odebral Ci uprawnienia do skarbca gildii!";
 	public static String					INFO_TREASURE_USERS						= "Lista uzytkownikow skarbca: {USERS}";
+	public static String					INFO_PROLONGED_VALIDITY					= "Przedluzo waznosc gildii!";
+	public static String					INFO_ALLY_NEW								= "Twoja gildia zostala zaproszona do sojuszu przez gildie [{TAG}] {NAME}! Zaakceptuj uzywajac /g sojusz {TAG}!";
+	public static String					INFO_ALLY_SEND								= "Zaprosiles gildie [{TAG}] {NAME} do sojuszu!";
 
 	public static String					TELEPORT_START								= "Teleport nastapi za {TIME} sekund! Prosze sie nie ruszac!";
 	public static String					TELEPORT_END								= "Przeteleportowano!";
@@ -93,6 +98,9 @@ public class Lang {
 	public static String					BC_GUILD_LEAVED							= "Gracz {PLAYER} opuscil gildie [{TAG}] {NAME}!";
 	public static String					BC_GUILD_LIFE_TAKEN						= "Gracz [{TAG2}] {PLAYER} zaatakowal gildie [{TAG}] {NAME}!";
 	public static String					BC_GUILD_TAKEN								= "Gracz [{TAG2}] {PLAYER} zniszczyl gildie [{TAG}] {NAME}!";
+	public static String					BC_GUILD_EXPIRED							= "Gildia [{TAG}] {NAME} stracila swoja waznosc! Jej stare koorydynaty: [x: {X}; z: {Z}]";
+	public static String					BC_GUILD_ALLIANCE_CREATED				= "Gildia [{TAG}] {NAME} zawarla sojusz z gildia [{TAG2}] {NAME2}!";
+	public static String					BC_GUILD_ALLIANCE_DELETED				= "Gildia [{TAG}] {NAME} zerwala sojusz z gildia [{TAG2}] {NAME2}!";
 
 	public static void loadLang() {
 		try {

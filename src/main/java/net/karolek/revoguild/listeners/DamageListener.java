@@ -35,10 +35,10 @@ public class DamageListener implements Listener {
 				e.setCancelled(true);
 				Util.sendMsg(d, Lang.ERROR_CANT_ATTACK_PLAYER);
 			}
-		} //else if (AllianceManager.hasAlliance(pg, dg)) {
-			//e.setDamage(0);
-		//	Util.sendMsg(d, "&cNie mozesz atakowac tego gracza!");
-		//}
+		} else if (Manager.ALLIANCE.hasAlliance(pg, dg)) {
+			e.setDamage(0);
+			Util.sendMsg(d, Lang.ERROR_CANT_ATTACK_PLAYER);
+		}
 
 	}
 

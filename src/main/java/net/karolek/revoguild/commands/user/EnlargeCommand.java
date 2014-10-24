@@ -13,10 +13,10 @@ import net.karolek.revoguild.utils.Util;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-public class ResizeCommand extends SubCommand {
+public class EnlargeCommand extends SubCommand {
 
-	public ResizeCommand() {
-		super("powieksz", "powiekszanie terenu gildii", "", "rg.cmd.user.resize", "resize");
+	public EnlargeCommand() {
+		super("powieksz", "powiekszanie terenu gildii", "", "rg.cmd.user.enlarge", "resize", "enlarge");
 	}
 
 	@Override
@@ -30,7 +30,7 @@ public class ResizeCommand extends SubCommand {
 			return Util.sendMsg(p, Lang.ERROR_NOT_OWNER);
 
 		int modifier = (g.getCuboid().getSize() - Config.SIZE_START) / 5 + 1;
-		List<ItemStack> items = ItemUtil.getItems(Config.COST_ADDSIZE, modifier);
+		List<ItemStack> items = ItemUtil.getItems(Config.COST_ENLARGE, modifier);
 		
 		if (!ItemUtil.checkItems(items, p))
 			return Util.sendMsg(p, Lang.ERROR_DONT_HAVE_ITEMS);

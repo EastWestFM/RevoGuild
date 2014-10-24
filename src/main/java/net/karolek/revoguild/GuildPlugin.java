@@ -11,8 +11,10 @@ import net.karolek.revoguild.store.Store;
 import net.karolek.revoguild.store.StoreMode;
 import net.karolek.revoguild.store.modes.StoreMySQL;
 import net.karolek.revoguild.store.modes.StoreSQLITE;
+import net.karolek.revoguild.tasks.CheckValidityTask;
 import net.karolek.revoguild.utils.BlockUtil;
 import net.karolek.revoguild.utils.Logger;
+import net.karolek.revoguild.utils.TimeUtil;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
@@ -33,6 +35,7 @@ public class GuildPlugin extends JavaPlugin {
 		saveDefaultConfig();
 
 		Config.reloadConfig();
+		Lang.reloadLang();
 
 		if (!Config.ENABLED) {
 			Logger.info("This plugin is not activated in the configuration!", "To activate it, set the value 'enabled' to true!", "Plugin will be disabled!");
@@ -48,7 +51,6 @@ public class GuildPlugin extends JavaPlugin {
 		}
 
 		Manager.load();
-		Lang.reloadLang();
 
 		registerCommands();
 		registerListeners();
@@ -60,12 +62,7 @@ public class GuildPlugin extends JavaPlugin {
 
 	@Override
 	public void onDisable() {
-
-		// Config.saveConfig();
-
 		if (enabled) {
-
-			// Lang.saveLang();
 			Manager.unload();
 
 			if (store != null)
@@ -99,6 +96,7 @@ public class GuildPlugin extends JavaPlugin {
 			store.update(true, "CREATE TABLE IF NOT EXISTS `{P}members` (" + (store.getStoreMode() == StoreMode.MYSQL ? "`id` int(10) NOT NULL PRIMARY KEY AUTO_INCREMENT," : "`id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,") + "`uuid` varchar(36) NOT NULL,`tag` varchar(4) NOT NULL);");
 			store.update(true, "CREATE TABLE IF NOT EXISTS `{P}treasures` (" + (store.getStoreMode() == StoreMode.MYSQL ? "`id` int(10) NOT NULL PRIMARY KEY AUTO_INCREMENT," : "`id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,") + "`tag` varchar(4) NOT NULL,`content` longtext NOT NULL);");
 			store.update(true, "CREATE TABLE IF NOT EXISTS `{P}treasure_users` (" + (store.getStoreMode() == StoreMode.MYSQL ? "`id` int(10) NOT NULL PRIMARY KEY AUTO_INCREMENT," : "`id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,") + "`uuid` varchar(36) NOT NULL,`tag` varchar(4) NOT NULL);");
+			store.update(true, "CREATE TABLE IF NOT EXISTS `{P}alliances` (" + (store.getStoreMode() == StoreMode.MYSQL ? "`id` int(10) NOT NULL PRIMARY KEY AUTO_INCREMENT," : "`id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,") + "`guild_1` varchar(4) NOT NULL,`guild_2` varchar(4) NOT NULL);");
 		}
 		return conn;
 	}
@@ -125,12 +123,13 @@ public class GuildPlugin extends JavaPlugin {
 
 	protected void registerTasks() {
 		Logger.info("Register tasks...");
+		new CheckValidityTask().runTaskTimerAsynchronously(this, TimeUtil.HOUR.getTick(3), TimeUtil.HOUR.getTick(Config.TIME_CHECK));
 	}
-	
+
 	protected void registerOthers() {
 		Logger.info("Register others...");
-		if(Config.TNT_DURABILITY_ENABLED)
-			for(String s : Config.TNT_DURABILITY_BLOCKS)
+		if (Config.TNT_DURABILITY_ENABLED)
+			for (String s : Config.TNT_DURABILITY_BLOCKS)
 				BlockUtil.setDurability(s.split(" ")[0], Float.parseFloat(s.split(" ")[1]));
 	}
 

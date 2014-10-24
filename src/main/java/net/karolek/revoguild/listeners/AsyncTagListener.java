@@ -38,8 +38,8 @@ public class AsyncTagListener implements Listener {
 				tag = Config.TAG_COLOR_FRIEND;
 			}
 
-			// } else if ((g != null) && (AllianceManager.hasAlliance(g, o))) { //TODO sojusze
-			// tag = Config.TAG_COLOR_ALLIANCE;
+		} else if ((g != null) && (Manager.ALLIANCE.hasAlliance(g, o))) {
+			tag = Config.TAG_COLOR_ALLIANCE;
 		} else {
 			tag = Config.TAG_COLOR_ENEMY;
 		}
@@ -58,7 +58,7 @@ public class AsyncTagListener implements Listener {
 		format = format.replace("{COLOR}", tag);
 
 		format = o == null ? Util.fixColor(format) : Lang.parse(format, o);
-		
+
 		format = format.substring(0, Math.min(format.length(), 16));
 
 		if (!t.getPrefix().equals(format))

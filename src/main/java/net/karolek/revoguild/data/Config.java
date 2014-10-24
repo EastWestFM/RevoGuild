@@ -50,27 +50,21 @@ public class Config {
 
 	public static String				COST_CREATE					= "1:0-10;";
 	public static String				COST_JOIN					= "1:0-10;";
-	public static String				COST_KICK					= "1:0-10;";
 	public static String				COST_LEADER					= "1:0-10;";
 	public static String				COST_OWNER					= "1:0-10;";
-	public static String				COST_ADDSIZE				= "1:0-10;";
-	// public static String COST_ADDTIME = "1:0-10;";
+	public static String				COST_ENLARGE				= "1:0-10;";
+	public static String				COST_PROLONG				= "1:0-10;";
 
 	public static int					SIZE_START					= 24;
 	public static int					SIZE_MAX						= 74;
 	public static int					SIZE_ADD						= 1;
 	public static int					SIZE_BETWEEN				= 50;
 
-	public static int					TIME_START					= 7;
-
-	// public static int TIME_MAX = 14;
-	// public static int TIME_ADD = 7;
-	// public static int TIME_CHECK = 3;
-	// public static int TIME_PROTECTION = 24;
-
+	public static int					TIME_START					= 3;
+	public static int					TIME_MAX						= 14;
+	public static int					TIME_ADD						= 7;
+	public static int					TIME_CHECK					= 3;
 	public static int					TIME_TELEPORT				= 10;
-
-	// public static int TIME_BUILDAFTERTNT = 90;
 
 	public static void loadConfig() {
 		try {

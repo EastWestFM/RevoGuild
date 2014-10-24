@@ -34,6 +34,7 @@ public abstract class SubCommand extends Command {
 
 		Player p = (Player) sender;
 
+		
 		if (!p.hasPermission(this.permission))
 			return Util.sendMsg(p, "&cYou don't have permissions to run that command! &7(" + this.permission + ")");
 
