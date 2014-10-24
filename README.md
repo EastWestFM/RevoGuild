@@ -30,7 +30,7 @@ Komenda|Permisja|Opis działania
 
 Wszystkie komendy mogą być wykonywane jako **subkomenda** do komendy `/g` (przykład: `/g zaloz (tag) (nazwa)`) lub jako **osobne**, **indywidualne** komendy (przykład: `/zaloz (tag) (nazwa)`)
 
-
+======
 
 #### Konfiguracja (plik config.yml):
 ````yaml
@@ -108,4 +108,4 @@ config:
 
 ````
 
-
+=======
