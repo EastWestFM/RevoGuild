@@ -7,6 +7,14 @@ Rewolucyjny system gildii na Twój serwer! ;)
 Komenda|Permisja|Opis działania
 -------------|-------------|-------------
 /g (subkomenda)|rg.cmd.user|główna komenda systemu gildii
+/zaloz (tag) (nazwa)|rg.cmd.user.create|tworzenie gildii
+/usun|rg.cmd.user.delete|usuwanie gildii
+/sojusz (tag/nazwa)|rg.cmd.user.alliance|zarzadzanie sojuszami gildii
+/zapros (gracz)|rg.cmd.user.invite|zapraszanie gracza do gildii
+/dolacz (tag/nazwa)|rg.cmd.user.join|dolaczanie do gildii
+/wyrzuc (gracz)|rg.cmd.user.kick|wyrzucanie gracza z gildii
+/opisc|rg.cmd.user.leave|opuszczanie gildii
+/skarbiec [dodaj (gracz) / usun (gracz) / lista]|rg.cmd.user.treasure|zarzadzanie skarbcem gildii
 
 ###### Konfiguracja (plik config.yml):
 ````yaml
