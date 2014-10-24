@@ -3,9 +3,9 @@ RevoGuild
 
 Rewolucyjny system gildii na Twój serwer! ;)
 
-###### Komendy:
+##### Komendy:
 Komenda|Permisja|Opis działania
--------------|-------------|-------------
+:-------------:|:-------------:|:-------------:
 /g (subkomenda)|rg.cmd.user|główna komenda systemu gildii
 /zaloz (tag) (nazwa)|rg.cmd.user.create|tworzenie gildii
 /usun|rg.cmd.user.delete|usuwanie gildii
@@ -13,10 +13,22 @@ Komenda|Permisja|Opis działania
 /zapros (gracz)|rg.cmd.user.invite|zapraszanie gracza do gildii
 /dolacz (tag/nazwa)|rg.cmd.user.join|dolaczanie do gildii
 /wyrzuc (gracz)|rg.cmd.user.kick|wyrzucanie gracza z gildii
-/opisc|rg.cmd.user.leave|opuszczanie gildii
+/opusc|rg.cmd.user.leave|opuszczanie gildii
 /skarbiec [dodaj (gracz) / usun (gracz) / lista]|rg.cmd.user.treasure|zarzadzanie skarbcem gildii
+/dom|rg.cmd.user.home|teleportowanie do domu gildii
+/ustawdom|rg.cmd.user.sethome|ustawianie domu gildii
+/pvp|rg.cmd.user.pvp|zmienianie statusu pvp w gildii
+/info (tag/nazwa)|rg.cmd.user.info|wyswietlanie podstawowych informacji o gidlii
+/lider (gracz)|rg.cmd.user.leader|zmienianie lidera gildii
+/zalozyciel (gracz)|rg.cmd.user.owner|zmienianie zalozyciela gildii
+/lista|rg.cmd.user.list|wyswietlanie listy wszystkich gildii
+/powieksz|rg.cmd.user.enlarge|powiekszanie terenu gildii
+/przedluz|rg.cmd.user.prolong|przedluzanie waznosci gildii
 
-###### Konfiguracja (plik config.yml):
+
+
+
+##### Konfiguracja (plik config.yml):
 ````yaml
 config:
   enabled: true #Czy plugin ma byc aktywny: true/false
