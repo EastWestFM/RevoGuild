@@ -4,8 +4,8 @@ RevoGuild
 Rewolucyjny system gildii na Twój serwer! ;)
 
 ###### Lista TODO:
-- [ ] komendy administratora
-- [ ] wsparcie dla pluginów od czatu
+- [x] komendy administratora
+- [x] wsparcie dla pluginów od czatu
 - [ ] czat gildyjny oraz sojuszniczy
 - [ ] wsparcie dla pluginów rankingowych
 - [ ] tablista
