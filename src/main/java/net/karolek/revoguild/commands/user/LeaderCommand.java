@@ -3,6 +3,7 @@ package net.karolek.revoguild.commands.user;
 import java.util.List;
 
 import net.karolek.revoguild.base.Guild;
+import net.karolek.revoguild.base.User;
 import net.karolek.revoguild.commands.SubCommand;
 import net.karolek.revoguild.data.Config;
 import net.karolek.revoguild.data.Lang;
@@ -30,16 +31,16 @@ public class LeaderCommand extends SubCommand {
 		if (g == null)
 			return Util.sendMsg(p, Lang.ERROR_DONT_HAVE_GUILD);
 
-		if (!g.isOwner(p.getUniqueId()))
+		if (!g.isOwner(Manager.USER.getUser(p)))
 			return Util.sendMsg(p, Lang.ERROR_NOT_OWNER);
 
 		@SuppressWarnings("deprecation")
 		Player o = Bukkit.getPlayer(args[0]);
-
+		User u = Manager.USER.getUser(p);
 		if (o == null)
 			return Util.sendMsg(p, Lang.ERROR_CANT_FIND_PLAYER);
 
-		if (!g.isMember(o.getUniqueId()))
+		if (!g.isMember(u))
 			return Util.sendMsg(p, Lang.ERROR_PLAYER_ISNT_MEMBER);
 
 		List<ItemStack> items = ItemUtil.getItems(Config.COST_LEADER, 1);
@@ -47,7 +48,7 @@ public class LeaderCommand extends SubCommand {
 		if (!ItemUtil.checkAndRemove(items, p))
 			return Util.sendMsg(p, Lang.ERROR_DONT_HAVE_ITEMS);
 
-		g.setLeader(o.getUniqueId());
+		g.setLeader(u);
 
 		Util.sendMsg(p, Lang.INFO_LEADER_CHANGED);
 		return Util.sendMsg(o, Lang.INFO_NOW_LEADER);

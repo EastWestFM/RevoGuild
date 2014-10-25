@@ -1,8 +1,7 @@
 package net.karolek.revoguild.commands.user;
 
-import java.util.UUID;
-
 import net.karolek.revoguild.base.Guild;
+import net.karolek.revoguild.base.User;
 import net.karolek.revoguild.commands.SubCommand;
 import net.karolek.revoguild.data.Lang;
 import net.karolek.revoguild.manager.Manager;
@@ -27,24 +26,26 @@ public class TreasureCommand extends SubCommand {
 		if (g == null)
 			return Util.sendMsg(p, Lang.ERROR_DONT_HAVE_GUILD);
 
+		User pU = Manager.USER.getUser(p);
+		
 		if (args.length == 0) {
-			if (g.isTreasureUser(p.getUniqueId())) {
+			if (g.isTreasureUser(pU)) {
 				g.openTreasure(p);
 				return Util.sendMsg(p, Lang.INFO_TREASURE_OPENED);
 			}
 			return Util.sendMsg(p, Lang.ERROR_CANT_OPEN_TREASURE);
 		} else if (args.length >= 1) {
-			if (!g.isOwner(p.getUniqueId()))
+			if (!g.isOwner(pU))
 				return Util.sendMsg(p, Lang.ERROR_NOT_OWNER);
 			OfflinePlayer op = null;
-			UUID u = null;
+			User u = null;
 			switch (args[0]) {
 				case "dodaj":
 					if (args.length != 2)
 						return Util.sendMsg(p, Lang.parse(Lang.CMD_CORRECT_USAGE, this));
 
 					op = Bukkit.getOfflinePlayer(args[1]);
-					u = op.getUniqueId();
+					u = Manager.USER.getUser(op);
 
 					if (!g.isMember(u))
 						return Util.sendMsg(p, Lang.ERROR_PLAYER_ISNT_MEMBER);
@@ -61,7 +62,7 @@ public class TreasureCommand extends SubCommand {
 						return Util.sendMsg(p, Lang.parse(Lang.CMD_CORRECT_USAGE, this));
 
 					op = Bukkit.getOfflinePlayer(args[1]);
-					u = op.getUniqueId();
+					u = Manager.USER.getUser(op);
 
 					if (!g.isMember(u))
 						return Util.sendMsg(p, Lang.ERROR_PLAYER_ISNT_MEMBER);

@@ -7,6 +7,7 @@ import net.karolek.revoguild.utils.Logger;
 
 public class Manager {
 
+	public static UserManager		USER		= null;
 	public static TeleportManager	TELEPORT	= null;
 	public static GuildManager		GUILD		= null;
 	public static CommandManager	COMMAND	= null;

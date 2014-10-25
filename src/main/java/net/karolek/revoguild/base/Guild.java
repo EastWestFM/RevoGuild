@@ -4,7 +4,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 import lombok.Data;
 import net.karolek.revoguild.GuildPlugin;
@@ -12,10 +11,10 @@ import net.karolek.revoguild.data.Config;
 import net.karolek.revoguild.manager.Manager;
 import net.karolek.revoguild.store.Entry;
 import net.karolek.revoguild.utils.TimeUtil;
-import net.karolek.revoguild.utils.UUIDUtil;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -25,8 +24,8 @@ public class Guild implements Entry {
 
 	private final String		tag;
 	private final String		name;
-	private UUID				owner;
-	private UUID				leader;
+	private User				owner;
+	private User				leader;
 	private final Cuboid		cuboid;
 	private final Treasure	treasure;
 	private Location			home;
@@ -37,15 +36,15 @@ public class Guild implements Entry {
 	private int					lives;
 	private boolean			pvp;
 	private boolean			preDeleted;
-	private final Set<UUID>	members			= new HashSet<UUID>();
-	private final Set<UUID>	treasureUsers	= new HashSet<UUID>();
-	private final Set<UUID>	invites			= new HashSet<UUID>();
+	private final Set<User>	members			= new HashSet<User>();
+	private final Set<User>	treasureUsers	= new HashSet<User>();
+	private final Set<User>	invites			= new HashSet<User>();
 
 	public Guild(String tag, String name, Player owner) {
 		this.tag = tag;
 		this.name = name;
-		this.owner = owner.getUniqueId();
-		this.leader = owner.getUniqueId();
+		this.owner = Manager.USER.getUser(owner);
+		this.leader = Manager.USER.getUser(owner);
 		this.cuboid = new Cuboid(owner.getWorld().getName(), owner.getLocation().getBlockX(), owner.getLocation().getBlockZ(), 24);
 		this.treasure = new Treasure(this);
 		this.home = owner.getLocation();
@@ -61,8 +60,8 @@ public class Guild implements Entry {
 	public Guild(ResultSet rs) throws SQLException {
 		this.tag = rs.getString("tag");
 		this.name = rs.getString("name");
-		this.owner = UUIDUtil.fromString(rs.getString("owner"));
-		this.leader = UUIDUtil.fromString(rs.getString("leader"));
+		this.owner = Manager.USER.getUser(rs.getString("owner"));
+		this.leader = Manager.USER.getUser(rs.getString("leader"));
 		this.cuboid = new Cuboid(rs.getString("cuboidWorld"), rs.getInt("cuboidX"), rs.getInt("cuboidZ"), rs.getInt("cuboidSize"));
 		this.treasure = new Treasure(this, GuildPlugin.getStore().query("SELECT * FROM `{P}treasures` WHERE `tag` = '" + this.tag + "'"));
 		this.home = new Location(Bukkit.getWorld(rs.getString("homeWorld")), rs.getInt("homeX"), rs.getInt("homeY"), rs.getInt("homeZ"));
@@ -76,11 +75,11 @@ public class Guild implements Entry {
 
 		ResultSet r = GuildPlugin.getStore().query("SELECT * FROM `{P}members` WHERE `tag` = '" + this.tag + "'");
 		while (r.next())
-			this.members.add(UUIDUtil.fromString(r.getString("uuid")));
+			this.members.add(Manager.USER.getUser(r.getString("uuid")));
 
 		ResultSet r1 = GuildPlugin.getStore().query("SELECT * FROM `{P}treasure_users` WHERE `tag` = '" + this.tag + "'");
 		while (r1.next())
-			this.treasureUsers.add(UUIDUtil.fromString(r1.getString("uuid")));
+			this.treasureUsers.add(Manager.USER.getUser(r1.getString("uuid")));
 
 	}
 
@@ -102,97 +101,97 @@ public class Guild implements Entry {
 
 	public Set<Player> getOnlineMembers() {
 		Set<Player> online = new HashSet<Player>();
-		for (UUID u : this.members) {
-			Player p = Bukkit.getPlayer(u);
-			if (p != null)
-				online.add(p);
+		for (User u : this.members) {
+			OfflinePlayer op = u.getOfflinePlayer();
+			if (op.isOnline())
+				online.add(op.getPlayer());
 		}
 		return online;
 	}
 
-	public void setOwner(UUID u) {
+	public void setOwner(User u) {
 		this.owner = u;
-		GuildPlugin.getStore().update(false, "UPDATE `{P}guilds` SET `owner` = '" + UUIDUtil.toString(u) + "' WHERE `tag` = '" + this.tag + "'");
+		GuildPlugin.getStore().update(false, "UPDATE `{P}guilds` SET `owner` = '" + u.toString() + "' WHERE `tag` = '" + this.tag + "'");
 	}
 
-	public void setLeader(UUID u) {
+	public void setLeader(User u) {
 		this.leader = u;
-		GuildPlugin.getStore().update(false, "UPDATE `{P}guilds` SET `leader` = '" + UUIDUtil.toString(u) + "' WHERE `tag` = '" + this.tag + "'");
+		GuildPlugin.getStore().update(false, "UPDATE `{P}guilds` SET `leader` = '" + u.toString() + "' WHERE `tag` = '" + this.tag + "'");
 	}
 
-	public boolean isOwner(UUID u) {
+	public boolean isOwner(User u) {
 		return this.owner.equals(u);
 	}
 
-	public boolean isLeader(UUID u) {
+	public boolean isLeader(User u) {
 		if (isOwner(u))
 			return true;
 		return this.leader.equals(u);
 	}
 
-	public boolean isMember(UUID u) {
+	public boolean isMember(User u) {
 		return this.members.contains(u);
 	}
 
-	public boolean isTreasureUser(UUID u) {
+	public boolean isTreasureUser(User u) {
 		return this.treasureUsers.contains(u);
 	}
 
-	public void addTreasureUser(UUID u) {
-		GuildPlugin.getStore().update(false, "INSERT INTO `{P}treasure_users` (`id`,`uuid`,`tag`) VALUES(NULL, '" + UUIDUtil.toString(u) + "', '" + this.tag + "')");
+	public void addTreasureUser(User u) {
+		GuildPlugin.getStore().update(false, "INSERT INTO `{P}treasure_users` (`id`,`uuid`,`tag`) VALUES(NULL, '" + u.toString() + "', '" + this.tag + "')");
 		this.treasureUsers.add(u);
 	}
 
-	public void removeTreasureUser(UUID u) {
-		GuildPlugin.getStore().update(false, "DELETE FROM `{P}treasure_users` WHERE `uuid` = '" + UUIDUtil.toString(u) + "' AND `tag` = '" + this.tag + "'");
+	public void removeTreasureUser(User u) {
+		GuildPlugin.getStore().update(false, "DELETE FROM `{P}treasure_users` WHERE `uuid` = '" + u.toString() + "' AND `tag` = '" + this.tag + "'");
 		this.treasureUsers.remove(u);
 	}
 
-	public boolean hasInvite(UUID u) {
+	public boolean hasInvite(User u) {
 		return this.invites.contains(u);
 	}
 
-	public boolean addInvite(UUID u) {
+	public boolean addInvite(User u) {
 		if (hasInvite(u))
 			return false;
 		return this.invites.add(u);
 	}
 
-	public boolean removeInvite(UUID u) {
+	public boolean removeInvite(User u) {
 		return this.invites.remove(u);
 	}
 
-	public boolean addMember(UUID u) {
+	public boolean addMember(User u) {
 		if (!hasInvite(u))
 			return false;
 		if (isMember(u))
 			return false;
 		removeInvite(u);
 		this.members.add(u);
-		GuildPlugin.getStore().update(false, "INSERT INTO `{P}members` (`id`,`uuid`,`tag`) VALUES(NULL, '" + UUIDUtil.toString(u) + "', '" + this.tag + "')");
+		GuildPlugin.getStore().update(false, "INSERT INTO `{P}members` (`id`,`uuid`,`tag`) VALUES(NULL, '" + u.toString() + "', '" + this.tag + "')");
 		return true;
 	}
-	
+
 	public boolean addSize() {
-		if(!this.cuboid.addSize())
+		if (!this.cuboid.addSize())
 			return false;
 		GuildPlugin.getStore().update(false, "UPDATE `{P}guilds` SET `cuboidSize` = '" + this.cuboid.getSize() + "' WHERE `tag` = '" + this.tag + "'");
 		return true;
 	}
 
-	public boolean removeMember(UUID u) {
+	public boolean removeMember(User u) {
 		if (!isMember(u))
 			return false;
 		this.members.remove(u);
 		removeTreasureUser(u);
-		GuildPlugin.getStore().update(false, "DELETE FROM `{P}members` WHERE `uuid` = '" + UUIDUtil.toString(u) + "' AND `tag` = '" + this.tag + "'");
+		GuildPlugin.getStore().update(false, "DELETE FROM `{P}members` WHERE `uuid` = '" + u.toString() + "' AND `tag` = '" + this.tag + "'");
 
 		return true;
 	}
 
 	@Override
 	public void insert() {
-		String u = "INSERT INTO `{P}guilds` (`id`,`tag`,`name`,`owner`,`leader`,`cuboidWorld`,`cuboidX`,`cuboidZ`,`cuboidSize`,`homeWorld`,`homeX`,`homeY`,`homeZ`,`lives`,`createTime`,`expireTime`,`lastTakenLifeTime`,`pvp`) VALUES(NULL, '" + this.tag + "','" + this.name + "','" + UUIDUtil.toString(this.owner) + "','" + UUIDUtil.toString(this.leader) + "','" + this.cuboid.getWorld().getName() + "','" + this.cuboid.getCenterX() + "','" + this.cuboid.getCenterZ() + "','" + this.cuboid.getSize() + "','" + this.home.getWorld().getName() + "','" + this.home.getBlockX() + "','" + this.home.getBlockY() + "','" + this.home.getBlockZ() + "','" + this.lives + "','" + this.createTime + "','" + this.expireTime + "','" + this.lastTakenLifeTime + "','" + (this.pvp ? 1 : 0) + "')";
+		String u = "INSERT INTO `{P}guilds` (`id`,`tag`,`name`,`owner`,`leader`,`cuboidWorld`,`cuboidX`,`cuboidZ`,`cuboidSize`,`homeWorld`,`homeX`,`homeY`,`homeZ`,`lives`,`createTime`,`expireTime`,`lastTakenLifeTime`,`pvp`) VALUES(NULL, '" + this.tag + "','" + this.name + "','" + this.owner + "','" + this.leader + "','" + this.cuboid.getWorld().getName() + "','" + this.cuboid.getCenterX() + "','" + this.cuboid.getCenterZ() + "','" + this.cuboid.getSize() + "','" + this.home.getWorld().getName() + "','" + this.home.getBlockX() + "','" + this.home.getBlockY() + "','" + this.home.getBlockZ() + "','" + this.lives + "','" + this.createTime + "','" + this.expireTime + "','" + this.lastTakenLifeTime + "','" + (this.pvp ? 1 : 0) + "')";
 		GuildPlugin.getStore().update(false, u);
 	}
 

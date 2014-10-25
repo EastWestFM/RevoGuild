@@ -8,6 +8,7 @@ import java.util.List;
 import lombok.Getter;
 import net.karolek.revoguild.GuildPlugin;
 import net.karolek.revoguild.base.Guild;
+import net.karolek.revoguild.base.User;
 import net.karolek.revoguild.data.Config;
 import net.karolek.revoguild.manager.IManager;
 import net.karolek.revoguild.manager.Manager;
@@ -26,9 +27,10 @@ public class GuildManager implements IManager {
 	public Guild createGuild(String tag, String name, Player owner) {
 		Guild g = new Guild(tag, name, owner);
 		g.insert();
-		g.addInvite(owner.getUniqueId());
-		g.addMember(owner.getUniqueId());
-		g.addTreasureUser(owner.getUniqueId());
+		User u = Manager.USER.getUser(owner);
+		g.addInvite(u);
+		g.addMember(u);
+		g.addTreasureUser(u);
 		guilds.add(g);
 		Manager.TAG.getNameTag().createGuild(g, owner);
 		setGuildRoom(g);
@@ -67,7 +69,7 @@ public class GuildManager implements IManager {
 
 	public Guild getGuild(Player p) {
 		for (Guild g : guilds)
-			if (g.isMember(p.getUniqueId()))
+			if (g.isMember(Manager.USER.getUser(p)))
 				return g;
 		return null;
 	}

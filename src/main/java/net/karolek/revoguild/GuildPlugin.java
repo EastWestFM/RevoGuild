@@ -98,6 +98,7 @@ public class GuildPlugin extends JavaPlugin {
 			store.update(true, "CREATE TABLE IF NOT EXISTS `{P}treasures` (" + (store.getStoreMode() == StoreMode.MYSQL ? "`id` int(10) NOT NULL PRIMARY KEY AUTO_INCREMENT," : "`id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,") + "`tag` varchar(4) NOT NULL,`content` longtext NOT NULL);");
 			store.update(true, "CREATE TABLE IF NOT EXISTS `{P}treasure_users` (" + (store.getStoreMode() == StoreMode.MYSQL ? "`id` int(10) NOT NULL PRIMARY KEY AUTO_INCREMENT," : "`id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,") + "`uuid` varchar(36) NOT NULL,`tag` varchar(4) NOT NULL);");
 			store.update(true, "CREATE TABLE IF NOT EXISTS `{P}alliances` (" + (store.getStoreMode() == StoreMode.MYSQL ? "`id` int(10) NOT NULL PRIMARY KEY AUTO_INCREMENT," : "`id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,") + "`guild_1` varchar(4) NOT NULL,`guild_2` varchar(4) NOT NULL);");
+			store.update(true, "CREATE TABLE IF NOT EXISTS `{P}users` (" + (store.getStoreMode() == StoreMode.MYSQL ? "`id` int(10) NOT NULL PRIMARY KEY AUTO_INCREMENT," : "`id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,") + "`uuid` varchar(36) NOT NULL,`points` int(10) NOT NULL,`kills` int(10) NOT NULL,`deaths` int(10) NOT NULL,`timePlay` int(10) NOT NULL);");
 		}
 		return conn;
 	}

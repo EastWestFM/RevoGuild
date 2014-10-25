@@ -6,7 +6,6 @@ import net.karolek.revoguild.data.Lang;
 import net.karolek.revoguild.manager.Manager;
 import net.karolek.revoguild.utils.Util;
 
-import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
@@ -26,7 +25,7 @@ public class AllianceCommand extends SubCommand {
 		if (g == null)
 			return Util.sendMsg(p, Lang.ERROR_DONT_HAVE_GUILD);
 
-		if (!g.isOwner(p.getUniqueId()))
+		if (!g.isOwner(Manager.USER.getUser(p)))
 			return Util.sendMsg(p, Lang.ERROR_NOT_LEADER);
 
 		Guild o = Manager.GUILD.getGuild(args[0]);
@@ -45,7 +44,7 @@ public class AllianceCommand extends SubCommand {
 			return Util.sendMsg(Util.getOnlinePlayers(), Lang.parse(Lang.BC_GUILD_ALLIANCE_CREATED, g, o));
 		}
 
-		OfflinePlayer owner = Bukkit.getOfflinePlayer(o.getOwner());
+		OfflinePlayer owner = o.getOwner().getOfflinePlayer();
 
 		if (!owner.isOnline())
 			return Util.sendMsg(p, Lang.ERROR_OWNER_NOT_ONLINE);

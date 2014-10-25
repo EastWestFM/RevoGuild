@@ -3,20 +3,19 @@ package net.karolek.revoguild.data;
 import java.io.File;
 import java.io.InputStream;
 import java.lang.reflect.Field;
-import java.util.UUID;
+
+import net.karolek.revoguild.GuildPlugin;
+import net.karolek.revoguild.base.Guild;
+import net.karolek.revoguild.base.User;
+import net.karolek.revoguild.commands.SubCommand;
+import net.karolek.revoguild.utils.Logger;
+import net.karolek.revoguild.utils.Util;
 
 import org.apache.commons.lang.StringUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-
-import net.karolek.revoguild.GuildPlugin;
-import net.karolek.revoguild.utils.Logger;
-import net.karolek.revoguild.utils.Util;
-import net.karolek.revoguild.base.Guild;
-import net.karolek.revoguild.commands.SubCommand;
 
 public class Lang {
 
@@ -159,8 +158,8 @@ public class Lang {
 	public static String parse(String msg, Guild g) {
 		msg = msg.replace("{TAG}", g.getTag());
 		msg = msg.replace("{NAME}", g.getName());
-		msg = msg.replace("{OWNER}", Bukkit.getOfflinePlayer(g.getOwner()).getName());
-		msg = msg.replace("{LEADER}", Bukkit.getOfflinePlayer(g.getLeader()).getName());
+		msg = msg.replace("{OWNER}", g.getOwner().getOfflinePlayer().getName());
+		msg = msg.replace("{LEADER}", g.getLeader().getOfflinePlayer().getName());
 		msg = msg.replace("{CREATETIME}", Util.getDate(g.getCreateTime()));
 		msg = msg.replace("{EXPIRETIME}", Util.getDate(g.getExpireTime()));
 		msg = msg.replace("{SIZE}", Integer.toString(g.getCuboid().getSize()));
@@ -181,8 +180,8 @@ public class Lang {
 		msg = parse(msg, g);
 		msg = msg.replace("{TAG2}", g1.getTag());
 		msg = msg.replace("{NAME2}", g1.getName());
-		msg = msg.replace("{OWNER2}", Bukkit.getOfflinePlayer(g1.getOwner()).getName());
-		msg = msg.replace("{LEADER2}", Bukkit.getOfflinePlayer(g1.getLeader()).getName());
+		msg = msg.replace("{OWNER2}", g1.getOwner().getOfflinePlayer().getName());
+		msg = msg.replace("{LEADER2}", g1.getLeader().getOfflinePlayer().getName());
 		msg = msg.replace("{CREATETIME2}", Util.getDate(g1.getCreateTime()));
 		msg = msg.replace("{EXPIRETIME2}", Util.getDate(g1.getExpireTime()));
 		msg = msg.replace("{SIZE2}", Integer.toString(g1.getCuboid().getSize()));
@@ -208,8 +207,8 @@ public class Lang {
 		String[] members = new String[g.getMembers().size()];
 
 		int i = 0;
-		for (UUID u : g.getMembers()) {
-			OfflinePlayer op = Bukkit.getOfflinePlayer(u);
+		for (User u : g.getMembers()) {
+			OfflinePlayer op = u.getOfflinePlayer();
 			if (op.isOnline()) {
 				members[i] = ChatColor.GREEN + op.getName();
 			} else {
@@ -224,8 +223,8 @@ public class Lang {
 		String[] members = new String[g.getMembers().size()];
 
 		int i = 0;
-		for (UUID u : g.getTreasureUsers()) {
-			OfflinePlayer op = Bukkit.getOfflinePlayer(u);
+		for (User u : g.getTreasureUsers()) {
+			OfflinePlayer op = u.getOfflinePlayer();
 			if (op.isOnline()) {
 				members[i] = ChatColor.GREEN + op.getName();
 			} else {

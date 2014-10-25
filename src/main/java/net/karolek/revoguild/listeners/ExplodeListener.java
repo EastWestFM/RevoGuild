@@ -51,7 +51,7 @@ public class ExplodeListener implements Listener {
 		if (g == null)
 			return;
 
-		if (!g.isMember(p.getUniqueId()))
+		if (!g.isMember(Manager.USER.getUser(p)))
 			return;
 
 		// System.out.println((System.currentTimeMillis() -

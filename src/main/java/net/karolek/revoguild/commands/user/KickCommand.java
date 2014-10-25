@@ -1,6 +1,7 @@
 package net.karolek.revoguild.commands.user;
 
 import net.karolek.revoguild.base.Guild;
+import net.karolek.revoguild.base.User;
 import net.karolek.revoguild.commands.SubCommand;
 import net.karolek.revoguild.data.Lang;
 import net.karolek.revoguild.manager.Manager;
@@ -26,16 +27,16 @@ public class KickCommand extends SubCommand {
 		if (g == null)
 			return Util.sendMsg(p, Lang.ERROR_DONT_HAVE_GUILD);
 
-		if (!g.isLeader(p.getUniqueId()))
+		if (!g.isLeader(Manager.USER.getUser(p)))
 			return Util.sendMsg(p, Lang.ERROR_NOT_LEADER);
 
 		@SuppressWarnings("deprecation")
 		OfflinePlayer op = Bukkit.getOfflinePlayer(args[0]);
-
-		if (g.isLeader(op.getUniqueId()))
+		User u  = Manager.USER.getUser(op);
+		if (g.isLeader(u))
 			return Util.sendMsg(p, Lang.ERROR_CANT_KICK_LEADER_OR_OWNER);
 
-		if (!g.removeMember(op.getUniqueId()))
+		if (!g.removeMember(u))
 			return Util.sendMsg(p, Lang.ERROR_PLAYER_ISNT_MEMBER);
 
 		Manager.TAG.getNameTag().leaveFromGuild(g, op);

@@ -46,7 +46,7 @@ public class JoinCommand extends SubCommand {
 		if (!ItemUtil.checkItems(items, p))
 			return Util.sendMsg(p, Lang.ERROR_DONT_HAVE_ITEMS);
 
-		if (!g.addMember(p.getUniqueId()))
+		if (!g.addMember(Manager.USER.getUser(p)))
 			return Util.sendMsg(p, Lang.ERROR_DONT_HAVE_INVITE);
 
 		ItemUtil.removeItems(items, p);

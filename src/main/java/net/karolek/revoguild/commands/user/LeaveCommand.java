@@ -1,6 +1,7 @@
 package net.karolek.revoguild.commands.user;
 
 import net.karolek.revoguild.base.Guild;
+import net.karolek.revoguild.base.User;
 import net.karolek.revoguild.commands.SubCommand;
 import net.karolek.revoguild.data.Lang;
 import net.karolek.revoguild.manager.Manager;
@@ -21,15 +22,17 @@ public class LeaveCommand extends SubCommand {
 		if (g == null)
 			return Util.sendMsg(p, Lang.ERROR_DONT_HAVE_GUILD);
 
-		if (g.isOwner(p.getUniqueId()))
+		User u = Manager.USER.getUser(p);
+		
+		if (g.isOwner(u))
 			return Util.sendMsg(p, Lang.ERROR_OWNER_CANT_LEAVE_GUILD);
 
-		if (g.isLeader(p.getUniqueId())) {
+		if (g.isLeader(u)) {
 			g.setOwner(g.getOwner());
 			g.update(false);
 		}
 
-		g.removeMember(p.getUniqueId());
+		g.removeMember(u);
 
 		Manager.TAG.getNameTag().leaveFromGuild(g, p);
 

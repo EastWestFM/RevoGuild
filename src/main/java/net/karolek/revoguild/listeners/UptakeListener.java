@@ -64,7 +64,7 @@ public class UptakeListener implements Listener {
 
 		Player p = e.getPlayer();
 
-		if (g.isMember(p.getUniqueId()))
+		if (g.isMember(Manager.USER.getUser(p)))
 			return;
 
 		Guild o = Manager.GUILD.getGuild(p);

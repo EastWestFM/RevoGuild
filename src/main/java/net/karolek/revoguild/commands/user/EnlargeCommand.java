@@ -31,7 +31,7 @@ public class EnlargeCommand extends SubCommand {
 		if (g == null)
 			return Util.sendMsg(p, Lang.ERROR_DONT_HAVE_GUILD);
 
-		if (!g.isOwner(p.getUniqueId()))
+		if (!g.isOwner(Manager.USER.getUser(p)))
 			return Util.sendMsg(p, Lang.ERROR_NOT_OWNER);
 		
 		String algorithm = Config.ENLARGE_ALGORITHM;

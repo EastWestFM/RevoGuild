@@ -2,6 +2,7 @@ package net.karolek.revoguild.commands.user;
 
 
 import net.karolek.revoguild.base.Guild;
+import net.karolek.revoguild.base.User;
 import net.karolek.revoguild.commands.SubCommand;
 import net.karolek.revoguild.data.Lang;
 import net.karolek.revoguild.manager.Manager;
@@ -27,20 +28,21 @@ public class InviteCommand extends SubCommand {
 		if (g == null)
 			return Util.sendMsg(p, Lang.ERROR_DONT_HAVE_GUILD);
 
-		if (!g.isLeader(p.getUniqueId()))
+		if (!g.isLeader(Manager.USER.getUser(p)))
 			return Util.sendMsg(p, Lang.ERROR_NOT_LEADER);
 
 		@SuppressWarnings("deprecation")
 		Player o = Bukkit.getPlayer(args[0]);
+		User oU = Manager.USER.getUser(o);
 
 		if (o == null)
 			return Util.sendMsg(p, Lang.ERROR_CANT_FIND_PLAYER);
 
-		if (g.isMember(o.getUniqueId()))
+		if (g.isMember(oU))
 			return Util.sendMsg(p, Lang.ERROR_PLAYER_IS_MEMBER);
 
-		if (!g.addInvite(o.getUniqueId())) {
-			g.removeInvite(o.getUniqueId());
+		if (!g.addInvite(oU)) {
+			g.removeInvite(oU);
 			Util.sendMsg(p, Lang.parse(Lang.INFO_INVITE_BACK, o));
 			return Util.sendMsg(o, Lang.parse(Lang.INFO_INVITE_CANCEL, g));
 		}

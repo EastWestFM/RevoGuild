@@ -21,7 +21,7 @@ public class PvpCommand extends SubCommand {
 		if (g == null)
 			return Util.sendMsg(p, Lang.ERROR_DONT_HAVE_GUILD);
 
-		if (!g.isOwner(p.getUniqueId()))
+		if (!g.isOwner(Manager.USER.getUser(p)))
 			return Util.sendMsg(p, Lang.ERROR_NOT_OWNER);
 
 		g.setPvp(!g.isPvp());

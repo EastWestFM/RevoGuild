@@ -60,7 +60,7 @@ public class ActionsListener implements Listener {
 		
 		if(g == null) return;
 		
-		if(g.isMember(p.getUniqueId())) return;
+		if(g.isMember(Manager.USER.getUser(p))) return;
 		
 		e.setCancelled(true);
 		Util.sendMsg(p, Lang.ERROR_CANT_USE);
@@ -74,7 +74,7 @@ public class ActionsListener implements Listener {
 		if (g == null)
 			return false;
 
-		if (g.isMember(p.getUniqueId()))
+		if (g.isMember(Manager.USER.getUser(p)))
 			return false;
 
 		Util.sendMsg(p, message);

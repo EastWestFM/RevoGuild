@@ -14,6 +14,7 @@ public class Config {
 	private static final String	prefix						= "config.";
 
 	public static boolean			ENABLED						= false;
+	public static boolean			USEUUID						= true;
 
 	public static String				DATABASE_MODE				= "mysql";
 	public static String				DATABASE_TABLEPREFIX		= "ks_";
@@ -34,6 +35,11 @@ public class Config {
 
 	public static String				CHAT_TAGFORMAT				= "&8[&2{TAG}&8]&r ";
 
+	public static int					RANKING_STARTPOINTS		= 1000;
+	public static String				RANKING_ALGORITHM			= "({WIN} - {LOSE})/2";
+
+	public static String				ENLARGE_ALGORITHM			= "({CUBOID_SIZE} - 24)/5 +1";
+
 	public static boolean			ACTIONS_BLOCK_BREAK		= false;
 	public static boolean			ACTIONS_BLOCK_PLACE		= false;
 	public static boolean			ACTIONS_BUCKET_EMPTY		= false;
@@ -48,15 +54,12 @@ public class Config {
 	public static String				TREASURE_TITLE				= "Skarbiec gildii:";
 	public static int					TREASURE_ROWS				= 6;
 
-	// public static boolean TNT_ENABLED = false;
 	public static boolean			TNT_OFF_ENABLED			= false;
 	public static List<Integer>	TNT_OFF_HOURS				= Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8);
 	public static boolean			TNT_CANTBUILD_ENABLED	= false;
 	public static int					TNT_CANTBUILD_TIME		= 90;
 	public static boolean			TNT_DURABILITY_ENABLED	= false;
 	public static List<String>		TNT_DURABILITY_BLOCKS	= Arrays.asList("OBSIDIAN 73.6", "WATER 10.0", "STATIONARY_WATER 10.0");
-
-	public static String				ENLARGE_ALGORITHM			= "({CUBOID_SIZE} - 24)/5 +1";
 
 	public static String				COST_CREATE					= "1:0-10;";
 	public static String				COST_JOIN					= "1:0-10;";
