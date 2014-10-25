@@ -27,9 +27,10 @@ public class UserManager implements IManager {
 	}
 
 	public User getUser(String s) {
-		for (User u : users)
-			if (u.toString().equals(s))
-				return u;
+		for (User u : users) {
+			//System.out.println(u.toString() + "==" + s);
+			if (u.toString().equals(s)) { return u; }
+		}
 		return null;
 	}
 

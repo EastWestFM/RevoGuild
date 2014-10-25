@@ -68,8 +68,22 @@ public class GuildManager implements IManager {
 	}
 
 	public Guild getGuild(Player p) {
+		User u = Manager.USER.getUser(p);
 		for (Guild g : guilds)
-			if (g.isMember(Manager.USER.getUser(p)))
+			// {
+			// System.out.println(g.getMembers());
+			// boolean is = g.isMember(u);
+			// if (!is) {
+			// for (User o : g.getMembers())
+			// if (o.equals(u)) {
+			// is = true;
+			// // break;
+			// }
+			// }
+			// if (is)
+			// return g;
+			// }
+			if (g.isMember(u))
 				return g;
 		return null;
 	}
@@ -84,19 +98,18 @@ public class GuildManager implements IManager {
 
 	private void setGuildRoom(Guild g) {
 		Location center = g.getCuboid().getCenter();
-		center.subtract(0, 1, 0);
-		for (Location loc : SpaceUtil.getSquare(center, 4, 4))
+		for (Location loc : SpaceUtil.getSquare(center, 4, 5))
 			loc.getBlock().setType(Material.AIR);
 		for (Location loc : SpaceUtil.getSquare(center, 4))
 			loc.getBlock().setType(Material.OBSIDIAN);
 		center.add(0, 1, 0);
 		center.getBlock().setType(Material.DRAGON_EGG);
-		for (Location loc : SpaceUtil.getCorners(center, 4, 3))
+		for (Location loc : SpaceUtil.getCorners(center, 4, 4))
 			loc.getBlock().setType(Material.OBSIDIAN);
-		center.add(0, 3, 0);
+		center.add(0, 4, 0);
 		for (Location loc : SpaceUtil.getWalls(center, 4))
 			loc.getBlock().setType(Material.OBSIDIAN);
-		g.getCuboid().getCenter().getBlock().setType(Material.BEDROCK);
+		g.getCuboid().getCenter().getBlock().setType(Material.BEDROCK);;
 	}
 
 	@Override

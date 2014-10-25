@@ -23,9 +23,11 @@ public class Logger {
 			GuildPlugin.getPlugin().getLogger().log(Level.SEVERE, s);
 	}
 
-	public static boolean exception(Throwable cause) {
-		if (cause == null) { return true; }
-		return exception(cause.getMessage(), cause.getStackTrace());
+	public static void exception(Throwable cause) {
+		if (cause == null) {return;}
+		if (cause.getStackTrace() == null)
+			cause.printStackTrace();
+		exception(cause.getMessage(), cause.getStackTrace());
 	}
 
 	private static boolean exception(String cause, StackTraceElement[] ste) {

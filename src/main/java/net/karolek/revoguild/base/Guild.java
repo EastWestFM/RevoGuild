@@ -5,7 +5,8 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import net.karolek.revoguild.GuildPlugin;
 import net.karolek.revoguild.data.Config;
 import net.karolek.revoguild.manager.Manager;
@@ -19,7 +20,8 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
-@Data
+@Getter
+@Setter
 public class Guild implements Entry {
 
 	private final String		tag;
@@ -130,10 +132,20 @@ public class Guild implements Entry {
 	}
 
 	public boolean isMember(User u) {
+		// boolean is = false;
+		// for (User o : this.members)
+		// if (o.equals(u))
+		// is = true;
+		// return is;
 		return this.members.contains(u);
 	}
 
 	public boolean isTreasureUser(User u) {
+		//boolean is = false;
+		//for (User o : this.treasureUsers)
+		//	if (o.equals(u))
+		//		is = true;
+		//return is;
 		return this.treasureUsers.contains(u);
 	}
 
@@ -148,6 +160,11 @@ public class Guild implements Entry {
 	}
 
 	public boolean hasInvite(User u) {
+		//boolean is = false;
+		//for (User o : this.invites)
+		//	if (o.equals(u))
+		//		is = true;
+		//return is;
 		return this.invites.contains(u);
 	}
 

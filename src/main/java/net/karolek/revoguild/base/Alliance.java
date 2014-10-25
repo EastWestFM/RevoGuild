@@ -3,12 +3,14 @@ package net.karolek.revoguild.base;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.karolek.revoguild.GuildPlugin;
 import net.karolek.revoguild.manager.Manager;
 import net.karolek.revoguild.store.Entry;
-import lombok.Data;
 
-@Data
+@Getter
+@Setter
 public class Alliance implements Entry {
 
 	private final Guild	guild1, guild2;

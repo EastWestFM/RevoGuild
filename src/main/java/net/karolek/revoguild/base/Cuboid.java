@@ -1,6 +1,7 @@
 package net.karolek.revoguild.base;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import net.karolek.revoguild.data.Config;
 
 import org.bukkit.Bukkit;
@@ -9,7 +10,8 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
-@Data
+@Getter
+@Setter
 public class Cuboid {
 
 	private final World	world;

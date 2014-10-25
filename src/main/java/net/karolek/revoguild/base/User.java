@@ -4,17 +4,19 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
 
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
-
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import net.karolek.revoguild.GuildPlugin;
 import net.karolek.revoguild.data.Config;
 import net.karolek.revoguild.store.Entry;
 import net.karolek.revoguild.utils.UUIDUtil;
 
-@Data
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
+
+@Getter
+@Setter
 public class User implements Entry {
 
 	private final UUID	uuid;

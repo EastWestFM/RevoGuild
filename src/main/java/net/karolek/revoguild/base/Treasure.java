@@ -4,19 +4,20 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
 
-import lombok.Data;
-
-import org.bukkit.Bukkit;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-
+import lombok.Getter;
+import lombok.Setter;
 import net.karolek.revoguild.GuildPlugin;
 import net.karolek.revoguild.data.Config;
 import net.karolek.revoguild.store.Entry;
 import net.karolek.revoguild.utils.ItemSerializer;
 import net.karolek.revoguild.utils.Util;
 
-@Data
+import org.bukkit.Bukkit;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+
+@Getter
+@Setter
 public class Treasure implements Entry {
 
 	private Guild			owner;

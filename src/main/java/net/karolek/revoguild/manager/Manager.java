@@ -10,9 +10,10 @@ public class Manager {
 	public static UserManager		USER		= null;
 	public static TeleportManager	TELEPORT	= null;
 	public static GuildManager		GUILD		= null;
-	public static CommandManager	COMMAND	= null;
 	public static TagManager		TAG		= null;
 	public static AllianceManager	ALLIANCE	= null;
+	public static CommandManager	COMMAND	= null;
+
 
 	public static void load() {
 		try {
