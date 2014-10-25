@@ -24,7 +24,8 @@ public class Lang {
 	private static File					file											= new File(GuildPlugin.getPlugin().getDataFolder(), "lang.yml");
 	private static FileConfiguration	c												= null;
 
-	public static String					CMD_MAIN_HELP								= "Dostepne komendy: \n/g zaloz <tag> <nazwa> - tworzy gildie\n/g usun - usuwa gildie\n/g dom - teleportuje do domu gildii\n/g info <tag/nazwa> - wyswietla informacje o gildii\n/g zapros <gracz> - zaprasza gracza do gildii\n/g dolacz <tag/nazwa> - dolacza do wybranej gildii\n/g wyrzuc <gracz> - wyrzuca gracza z gildii \n/g lider <gracz> - zmienia lidera gildii\n/g opusc - opuszcza gildie\n/g lista - wyswietla liste wszystkich gildii\n/g zalozyciel <gracz> - zmienia zalozyciela gidldii\n/g pvp - zmienia status pvp w gildii\n/g powieksz - powieksza teren gildii\n/g ustawdom - ustawia dom gildii\n/g skarbiec [dodaj <gracz> | usun <gracz> | lista] - otwiera skarbiec gildii [dodaje gracza do skarbca | usuwa gracza ze skarbca | lista graczy uprawniony do skarbca]";
+	public static String					CMD_MAIN_HELP								= "Dostepne komendy: \n/g zaloz <tag> <nazwa> - tworzy gildie\n/g przedluz - przedlaza waznsoc gildii\n/g sojusz <tag/nazwa> - zarzadzanie sojuszami gildii\n/g usun - usuwa gildie\n/g dom - teleportuje do domu gildii\n/g info <tag/nazwa> - wyswietla informacje o gildii\n/g zapros <gracz> - zaprasza gracza do gildii\n/g dolacz <tag/nazwa> - dolacza do wybranej gildii\n/g wyrzuc <gracz> - wyrzuca gracza z gildii \n/g lider <gracz> - zmienia lidera gildii\n/g opusc - opuszcza gildie\n/g lista - wyswietla liste wszystkich gildii\n/g zalozyciel <gracz> - zmienia zalozyciela gidldii\n/g pvp - zmienia status pvp w gildii\n/g powieksz - powieksza teren gildii\n/g ustawdom - ustawia dom gildii\n/g skarbiec [dodaj <gracz> | usun <gracz> | lista] - otwiera skarbiec gildii [dodaje gracza do skarbca | usuwa gracza ze skarbca | lista graczy uprawniony do skarbca]";
+	public static String					CMD_MAIN_ADMIN_HELP						= "Dostepne komendy dla adminsitratora: \n/ga tp <tag/nazwa> - teleportuje do wybranej gildii\n/ga reload - przeladowanie plikow konfiguracyjnych\n/ga usun <tag/nazwa> - usuwa wybrana gildie";
 	public static String					CMD_CORRECT_USAGE							= "Prawidlowe uzycie: /g {NAME} {USAGE}!";
 
 	public static String					ERROR_HAVE_GUILD							= "Blad: Masz juz gildie!";
@@ -55,6 +56,8 @@ public class Lang {
 	public static String					ERROR_CANT_ATTACK_PLAYER				= "Blad: Nie mozesz atakowac tego gracza!";
 	public static String					ERROR_CANT_ADD_TIME						= "Blad: Waznosc gildii nie moze byc wieksza niz 14 dni!";
 	public static String					ERROR_OWNER_NOT_ONLINE					= "Blad: Zalozyciel gildii nie jest online!";
+	public static String					ERROR_CANT_BUILD_NEAR_EGG				= "Blad: Nie mozesz budowac w poblizu smoczego jaja!";
+	public static String					ERROR_CANT_USE								= "Blad: Nie mozesz tego uzywac!";
 
 	public static String					INFO_CONFIRM_DELETE						= "Potwierdz usuniecie gildii: /g usun!";
 	public static String					INFO_INVITE_SEND							= "Zaproszenie zostalo wyslane!";
@@ -82,6 +85,7 @@ public class Lang {
 	public static String					INFO_PROLONGED_VALIDITY					= "Przedluzo waznosc gildii!";
 	public static String					INFO_ALLY_NEW								= "Twoja gildia zostala zaproszona do sojuszu przez gildie [{TAG}] {NAME}! Zaakceptuj uzywajac /g sojusz {TAG}!";
 	public static String					INFO_ALLY_SEND								= "Zaprosiles gildie [{TAG}] {NAME} do sojuszu!";
+	public static String					INFO_RELOADED								= "Przeladowano plik config.yml oraz lang.yml!";
 
 	public static String					TELEPORT_START								= "Teleport nastapi za {TIME} sekund! Prosze sie nie ruszac!";
 	public static String					TELEPORT_END								= "Przeteleportowano!";
@@ -90,6 +94,8 @@ public class Lang {
 	public static String					LIST_HEADER									= "======= Lista wszystkich gildii =======";
 	public static String					LIST_ELEMENT								= "{TAG}  --  {NAME}  --  {OWNER}";
 	public static String					LIST_FOOTER									= "=======================================";
+
+	public static String					ADMIN_BC_GUILD_DELETED					= "Gildia [{TAG}] {NAME} zostala usunieta przez administratora {PLAYER}!";
 
 	public static String					BC_GUILD_CREATED							= "Gildia [{TAG}] {NAME} zostala utworzona przez {OWNER}!";
 	public static String					BC_GUILD_DELETED							= "Gildia [{TAG}] {NAME} zostala usunieta przez {OWNER}!";

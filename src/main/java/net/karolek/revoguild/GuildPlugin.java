@@ -1,6 +1,7 @@
 package net.karolek.revoguild;
 
 import lombok.Getter;
+import net.karolek.revoguild.commands.GuildAdminCommand;
 import net.karolek.revoguild.commands.GuildCommand;
 import net.karolek.revoguild.data.Config;
 import net.karolek.revoguild.data.Lang;
@@ -104,12 +105,13 @@ public class GuildPlugin extends JavaPlugin {
 	protected void registerCommands() {
 		Logger.info("Register commands...");
 		Manager.COMMAND.register(new GuildCommand());
+		Manager.COMMAND.register(new GuildAdminCommand());
 	}
 
 	protected void registerListeners() {
 		Logger.info("Register listeners...");
 		PluginManager pm = Bukkit.getPluginManager();
-		pm.registerEvents(new BuildListener(), this);
+		pm.registerEvents(new ActionsListener(), this);
 		pm.registerEvents(new ExplodeListener(), this);
 		pm.registerEvents(new MoveListener(), this);
 		pm.registerEvents(new TeleportListener(), this);
@@ -117,6 +119,7 @@ public class GuildPlugin extends JavaPlugin {
 		pm.registerEvents(new InventoryListener(), this);
 		pm.registerEvents(new DamageListener(), this);
 		pm.registerEvents(new UptakeListener(), this);
+		pm.registerEvents(new AsyncChatListener(), this);
 		if (NameTagMode.getByName(Config.TAG_MODE).equals(NameTagMode.TAG_API))
 			pm.registerEvents(new AsyncTagListener(), this);
 	}

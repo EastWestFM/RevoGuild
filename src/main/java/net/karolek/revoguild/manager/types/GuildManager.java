@@ -32,6 +32,9 @@ public class GuildManager implements IManager {
 		guilds.add(g);
 		Manager.TAG.getNameTag().createGuild(g, owner);
 		setGuildRoom(g);
+		owner.teleport(g.getCuboid().getCenter());
+		g.setHome(g.getCuboid().getCenter());
+		g.update(false);
 		return g;
 	}
 
@@ -76,17 +79,22 @@ public class GuildManager implements IManager {
 				return false;
 		return true;
 	}
-	
+
 	private void setGuildRoom(Guild g) {
-		Location center  = g.getCuboid().getCenter();
-		for(Location loc : SpaceUtil.getSquare(center, 4, 5)) loc.getBlock().setType(Material.AIR);
-		for(Location loc : SpaceUtil.getSquare(center, 4)) loc.getBlock().setType(Material.OBSIDIAN);
-		center.add(0,1,0);
+		Location center = g.getCuboid().getCenter();
+		center.subtract(0, 1, 0);
+		for (Location loc : SpaceUtil.getSquare(center, 4, 4))
+			loc.getBlock().setType(Material.AIR);
+		for (Location loc : SpaceUtil.getSquare(center, 4))
+			loc.getBlock().setType(Material.OBSIDIAN);
+		center.add(0, 1, 0);
 		center.getBlock().setType(Material.DRAGON_EGG);
-		for(Location loc : SpaceUtil.getCorners(center, 4, 4)) loc.getBlock().setType(Material.OBSIDIAN);
-		center.add(0,4,0);
-		for(Location loc : SpaceUtil.getWalls(center, 4)) loc.getBlock().setType(Material.OBSIDIAN);
-		g.getCuboid().getCenter().getBlock().setType(Material.BEDROCK);;
+		for (Location loc : SpaceUtil.getCorners(center, 4, 3))
+			loc.getBlock().setType(Material.OBSIDIAN);
+		center.add(0, 3, 0);
+		for (Location loc : SpaceUtil.getWalls(center, 4))
+			loc.getBlock().setType(Material.OBSIDIAN);
+		g.getCuboid().getCenter().getBlock().setType(Material.BEDROCK);
 	}
 
 	@Override

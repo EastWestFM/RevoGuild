@@ -9,6 +9,7 @@ import java.util.UUID;
 import lombok.Data;
 import net.karolek.revoguild.GuildPlugin;
 import net.karolek.revoguild.data.Config;
+import net.karolek.revoguild.manager.Manager;
 import net.karolek.revoguild.store.Entry;
 import net.karolek.revoguild.utils.TimeUtil;
 import net.karolek.revoguild.utils.UUIDUtil;
@@ -171,6 +172,13 @@ public class Guild implements Entry {
 		GuildPlugin.getStore().update(false, "INSERT INTO `{P}members` (`id`,`uuid`,`tag`) VALUES(NULL, '" + UUIDUtil.toString(u) + "', '" + this.tag + "')");
 		return true;
 	}
+	
+	public boolean addSize() {
+		if(!this.cuboid.addSize())
+			return false;
+		GuildPlugin.getStore().update(false, "UPDATE `{P}guilds` SET `cuboidSize` = '" + this.cuboid.getSize() + "' WHERE `tag` = '" + this.tag + "'");
+		return true;
+	}
 
 	public boolean removeMember(UUID u) {
 		if (!isMember(u))
@@ -200,8 +208,10 @@ public class Guild implements Entry {
 	public void delete() {
 		GuildPlugin.getStore().update(true, "DELETE FROM `{P}guilds` WHERE `tag` = '" + this.tag + "'");
 		GuildPlugin.getStore().update(true, "DELETE FROM `{P}members` WHERE `tag` = '" + this.tag + "'");
-		GuildPlugin.getStore().update(true, "DELETE FROM `{P}treasures` WHERE `tag` = '" + this.tag + "'");
 		GuildPlugin.getStore().update(true, "DELETE FROM `{P}treasure_users` WHERE `tag` = '" + this.tag + "'");
+		this.treasure.delete();
+		for (Alliance a : Manager.ALLIANCE.getGuildAlliances(this))
+			a.delete();
 	}
 
 }

@@ -32,6 +32,14 @@ public class Config {
 	public static String				TAG_COLOR_ENEMY			= "&c";
 	public static String				TAG_COLOR_ALLIANCE		= "&6";
 
+	public static String				CHAT_TAGFORMAT				= "&8[&2{TAG}&8]&r ";
+
+	public static boolean			ACTIONS_BLOCK_BREAK		= false;
+	public static boolean			ACTIONS_BLOCK_PLACE		= false;
+	public static boolean			ACTIONS_BUCKET_EMPTY		= false;
+	public static boolean			ACTIONS_BUCKET_FILL		= false;
+	public static List<Integer>	ACTIONS_PROTECTEDID		= Arrays.asList(54);
+
 	public static boolean			UPTAKE_ENABLED				= false;
 	public static int					UPTAKE_LIVES_AMOUNT		= 3;
 	public static int					UPTAKE_LIVES_TIME			= 24;
@@ -47,6 +55,8 @@ public class Config {
 	public static int					TNT_CANTBUILD_TIME		= 90;
 	public static boolean			TNT_DURABILITY_ENABLED	= false;
 	public static List<String>		TNT_DURABILITY_BLOCKS	= Arrays.asList("OBSIDIAN 73.6", "WATER 10.0", "STATIONARY_WATER 10.0");
+
+	public static String				ENLARGE_ALGORITHM			= "({CUBOID_SIZE} - 24)/5 +1";
 
 	public static String				COST_CREATE					= "1:0-10;";
 	public static String				COST_JOIN					= "1:0-10;";
