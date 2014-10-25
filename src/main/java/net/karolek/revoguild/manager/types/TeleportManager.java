@@ -23,7 +23,7 @@ public class TeleportManager implements IManager {
 	private HashMap<UUID, BukkitTask>	teleports	= null;	;
 
 	public void teleport(Player p, Location loc, int time) {
-		if (p.hasPermission("sguilds.teleport.nodelay"))
+		if (p.hasPermission("rg.teleport.nodelay"))
 			p.teleport(loc);
 		else
 			teleportWithDelay(p, loc, time);
