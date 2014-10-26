@@ -202,7 +202,7 @@ tablist:
   17: '&7|Godzina: |&c{TIME}'
   18: '&7|1.&r&6 |{GTOP-1}'
   19: '&7|2.&6 |{PTOP-2}'
-  20: '&7|Zabójstwa: |&c{KILLS}'
+  20: '&7|Zabojstwa: |&c{KILLS}'
   21: '&7|2.&r&6 |{GTOP-2}'
   22: '&7|3.&6 |{PTOP-3}'
   23: '&7|Smierci: |&c{DEATHS}'
