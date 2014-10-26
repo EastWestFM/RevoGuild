@@ -28,7 +28,7 @@ public class PacketUtil {
 		handleMethod = Reflection.getMethod(Reflection.getCraftBukkitClass("entity.CraftEntity"), "getHandle");
 		sendPacket = Reflection.getMethod(Reflection.getMinecraftClass("PlayerConnection"), "sendPacket", Reflection.getMinecraftClass("Packet"));
 		playerConnection = Reflection.getSimpleField(Reflection.getMinecraftClass("EntityPlayer"), "playerConnection");
-		lastPing = Reflection.getField(Reflection.getMinecraftClass("EntityPlayer"), "lastPing", int.class);
+		lastPing = Reflection.getField(Reflection.getMinecraftClass("EntityPlayer"), "ping", int.class);
 	}
 
 }
