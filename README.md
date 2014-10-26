@@ -7,8 +7,8 @@ Rewolucyjny system gildii na Twój serwer! ;)
 - [x] komendy administratora
 - [x] wsparcie dla pluginów od czatu
 - [ ] czat gildyjny oraz sojuszniczy
-- [ ] wsparcie dla pluginów rankingowych
-- [ ] tablista
+- [x] wsparcie dla pluginów rankingowych
+- [x] tablista
 - [ ] optymalizacja! :smile:
 
 ========
@@ -38,6 +38,26 @@ Komenda|Uprawnienie|Opis działania
 
 Wszystkie komendy mogą być wykonywane jako **subkomenda** do komendy `/g` (przykład: `/g zaloz (tag) (nazwa)`) lub jako **osobne**, **indywidualne** komendy (przykład: `/zaloz (tag) (nazwa)`)
 
+========
+#### Komendy administratora:
+
+Komenda|Uprawnienie|Opis działania
+:-------------|:-------------:|:-------------
+/ga (subkomenda)|rg.cmd.admin|główna komenda 
+/ga usun (tag/nazwa)|rg.cmd.admin.delete|usuwanie gildii
+/ga tp (tag/nazwa|rg.cmd.admin.tp|teleport do gildii
+/ga reload|rg.cmd.admin.reload|przeladowanie plikow konfiguracyjnych
+
+========
+#### Komendy dot. rankingu:
+
+Komenda|Uprawnienie|Opis działania
+:-------------|:-------------:|:-------------
+/ranking [gracz]|rg.cmd.user.ranking|wyświetlanie rankingu gracza 
+/top|rg.cmd.user.top|lista top10 graczy
+
+
+
 =======
 #### Zmienne (plik lang.yml):
 
@@ -61,40 +81,65 @@ Istnieją również zmienne dotyczące drugiej gildii, jednak ze względu na ich
 #### Konfiguracja (plik config.yml):
 ````yaml
 config:
-  enabled: true #Czy plugin ma byc aktywny: true/false
+  enabled: false
+  useuuid: true
   database:
-    mode: mysql #Tryb bazy danych: mysql/sqlite
-    tableprefix: ks_ #Prefix tabel bazy danych
+    mode: mysql
+    tableprefix: ks_
     mysql:
-      host: 185.5.96.166 #Host bazy danych MySQL
-      port: 3306 #Port bazy danych MySQL
-      user: sid1276_c4u #Użytkownik bazy danych MySQL
-      pass: ZAQ!2wsx #Hasło użytkownika bazy danych MySQL
-      name: sid1276_c4u #Nazwa bazy danych MySQL
+      host: localhost
+      port: 3306
+      user: root
+      pass: ''
+      name: minecraft
     sqlite:
-      name: minecraft.db #Nazwa bazy danych SQLite
+      name: minecraft.db
   tag:
-    mode: tagapi #Tryb tagów nad głową gracza: tagapi/scoreboard (polecam wybór opcji tagapi (wymagany plugin TagAPI) ze względu na wydajność)
-    format: '&8[{COLOR}{TAG}&8] {COLOR}' #Format tagu gracza. {COLOR} oznacza kolor rejacji
-    color: #Kolory poszczegolnych relacji
-      noguild: '&7' #Brak gildii
-      friend: '&a' #Członek naszej gildii
-      friendpvp: '&9' #Członek naszej gildii, w której pvp jest włączone
-      enemy: '&c' #Wróg
-      alliance: '&6' #Sojusznik
-  uptake: 
-    enabled: false #Mozliwosc przejmowania gildii: true/false
-    lives: 
-      amount: 3 #Ilosc zyc gildii
-      time: 24 #Czas pomiedzy przejmowaniem zycia gildii przez inna gildie. W godzinach.
+    mode: tagapi
+    format: '&8[{COLOR}{TAG}&8] {COLOR}'
+    color:
+      noguild: '&7'
+      friend: '&a'
+      friendpvp: '&9'
+      enemy: '&c'
+      alliance: '&6'
+  chat:
+    format:
+      tag: '&8[&2{TAG}&8]&r '
+      rank: '&8[&2{RANK}&8]&r '
+      tagdeathmsg: '&7[&2{TAG}&7]&r '
+  ranking:
+    startpoints: 1000
+    deathmessage: '&2Gracz {PGUILD} &7{PLAYER} ({LOSEPOINTS}) &2zostal zabity przez
+      {KGUILD} &7{KILLER} ({WINPOINTS})&2!'
+    algorithm:
+      win: (300 + (({KILLER_POINTS} - {PLAYER_POINTS}) * (-0.2)))
+      lose: Math.abs({WIN_POINTS}/2)
+  enlarge:
+    algorithm: ({CUBOID_SIZE} - 24)/5 +1
+  actions:
+    block:
+      break: false
+      place: false
+    bucket:
+      empty: false
+      fill: false
+    protectedid:
+    - 54
+  uptake:
+    enabled: false
+    lives:
+      start: 3
+      max: 6
+      time: 24
   treasure:
-    enabled: false #Mozliwosc korzystania ze skarbca gildii: true/false
-    title: 'Skarbiec gildii:' #Nazwa skarbca gildii
-    rows: 6 #Ilosc wierszy ekwipunku skarbca
+    enabled: false
+    title: 'Skarbiec gildii:'
+    rows: 6
   tnt:
     'off':
-      enabled: false #Czy tnt ma byc wylaczone w podanych godzinach: true/false
-      hours: #Godziny w ktorych TNT jest nie aktywne
+      enabled: false
+      hours:
       - 0
       - 1
       - 2
@@ -104,34 +149,86 @@ config:
       - 6
       - 7
       - 8
+    protection:
+      enabled: false
+      time: 24
     cantbuild:
-      enabled: false #Mozliwosc budowania po wybuchu tnt: true/false
-      time: 90 #Czas, po którym mozna budowac
+      enabled: false
+      time: 90
     durability:
-      enabled: false #Mozliwosc zmiany wytrzymalosci blokow podczas wybuchu TNT: true/false
-      blocks: #Lista blokow: <NAZWA_BLOKU> WYTRZYMALOSC
+      enabled: false
+      blocks:
       - OBSIDIAN 73.6
       - WATER 10.0
       - STATIONARY_WATER 10.0
-  cost: #Koszt wykonania poszzegolnych akcji na serwerze. Zapis 1:0-10; oznacza, że potrzebujemy 10 stone. Aby dodać kolejny przedmiot wystarczy dopisac <id>:<subid>-ilosc; po sredniku
-    create: 1:0-10; #Tworzenie gildii
-    join: 1:0-10; #Dolaczanie do gildii
-    leader: 1:0-10; #Zmiana lidera gildii
-    owner: 1:0-10; #Zmiana zalozyciela gildii
-    enlarge: 1:0-10; #Powiekszanie gildii
-    prolong: 1:0-10; #Przedluzanie gildii
-  size: #Rozmiar (promien) cuboida gildii
-    start: 24 #Poczatkowy rozmiar
-    max: 74 #Maksymalny romiar
-    add: 1 #Dodowana ilosc podczas powiekszania
-    between: 50 #Odstep pomiedzy powiekszonymi maksymalnie gildiami
-  time: #Czas waznosci gildii
-    start: 3 #Poczatkowy czas (dni)
-    max: 14 #Maksymalny czas (dni)
-    add: 7 #Dodawana ilosc podczas przedluzania (dni)
-    check: 3 #Czas sprawdzania waznosci gildii (godziny)
-    teleport: 10 #Czas oczekiwania na teleport (sekundy)
-
+  cost:
+    create: 1:0-10;
+    join: 1:0-10;
+    leader: 1:0-10;
+    owner: 1:0-10;
+    enlarge: 1:0-10;
+    prolong: 1:0-10;
+  size:
+    start: 24
+    max: 74
+    add: 1
+    between: 50
+  time:
+    start: 3
+    max: 14
+    add: 7
+    check: 3
+    teleport: 10
+  tablist:
+    enabled: false
+    refresh:
+      interval: 1
+    slots: in tablist.yml
 ````
+
+*Opiszę w wolnej w chwili ;)*
+
+=======
+#### Konfiguracja tablisty (plik tablist.yml):
+
+Przykładowa konfiguracja:
+````yaml
+tablist:
+  5: '&7|&6&lCRAFT&7|&l.PL'
+  13: '&2&l|TOP GRACZY:|'
+  14: '&2&l|INFORMACJE:|'
+  15: '&2&l|TOP GILDIE:|'
+  16: '&7|1.&6 |{PTOP-1}'
+  17: '&7|Godzina: |&c{TIME}'
+  18: '&7|1.&r&6 |{GTOP-1}'
+  19: '&7|2.&6 |{PTOP-2}'
+  20: '&7|Zabójstwa: |&c{KILLS}'
+  21: '&7|2.&r&6 |{GTOP-2}'
+  22: '&7|3.&6 |{PTOP-3}'
+  23: '&7|Smierci: |&c{DEATHS}'
+  24: '&7|3.&r&6 |{GTOP-3}'
+  25: '&7|4.&6 |{PTOP-4}'
+  26: '&7|Punkty: |&c{POINTS}'
+  27: '&7|4.&r&6 |{GTOP-4}'
+  28: '&7|5.&6 |{PTOP-5}'
+  29: '&7|Gildia: |&c{TAG}'
+  30: '&7|5.&r&6 |{GTOP-5}'
+  31: '&7|6.&6 |{PTOP-6}'
+  32: '&7|Ping: |&c{PING}'
+  33: '&7|6.&r&6 |{GTOP-6}'
+  34: '&7|7.&6 |{PTOP-7}'
+  35: '&7|Online: |&c{ONLINE}/300'
+  36: '&7|7.&r&6 |{GTOP-7}'
+  37: '&7|8.&6 |{PTOP-8}'
+  39: '&7|8.&r&6 |{GTOP-8}'
+  40: '&7|9.&6 |{PTOP-9}'
+  42: '&7|9.&r&6 |{GTOP-9}'
+  43: '&7|10.&6 |{PTOP-10}'
+  45: '&7|10.&r&6 |{GTOP-10}'
+````
+
+Zapis ` 45: '&7|10.&r&6 |{GTOP-10}'` oznacza, że w 45 slocie zobaczymy właśnie taki tekst. Pustych slotów nie musimy definiować. Jeśli wartość w którymś slocie się powtórzy to dostaniemy crasha.
+
+`PREFIX|NAME|SUFFIX` - prefix i suffix zmieniają się podczas odświeżania taba, name natomiast jest taki sam i reprezentuje dany team.
 
 =======
