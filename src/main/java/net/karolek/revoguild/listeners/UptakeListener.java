@@ -4,9 +4,11 @@ import net.karolek.revoguild.base.Guild;
 import net.karolek.revoguild.data.Config;
 import net.karolek.revoguild.data.Lang;
 import net.karolek.revoguild.manager.Manager;
+import net.karolek.revoguild.utils.ParticleUtil;
 import net.karolek.revoguild.utils.SpaceUtil;
 import net.karolek.revoguild.utils.TimeUtil;
 import net.karolek.revoguild.utils.Util;
+import net.karolek.revoguild.utils.ParticleUtil.ParticleType;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -80,16 +82,27 @@ public class UptakeListener implements Listener {
 			return;
 		}
 
+		if (o.getLives() < Config.UPTAKE_LIVES_MAX) {
+			o.setLives(o.getLives() + 1);
+			o.update(false);
+		}
+		
+		Location l = g.getCuboid().getCenter();
+		l.setY(62);
+
 		if (g.getLives() <= 1) {
 			Manager.GUILD.removeGuild(g);
 			Util.sendMsg(Util.getOnlinePlayers(), Lang.parse(Lang.BC_GUILD_TAKEN, g, o, p));
 			p.playSound(g.getCuboid().getCenter(), Sound.ENDERDRAGON_DEATH, 20, 20);
 			for (int i = 0; i < 10; i++)
 				g.getCuboid().getWorld().strikeLightning(g.getCuboid().getCenter());
+			ParticleUtil.sendParticleToLocation(l, ParticleType.ENCHANTMENT_TABLE, 2, 2, 2, 9, 10);
 		} else {
 			g.setLives(g.getLives() - 1);
 			g.setLastTakenLifeTime(System.currentTimeMillis());
 			g.update(false);
+			p.playSound(g.getCuboid().getCenter(), Sound.ANVIL_USE, 20, 20);
+			ParticleUtil.sendParticleToLocation(l, ParticleType.FLAME, 0.5F, 0.5F, 0.5F, 9, 10);
 			Util.sendMsg(Util.getOnlinePlayers(), Lang.parse(Lang.BC_GUILD_LIFE_TAKEN, g, o, p));
 		}
 	}

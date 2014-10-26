@@ -22,7 +22,7 @@ import org.bukkit.inventory.Inventory;
 
 @Getter
 @Setter
-public class Guild implements Entry {
+public class Guild implements Entry, Comparable<Guild> {
 
 	private final String		tag;
 	private final String		name;
@@ -54,7 +54,7 @@ public class Guild implements Entry {
 		this.expireTime = System.currentTimeMillis() + TimeUtil.WEEK.getTime(Config.TIME_START);
 		this.lastExplodeTime = System.currentTimeMillis() - TimeUtil.SECOND.getTime(Config.TNT_CANTBUILD_TIME);
 		this.lastTakenLifeTime = System.currentTimeMillis();
-		this.lives = Config.UPTAKE_LIVES_AMOUNT;
+		this.lives = Config.UPTAKE_LIVES_START;
 		this.pvp = false;
 		this.preDeleted = false;
 	}
@@ -109,6 +109,27 @@ public class Guild implements Entry {
 				online.add(op.getPlayer());
 		}
 		return online;
+	}
+	
+	public int getPoints() {
+		int points = 0;
+		for(User u : this.members)
+			points += u.getPoints();
+		return points;
+	}
+	
+	public int getKills() {
+		int points = 0;
+		for(User u : this.members)
+			points += u.getKills();
+		return points;
+	}
+	
+	public int getDeaths() {
+		int points = 0;
+		for(User u : this.members)
+			points += u.getDeaths();
+		return points;
 	}
 
 	public void setOwner(User u) {
@@ -228,6 +249,19 @@ public class Guild implements Entry {
 		this.treasure.delete();
 		for (Alliance a : Manager.ALLIANCE.getGuildAlliances(this))
 			a.delete();
+	}
+
+	@Override
+	public int compareTo(Guild o) {
+		int result = 0;
+		if (o.getPoints() == getPoints()) {
+			result = 0;
+		} else if (o.getPoints() < getPoints()) {
+			result = 1;
+		} else if (o.getPoints() > getPoints()) {
+			result = -1;
+		}
+		return result;
 	}
 
 }

@@ -59,6 +59,13 @@ public class SpaceUtil {
 		return locs;
 	}
 	
+	public static List<Location> getWallsOnGround(Location center, int radius) {
+		List<Location> locs = new ArrayList<Location>();
+		for(Location l : getWalls(center, radius)) 
+			locs.add(l.getWorld().getHighestBlockAt(l).getLocation().add(0, 1, 0));
+		return locs;
+	}
+	
 	public static List<Location> getWalls(Location center, int radius, int height) {
 		List<Location> locs = getWalls(center, radius);
 		for(int i = 1; i <= height; i++) 

@@ -3,8 +3,11 @@ package net.karolek.revoguild;
 import lombok.Getter;
 import net.karolek.revoguild.commands.GuildAdminCommand;
 import net.karolek.revoguild.commands.GuildCommand;
+import net.karolek.revoguild.commands.ranking.RankingCommand;
+import net.karolek.revoguild.commands.ranking.TopCommand;
 import net.karolek.revoguild.data.Config;
 import net.karolek.revoguild.data.Lang;
+import net.karolek.revoguild.data.Tablist;
 import net.karolek.revoguild.listeners.*;
 import net.karolek.revoguild.manager.Manager;
 import net.karolek.revoguild.nametags.NameTagMode;
@@ -13,6 +16,7 @@ import net.karolek.revoguild.store.StoreMode;
 import net.karolek.revoguild.store.modes.StoreMySQL;
 import net.karolek.revoguild.store.modes.StoreSQLITE;
 import net.karolek.revoguild.tasks.CheckValidityTask;
+import net.karolek.revoguild.tasks.TablistUpdateTask;
 import net.karolek.revoguild.utils.BlockUtil;
 import net.karolek.revoguild.utils.Logger;
 import net.karolek.revoguild.utils.TimeUtil;
@@ -37,6 +41,7 @@ public class GuildPlugin extends JavaPlugin {
 
 		Config.reloadConfig();
 		Lang.reloadLang();
+		Tablist.reloadTablist();
 
 		if (!Config.ENABLED) {
 			Logger.info("This plugin is not activated in the configuration!", "To activate it, set the value 'enabled' to true!", "Plugin will be disabled!");
@@ -107,6 +112,8 @@ public class GuildPlugin extends JavaPlugin {
 		Logger.info("Register commands...");
 		Manager.COMMAND.register(new GuildCommand());
 		Manager.COMMAND.register(new GuildAdminCommand());
+		Manager.COMMAND.register(new RankingCommand());
+		Manager.COMMAND.register(new TopCommand());
 	}
 
 	protected void registerListeners() {
@@ -121,6 +128,9 @@ public class GuildPlugin extends JavaPlugin {
 		pm.registerEvents(new DamageListener(), this);
 		pm.registerEvents(new UptakeListener(), this);
 		pm.registerEvents(new AsyncChatListener(), this);
+		pm.registerEvents(new DeathListener(), this);
+		if (Config.TABLIST_ENABLED)
+			pm.registerEvents(new LoginListener(), this);
 		if (NameTagMode.getByName(Config.TAG_MODE).equals(NameTagMode.TAG_API))
 			pm.registerEvents(new AsyncTagListener(), this);
 	}
@@ -128,6 +138,7 @@ public class GuildPlugin extends JavaPlugin {
 	protected void registerTasks() {
 		Logger.info("Register tasks...");
 		new CheckValidityTask().runTaskTimerAsynchronously(this, TimeUtil.HOUR.getTick(3), TimeUtil.HOUR.getTick(Config.TIME_CHECK));
+			new TablistUpdateTask().runTaskTimerAsynchronously(this, 20L, TimeUtil.SECOND.getTick(Config.TABLIST_REFRESH_INTERVAL));;
 	}
 
 	protected void registerOthers() {

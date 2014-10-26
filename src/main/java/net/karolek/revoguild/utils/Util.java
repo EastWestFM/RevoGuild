@@ -136,6 +136,10 @@ public class Util {
 	public static String getDate(long time) {
 		return new SimpleDateFormat("dd/MM/yyyy, HH:mm:ss").format(new Date(time));
 	}
+	
+	public static String getTime(long time) {
+		return new SimpleDateFormat("HH:mm:ss").format(new Date(time));
+	}
 
 	public static boolean containsIgnoreCase(String[] array, String element) {
 		for (String s : array)

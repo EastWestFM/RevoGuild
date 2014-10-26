@@ -22,7 +22,7 @@ public class ScoreBoardNameTag implements NameTag {
 
 		Guild g = Manager.GUILD.getGuild(p);
 		Team t;
-		for (Guild o : Manager.GUILD.getGuilds()) {
+		for (Guild o : Manager.GUILD.getGuilds().values()) {
 			t = sb.getTeam(o.getTag());
 			if (t == null) {
 				t = sb.registerNewTeam(o.getTag());

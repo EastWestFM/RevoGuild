@@ -9,7 +9,6 @@ import lombok.Setter;
 import net.karolek.revoguild.GuildPlugin;
 import net.karolek.revoguild.data.Config;
 import net.karolek.revoguild.store.Entry;
-import net.karolek.revoguild.utils.UUIDUtil;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -17,7 +16,7 @@ import org.bukkit.entity.Player;
 
 @Getter
 @Setter
-public class User implements Entry {
+public class User implements Entry, Comparable<User> {
 
 	private final UUID	uuid;
 	private final String	name;
@@ -39,7 +38,7 @@ public class User implements Entry {
 	}
 
 	public User(ResultSet rs) throws SQLException {
-		this.uuid = Config.USEUUID ? UUIDUtil.fromString(rs.getString("uuid")) : null;
+		this.uuid = Config.USEUUID ? UUID.fromString(rs.getString("uuid")) : null;
 		this.name = Config.USEUUID ? getOfflinePlayer().getName() : rs.getString("uuid");
 		this.kills = rs.getInt("kills");
 		this.deaths = rs.getInt("deaths");
@@ -75,6 +74,19 @@ public class User implements Entry {
 	public void addTimePlay(int time) {
 		this.timePlay += time;
 		GuildPlugin.getStore().update(false, "UPDATE `{P}users` SET `timePlay` = '" + this.timePlay + "' WHERE `uuid` = '" + this.toString() + "'");
+	}
+
+	@Override
+	public int compareTo(User o) {
+		int result = 0;
+		if (o.getPoints() == this.points) {
+			result = 0;
+		} else if (o.getPoints() < this.points) {
+			result = 1;
+		} else if (o.getPoints() > this.points) {
+			result = -1;
+		}
+		return result;
 	}
 
 	@Override

@@ -16,10 +16,10 @@ public class ListCommand extends SubCommand {
 
 	@Override
 	public boolean onCommand(Player p, String[] args) {
-		Util.sendMsg(p, Lang.LIST_HEADER);
-		for (Guild g : Manager.GUILD.getGuilds())
-			Util.sendMsg(p, Lang.parse(Lang.LIST_ELEMENT, g));
-		Util.sendMsg(p, Lang.LIST_FOOTER);
+		Util.sendMsg(p, Lang.LIST_GUILD_HEADER);
+		for (Guild g : Manager.GUILD.getGuilds().values())
+			Util.sendMsg(p, Lang.parse(Lang.LIST_GUILD_ELEMENT, g));
+		Util.sendMsg(p, Lang.LIST_GUILD_FOOTER);
 		return true;
 	}
 }

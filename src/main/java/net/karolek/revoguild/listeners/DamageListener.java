@@ -3,7 +3,9 @@ package net.karolek.revoguild.listeners;
 import net.karolek.revoguild.base.Guild;
 import net.karolek.revoguild.data.Lang;
 import net.karolek.revoguild.manager.Manager;
+import net.karolek.revoguild.utils.ParticleUtil;
 import net.karolek.revoguild.utils.Util;
+import net.karolek.revoguild.utils.ParticleUtil.ParticleType;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -33,6 +35,7 @@ public class DamageListener implements Listener {
 				e.setDamage(0);
 			} else {
 				e.setCancelled(true);
+				ParticleUtil.sendPartileToPlayer(d, ParticleType.HEART, p.getEyeLocation(), 0.25F, 0.25F, 0.25F, 8, 3);
 				Util.sendMsg(d, Lang.ERROR_CANT_ATTACK_PLAYER);
 			}
 		} else if (Manager.ALLIANCE.hasAlliance(pg, dg)) {

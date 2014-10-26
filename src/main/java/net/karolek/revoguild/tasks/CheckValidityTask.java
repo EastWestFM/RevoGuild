@@ -11,7 +11,7 @@ public class CheckValidityTask extends BukkitRunnable {
 
 	@Override
 	public void run() {
-		for (Guild g : Manager.GUILD.getGuilds()) {
+		for (Guild g : Manager.GUILD.getGuilds().values()) {
 			if (g.getExpireTime() < System.currentTimeMillis()) {
 				Manager.GUILD.removeGuild(g);
 				Util.sendMsg(Util.getOnlinePlayers(), Lang.parse(Lang.BC_GUILD_EXPIRED, g).replace("{X}", Integer.toString(g.getCuboid().getCenterX())).replace("{Z}", Integer.toString(g.getCuboid().getCenterZ())));
