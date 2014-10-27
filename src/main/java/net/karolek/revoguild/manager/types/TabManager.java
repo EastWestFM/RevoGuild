@@ -81,6 +81,7 @@ public class TabManager implements IManager {
 	}
 
 	private String parse(String s, Player p) {
+		//TODO do zmiany w przyszłości bo mega lagi :D
 		Map<String, User> unsortedUsersMap = Manager.USER.getUsers();
 		SortedMap<String, User> sortedUsersMap = ImmutableSortedMap.copyOf(unsortedUsersMap, Ordering.natural().reverse().onResultOf(Functions.forMap(unsortedUsersMap)).compound(Ordering.natural().reverse()));
 		List<User> users = new ArrayList<>(sortedUsersMap.values());
