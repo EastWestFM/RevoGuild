@@ -12,7 +12,7 @@ import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import com.sun.org.apache.xml.internal.security.utils.Base64;
+import javax.xml.bind.DatatypeConverter;
 
 public class ItemSerializer {
 
@@ -22,7 +22,7 @@ public class ItemSerializer {
 			ObjectOutputStream oos = new ObjectOutputStream(bos);
 			oos.writeObject(serializeItemStack(items));
 			oos.flush();
-			return Base64.encode(bos.toByteArray());
+			return DatatypeConverter.printBase64Binary(bos.toByteArray());
 		} catch (Exception e) {
 			Logger.exception(e);
 		}
@@ -32,7 +32,7 @@ public class ItemSerializer {
 	@SuppressWarnings("unchecked")
 	public static ItemStack[] stringToItems(String s) {
 		try {
-			ByteArrayInputStream bis = new ByteArrayInputStream(Base64.decode(s));
+			ByteArrayInputStream bis = new ByteArrayInputStream(DatatypeConverter.parseBase64Binary(s));
 			ObjectInputStream ois = new ObjectInputStream(bis);
 			return deserializeItemStack((Map<String, Object>[]) ois.readObject());
 		} catch (Exception e) {
@@ -49,7 +49,7 @@ public class ItemSerializer {
 		for (int i = 0; i < items.length; i++) {
 			ItemStack is = items[i];
 			if (is == null) {
-				result[i] = new HashMap<String, Object>();
+				result[i] = new HashMap<>();
 			} else {
 				result[i] = is.serialize();
 				if (is.hasItemMeta()) {
@@ -72,7 +72,7 @@ public class ItemSerializer {
 			} else {
 				try {
 					if (s.containsKey("meta")) {
-						Map<String, Object> im = new HashMap<String, Object>((Map<String, Object>) s.remove("meta"));
+						Map<String, Object> im = new HashMap<>((Map<String, Object>) s.remove("meta"));
 						im.put("==", "ItemMeta");
 						ItemStack is = ItemStack.deserialize(s);
 						is.setItemMeta((ItemMeta) ConfigurationSerialization.deserializeObject(im));

@@ -138,7 +138,7 @@ public class GuildPlugin extends JavaPlugin {
 	protected void registerTasks() {
 		Logger.info("Register tasks...");
 		new CheckValidityTask().runTaskTimerAsynchronously(this, TimeUtil.HOUR.getTick(3), TimeUtil.HOUR.getTick(Config.TIME_CHECK));
-			new TablistUpdateTask().runTaskTimerAsynchronously(this, 20L, TimeUtil.SECOND.getTick(Config.TABLIST_REFRESH_INTERVAL));;
+		//new TablistUpdateTask().runTaskTimerAsynchronously(this, 20L, TimeUtil.SECOND.getTick(Config.TABLIST_REFRESH_INTERVAL));; // FUCK IT
 	}
 
 	protected void registerOthers() {
