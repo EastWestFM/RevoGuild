@@ -1,15 +1,13 @@
 package net.karolek.revoguild.manager.types;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.SortedMap;
-import java.util.WeakHashMap;
 
+import lombok.AllArgsConstructor;
+import net.karolek.revoguild.GuildPlugin;
+import net.karolek.revoguild.tasks.TablistUpdateTask;
 import org.apache.commons.lang.StringUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import com.google.common.base.Functions;
@@ -30,6 +28,7 @@ import net.karolek.revoguild.utils.Reflection;
 import net.karolek.revoguild.utils.Util;
 import net.karolek.revoguild.utils.Reflection.ConstructorInvoker;
 import net.karolek.revoguild.utils.Reflection.FieldAccessor;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class TabManager implements IManager {
 
@@ -48,6 +47,9 @@ public class TabManager implements IManager {
 
 	@Getter
 	private WeakHashMap<Player, Tab>		tabLists				= null;
+
+    private RankList rankList;
+    private int taskId = -1;
 
 	public Tab createTab(Player player) {
 		Tab tab = new Tab(player);
@@ -82,31 +84,26 @@ public class TabManager implements IManager {
 
 	private String parse(String s, Player p) {
 		//TODO do zmiany w przyszłości bo mega lagi :D
-		Map<String, User> unsortedUsersMap = Manager.USER.getUsers();
-		SortedMap<String, User> sortedUsersMap = ImmutableSortedMap.copyOf(unsortedUsersMap, Ordering.natural().reverse().onResultOf(Functions.forMap(unsortedUsersMap)).compound(Ordering.natural().reverse()));
-		List<User> users = new ArrayList<>(sortedUsersMap.values());
-
-		Map<String, Guild> unsortedGuildsMap = Manager.GUILD.getGuilds();
-		SortedMap<String, Guild> sortedGuildsMap = ImmutableSortedMap.copyOf(unsortedGuildsMap, Ordering.natural().reverse().onResultOf(Functions.forMap(unsortedGuildsMap)).compound(Ordering.natural().reverse()));
-		List<Guild> guilds = new ArrayList<>(sortedGuildsMap.values());
 
 		User pU = Manager.USER.getUser(p);
 
-		for (int i = 0; i < 10; i++) {
-			if (i >= users.size()) {
-				s = StringUtils.replace(s, "{PTOP-" + (i + 1) + "}", "brak");
-			} else {
-				User u = users.get(i);
-				s = StringUtils.replace(s, "{PTOP-" + (i + 1) + "}", u == null ? "brak" : u.getName());
-			}
-		}
+        List<RankList.Data> playerList = rankList.getTopPlayers();
+        for (int i = 0; i < Math.min(10, playerList.size()); i++) {
+            if (i >= playerList.size()) {
+                s = StringUtils.replace(s, "{PTOP-" + (i + 1) + "}", "brak");
+            } else {
+                RankList.Data u = playerList.get(i);
+                s = StringUtils.replace(s, "{PTOP-" + (i + 1) + "}", u == null ? "brak" : u.getName());
+            }
+        }
 
-		for (int i = 0; i < 10; i++) {
-			if (i >= guilds.size()) {
+        List<RankList.Data> guildList = rankList.getTopGuilds();
+        for (int i = 0; i < 10; i++) {
+			if (i >= guildList.size()) {
 				s = StringUtils.replace(s, "{GTOP-" + (i + 1) + "}", "brak");
 			} else {
-				Guild g = guilds.get(i);
-				s = StringUtils.replace(s, "{GTOP-" + (i + 1) + "}", g == null ? "brak" : g.getTag() + " [" + g.getPoints() + "]");
+                RankList.Data g = guildList.get(i);
+				s = StringUtils.replace(s, "{GTOP-" + (i + 1) + "}", g == null ? "brak" : g.getName() + " [" + g.getPoints() + "]");
 			}
 		}
 
@@ -167,7 +164,12 @@ public class TabManager implements IManager {
 
 	@Override
 	public void enable() throws Exception {
+        int sec = 60*2;
+        // TODO aktualizacja czasu i innych pierdol z innym odswiezeniem
+        taskId = new RankTask().runTaskTimerAsynchronously(GuildPlugin.getPlugin(), 0L, sec*20L).getTaskId();
+
 		this.tabLists = new WeakHashMap<>();
+        this.rankList = new RankList();
 		this.packetClass = Reflection.getMinecraftClass("PacketPlayOutScoreboardTeam");
 		this.packetClassPlayer = Reflection.getMinecraftClass("PacketPlayOutPlayerInfo");
 		this.conPlayer = Reflection.getConstructor(packetClassPlayer, String.class, boolean.class, int.class);
@@ -185,6 +187,10 @@ public class TabManager implements IManager {
 	@Override
 	public void disable() {
 		this.tabLists.clear();
+        if(taskId != -1){
+            Bukkit.getScheduler().cancelTask(taskId);
+        }
+        this.rankList = null;
 		this.tabLists = null;
 		this.packetClass = null;
 		this.packetClassPlayer = null;
@@ -199,4 +205,49 @@ public class TabManager implements IManager {
 		this.g = null;
 	}
 
+    private Comparator<User> statsComparator = new Comparator<User>() {
+        @Override
+        public int compare(User o1, User o2) {
+            return o2.getPoints() - o1.getPoints();
+        }
+    };
+
+    private Comparator<Guild> GUILD_COMPARATOR = new Comparator<Guild>() {
+        @Override
+        public int compare(Guild o1, Guild o2) {
+            return o2.getPoints() - o1.getPoints();
+        }
+    };
+
+
+    private class RankTask extends BukkitRunnable {
+
+        @Override
+        public void run() {
+
+            // gracze
+            List<User> stats = new ArrayList<>();
+            stats.addAll(Manager.USER.getUsers().values());
+            Collections.sort(stats, statsComparator);
+            List<RankList.Data> toAddPlayers = new LinkedList<>();
+            for(int i=0; i < Math.min(10, stats.size()); i++){
+                User u = stats.get(i);
+                toAddPlayers.add(new RankList.Data(u.getName(), u.getPoints()));
+            }
+
+            rankList.setTopPlayers(toAddPlayers);
+
+            // gildie
+            List<Guild> guilds = new ArrayList<>();
+            guilds.addAll(Manager.GUILD.getGuilds().values());
+            Collections.sort(guilds, GUILD_COMPARATOR);
+            List<RankList.Data> toAddGuilds = new LinkedList<>();
+            for(int i=0; i < Math.min(10, guilds.size()); i++){
+                Guild g = guilds.get(i);
+                toAddGuilds.add(new RankList.Data(g.getTag(), g.getPoints()));
+            }
+            rankList.setTopGuilds(toAddGuilds);
+            new TablistUpdateTask().runTaskLater(GuildPlugin.getPlugin(), 1L);
+        }
+    }
 }
