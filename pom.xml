@@ -2,7 +2,11 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.karolek</groupId>
 	<artifactId>revoguild</artifactId>
+<<<<<<< HEAD
 	<version>0.2.0-b194</version>
+=======
+	<version>0.2.0-b191</version>
+>>>>>>> origin/master
 	<name>RevoGuild</name>
 	<description>Plugin na gildie.</description>
 	<properties>

@@ -1,6 +1,8 @@
 RevoGuild
 =========
 
+#### W przyszłości bardziej opiszę cały plugin, tymczasem musisz zadowolić się tym opisem. Jeśli będziesz miał jakiś problem pisz na GG: 37846242
+
 Rewolucyjny system gildii na Twój serwer! ;)
 
 ###### Lista TODO:
