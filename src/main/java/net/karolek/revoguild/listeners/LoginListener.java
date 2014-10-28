@@ -1,8 +1,7 @@
 package net.karolek.revoguild.listeners;
 
 import net.karolek.revoguild.GuildPlugin;
-import net.karolek.revoguild.manager.Manager;
-import net.karolek.revoguild.tablist.Tab;
+import net.karolek.revoguild.tablist.TabManager;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -23,9 +22,7 @@ public class LoginListener implements Listener {
 
 			@Override
 			public void run() {
-				Tab tab = Manager.TAB.createTab(p);
-				Manager.TAB.initTablist(tab);
-				tab.send();
+				TabManager.createTab(p);
 			}
 
 		}.runTask(GuildPlugin.getPlugin());

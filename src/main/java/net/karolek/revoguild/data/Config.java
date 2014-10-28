@@ -88,6 +88,7 @@ public class Config {
 
 	public static boolean			TABLIST_ENABLED				= false;
 	public static int					TABLIST_REFRESH_INTERVAL	= 1;
+	public static int					TABLIST_REFRESH_VALUES		= 2;
 	public static String				TABLIST_SLOTS					= "in tablist.yml";
 
 	public static void loadConfig() {

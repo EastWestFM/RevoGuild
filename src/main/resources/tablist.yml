@@ -1,2 +1,5 @@
 tablist:
-  0: 'PREFIX|NAME|SUFFIX'
+  slots: 
+    1: 'PREFIX|NAME|SUFFIX'
+    2: '&7|Godzina: |&c{TIME}'
+  update-slots: [2]

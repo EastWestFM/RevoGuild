@@ -9,6 +9,7 @@ import lombok.Setter;
 import net.karolek.revoguild.GuildPlugin;
 import net.karolek.revoguild.data.Config;
 import net.karolek.revoguild.store.Entry;
+import net.karolek.revoguild.tablist.TabThread;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -54,11 +55,13 @@ public class User implements Entry, Comparable<User> {
 	public void addKill() {
 		this.kills += 1;
 		GuildPlugin.getStore().update(false, "UPDATE `{P}users` SET `kills` = '" + this.kills + "' WHERE `uuid` = '" + this.toString() + "'");
+		TabThread.restart();
 	}
 
 	public void addDeath() {
 		this.deaths += 1;
 		GuildPlugin.getStore().update(false, "UPDATE `{P}users` SET `deaths` = '" + this.deaths + "' WHERE `uuid` = '" + this.toString() + "'");
+		TabThread.restart();
 	}
 
 	public void addPoints(int points) {

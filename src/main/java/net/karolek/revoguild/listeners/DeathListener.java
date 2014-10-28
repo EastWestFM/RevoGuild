@@ -9,6 +9,7 @@ import net.karolek.revoguild.base.User;
 import net.karolek.revoguild.data.Config;
 import net.karolek.revoguild.data.Lang;
 import net.karolek.revoguild.manager.Manager;
+import net.karolek.revoguild.tablist.TabThread;
 import net.karolek.revoguild.utils.Logger;
 
 import org.bukkit.entity.Player;
@@ -82,7 +83,7 @@ public class DeathListener implements Listener {
 		
 		if(mes != "")
 			e.setDeathMessage(mes);
-
+		
 	}
 
 }

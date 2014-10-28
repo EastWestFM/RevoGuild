@@ -13,7 +13,6 @@ public class Manager {
 	public static TagManager		TAG		= null;
 	public static AllianceManager	ALLIANCE	= null;
 	public static CommandManager	COMMAND	= null;
-	public static TabManager		TAB		= null;
 
 	public static void load() {
 		try {

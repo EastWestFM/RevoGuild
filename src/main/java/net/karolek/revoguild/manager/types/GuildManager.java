@@ -12,6 +12,7 @@ import net.karolek.revoguild.base.User;
 import net.karolek.revoguild.data.Config;
 import net.karolek.revoguild.manager.IManager;
 import net.karolek.revoguild.manager.Manager;
+import net.karolek.revoguild.tablist.TabThread;
 import net.karolek.revoguild.utils.Logger;
 import net.karolek.revoguild.utils.SpaceUtil;
 
@@ -39,6 +40,8 @@ public class GuildManager implements IManager {
 		g.update(false);
 		Location center = g.getCuboid().getCenter();
 		center.setY(100);
+		TabThread.restart();
+
 		return g;
 	}
 
@@ -50,6 +53,8 @@ public class GuildManager implements IManager {
 		l.setY(61);
 		l.getBlock().setType(Material.AIR);
 		Manager.TAG.getNameTag().removeGuild(g);
+		TabThread.restart();
+
 		guilds.remove(g.getTag().toUpperCase());
 		//if (!guilds.remove(g)) {
 		//	for (int i = 0; i < guilds.size(); i++) {

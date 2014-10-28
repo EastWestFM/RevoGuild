@@ -8,15 +8,27 @@ import net.karolek.revoguild.commands.ranking.TopCommand;
 import net.karolek.revoguild.data.Config;
 import net.karolek.revoguild.data.Lang;
 import net.karolek.revoguild.data.Tablist;
-import net.karolek.revoguild.listeners.*;
+import net.karolek.revoguild.listeners.ActionsListener;
+import net.karolek.revoguild.listeners.AsyncChatListener;
+import net.karolek.revoguild.listeners.AsyncTagListener;
+import net.karolek.revoguild.listeners.DamageListener;
+import net.karolek.revoguild.listeners.DeathListener;
+import net.karolek.revoguild.listeners.ExplodeListener;
+import net.karolek.revoguild.listeners.InventoryListener;
+import net.karolek.revoguild.listeners.JoinQuitListener;
+import net.karolek.revoguild.listeners.LoginListener;
+import net.karolek.revoguild.listeners.MoveListener;
+import net.karolek.revoguild.listeners.TeleportListener;
+import net.karolek.revoguild.listeners.UptakeListener;
 import net.karolek.revoguild.manager.Manager;
 import net.karolek.revoguild.nametags.NameTagMode;
 import net.karolek.revoguild.store.Store;
 import net.karolek.revoguild.store.StoreMode;
 import net.karolek.revoguild.store.modes.StoreMySQL;
 import net.karolek.revoguild.store.modes.StoreSQLITE;
+import net.karolek.revoguild.tablist.TabLowUpdateTask;
+import net.karolek.revoguild.tablist.TabThread;
 import net.karolek.revoguild.tasks.CheckValidityTask;
-import net.karolek.revoguild.tasks.TablistUpdateTask;
 import net.karolek.revoguild.utils.BlockUtil;
 import net.karolek.revoguild.utils.Logger;
 import net.karolek.revoguild.utils.TimeUtil;
@@ -138,7 +150,9 @@ public class GuildPlugin extends JavaPlugin {
 	protected void registerTasks() {
 		Logger.info("Register tasks...");
 		new CheckValidityTask().runTaskTimerAsynchronously(this, TimeUtil.HOUR.getTick(3), TimeUtil.HOUR.getTick(Config.TIME_CHECK));
-			new TablistUpdateTask().runTaskTimerAsynchronously(this, 20L, TimeUtil.SECOND.getTick(Config.TABLIST_REFRESH_INTERVAL));;
+		//new TablistUpdateTask().runTaskTimerAsynchronously(this, 20L, TimeUtil.SECOND.getTick(Config.TABLIST_REFRESH_INTERVAL));; // FUCK IT
+		new TabThread();
+		new TabLowUpdateTask().runTaskTimerAsynchronously(this, 20L, TimeUtil.SECOND.getTick(Config.TABLIST_REFRESH_INTERVAL));
 	}
 
 	protected void registerOthers() {
