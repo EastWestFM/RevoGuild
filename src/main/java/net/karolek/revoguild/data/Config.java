@@ -39,10 +39,14 @@ public class Config {
 
 	public static int					RANKING_STARTPOINTS			= 1000;
 	public static String				RANKING_DEATHMESSAGE			= "&2Gracz {PGUILD} &7{PLAYER} ({LOSEPOINTS}) &2zostal zabity przez {KGUILD} &7{KILLER} ({WINPOINTS})&2!";
-	public static String				RANKING_ALGORITHM_WIN		= "(300 + (({KILLER_POINTS} - {PLAYER_POINTS}) * (-0.2)))";
-	public static String				RANKING_ALGORITHM_LOSE		= "Math.abs({WIN_POINTS}/2)";
 
-	public static String				ENLARGE_ALGORITHM				= "({CUBOID_SIZE} - 24)/5 +1";
+	public static int					ESCAPE_POINTSREMOVE			= 50;
+	public static String				ESCAPE_BROADCAST				= "&2Gracz {PGUILD} &7{PLAYER} &7(-50) &2wylogowal sie podczas walki!";
+
+	public static String				ALGORITHM_RANKING_WIN		= "(300 + (({KILLER_POINTS} - {PLAYER_POINTS}) * (-0.2)))";
+	public static String				ALGORITHM_RANKING_LOSE		= "Math.abs({WIN_POINTS}/2)";
+	public static String				ALGORITHM_GUILD_POINTS		= "{MEMBERS_POINTS} - ({MEMBERS_NUM}*1000)";
+	public static String				ALGORITHM_ENLARGE				= "({CUBOID_SIZE} - 24)/5 +1";
 
 	public static boolean			ACTIONS_BLOCK_BREAK			= false;
 	public static boolean			ACTIONS_BLOCK_PLACE			= false;
@@ -56,6 +60,7 @@ public class Config {
 	public static int					UPTAKE_LIVES_TIME				= 24;
 
 	public static boolean			TREASURE_ENABLED				= false;
+	public static boolean			TREASURE_OPENONLYONGUILD	= true;
 	public static String				TREASURE_TITLE					= "Skarbiec gildii:";
 	public static int					TREASURE_ROWS					= 6;
 
@@ -68,17 +73,25 @@ public class Config {
 	public static boolean			TNT_DURABILITY_ENABLED		= false;
 	public static List<String>		TNT_DURABILITY_BLOCKS		= Arrays.asList("OBSIDIAN 73.6", "WATER 10.0", "STATIONARY_WATER 10.0");
 
-	public static String				COST_CREATE						= "1:0-10;";
-	public static String				COST_JOIN						= "1:0-10;";
-	public static String				COST_LEADER						= "1:0-10;";
-	public static String				COST_OWNER						= "1:0-10;";
-	public static String				COST_ENLARGE					= "1:0-10;";
-	public static String				COST_PROLONG					= "1:0-10;";
+	public static String				COST_CREATE_NORMAL			= "1:0-10;";
+	public static String				COST_JOIN_NORMAL				= "1:0-10;";
+	public static String				COST_LEADER_NORMAL			= "1:0-10;";
+	public static String				COST_OWNER_NORMAL				= "1:0-10;";
+	public static String				COST_ENLARGE_NORMAL			= "1:0-10;";
+	public static String				COST_PROLONG_NORMAL			= "1:0-10;";
+	public static String				COST_CREATE_VIP				= "1:0-5;";
+	public static String				COST_JOIN_VIP					= "1:0-5;";
+	public static String				COST_LEADER_VIP				= "1:0-5;";
+	public static String				COST_OWNER_VIP					= "1:0-5;";
+	public static String				COST_ENLARGE_VIP				= "1:0-5;";
+	public static String				COST_PROLONG_VIP				= "1:0-5;";
 
-	public static int					SIZE_START						= 24;
-	public static int					SIZE_MAX							= 74;
-	public static int					SIZE_ADD							= 1;
-	public static int					SIZE_BETWEEN					= 50;
+	public static String				CUBOID_WORLD					= "world";
+	public static int					CUBOID_SIZE_START				= 24;
+	public static int					CUBOID_SIZE_MAX				= 74;
+	public static int					CUBOID_SIZE_ADD				= 1;
+	public static int					CUBOID_SIZE_BETWEEN			= 50;
+	public static int					CUBOID_SPAWN_DISTANCE		= 400;
 
 	public static int					TIME_START						= 3;
 	public static int					TIME_MAX							= 14;
@@ -88,8 +101,6 @@ public class Config {
 
 	public static boolean			TABLIST_ENABLED				= false;
 	public static int					TABLIST_REFRESH_INTERVAL	= 1;
-	public static int					TABLIST_REFRESH_VALUES		= 2;
-	public static String				TABLIST_SLOTS					= "in tablist.yml";
 
 	public static void loadConfig() {
 		try {

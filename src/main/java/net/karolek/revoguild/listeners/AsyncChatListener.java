@@ -4,7 +4,8 @@ import net.karolek.revoguild.base.Guild;
 import net.karolek.revoguild.base.User;
 import net.karolek.revoguild.data.Config;
 import net.karolek.revoguild.data.Lang;
-import net.karolek.revoguild.manager.Manager;
+import net.karolek.revoguild.managers.GuildManager;
+import net.karolek.revoguild.managers.UserManager;
 import net.karolek.revoguild.utils.Util;
 
 import org.apache.commons.lang.StringUtils;
@@ -21,9 +22,9 @@ public class AsyncChatListener implements Listener {
 		String format = e.getFormat();
 
 		Player p = e.getPlayer();
-		User u = Manager.USER.getUser(p);
+		User u = UserManager.getUser(p);
 
-		Guild g = Manager.GUILD.getGuild(p);
+		Guild g = GuildManager.getGuild(p);
 
 		String guildTag = g != null ? Lang.parse(Config.CHAT_FORMAT_TAG, g) : "";
 		String rank = Config.CHAT_FORMAT_RANK.replace("{RANK}", Integer.toString(u.getPoints()));

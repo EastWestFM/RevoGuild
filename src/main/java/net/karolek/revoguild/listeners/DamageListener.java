@@ -2,7 +2,9 @@ package net.karolek.revoguild.listeners;
 
 import net.karolek.revoguild.base.Guild;
 import net.karolek.revoguild.data.Lang;
-import net.karolek.revoguild.manager.Manager;
+import net.karolek.revoguild.managers.AllianceManager;
+import net.karolek.revoguild.managers.CombatManager;
+import net.karolek.revoguild.managers.GuildManager;
 import net.karolek.revoguild.utils.ParticleUtil;
 import net.karolek.revoguild.utils.Util;
 import net.karolek.revoguild.utils.ParticleUtil.ParticleType;
@@ -16,16 +18,20 @@ public class DamageListener implements Listener {
 
 	@EventHandler
 	public void onDamage(EntityDamageByEntityEvent e) {
+		if (e.isCancelled())
+			return;
+		if (!(e.getDamage() > 0.0D))
+			return;
 		if (!(e.getEntity() instanceof Player))
 			return;
+		if (Util.getDamager(e) == null)
+			return;
+		
 		Player p = (Player) e.getEntity();
 		Player d = Util.getDamager(e);
 
-		if (d == null)
-			return;
-
-		Guild pg = Manager.GUILD.getGuild(p);
-		Guild dg = Manager.GUILD.getGuild(d);
+		Guild pg = GuildManager.getGuild(p);
+		Guild dg = GuildManager.getGuild(d);
 
 		if (dg == null || pg == null)
 			return;
@@ -38,10 +44,18 @@ public class DamageListener implements Listener {
 				ParticleUtil.sendPartileToPlayer(d, ParticleType.HEART, p.getEyeLocation(), 0.25F, 0.25F, 0.25F, 8, 3);
 				Util.sendMsg(d, Lang.ERROR_CANT_ATTACK_PLAYER);
 			}
-		} else if (Manager.ALLIANCE.hasAlliance(pg, dg)) {
+		} else if (AllianceManager.hasAlliance(pg, dg)) {
 			e.setDamage(0);
 			Util.sendMsg(d, Lang.ERROR_CANT_ATTACK_PLAYER);
 		}
+		
+		if (!CombatManager.isInFight(p))
+			Util.sendMsg(p, Lang.INFO_FIGHT_START);
+		if (!CombatManager.isInFight(d))
+			Util.sendMsg(d, Lang.INFO_FIGHT_START);
+		
+		CombatManager.setLastFight(p);
+		CombatManager.setLastFight(d);
 
 	}
 

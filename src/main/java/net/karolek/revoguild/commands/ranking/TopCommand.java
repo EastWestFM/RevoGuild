@@ -6,7 +6,7 @@ import java.util.SortedMap;
 import net.karolek.revoguild.base.User;
 import net.karolek.revoguild.commands.SubCommand;
 import net.karolek.revoguild.data.Lang;
-import net.karolek.revoguild.manager.Manager;
+import net.karolek.revoguild.managers.UserManager;
 import net.karolek.revoguild.utils.Util;
 
 import org.bukkit.entity.Player;
@@ -18,12 +18,12 @@ import com.google.common.collect.Ordering;
 public class TopCommand extends SubCommand {
 
 	public TopCommand() {
-		super("top", "top10 graczy", "", "rg.cmd.user.top", "topka", "top10");
+		super("top", "top10 graczy", "", "revoguild.top", "topka", "top10");
 	}
 
 	@Override
 	public boolean onCommand(Player p, String[] args) {
-		Map<String, User> unsortedMap = Manager.USER.getUsers();
+		Map<String, User> unsortedMap = UserManager.getUsers();
 		SortedMap<String, User> sortedMap = ImmutableSortedMap.copyOf(unsortedMap, Ordering.natural().reverse().onResultOf(Functions.forMap(unsortedMap)).compound(Ordering.natural().reverse()));
 
 		Util.sendMsg(p, Lang.LIST_RANKING_HEADER);

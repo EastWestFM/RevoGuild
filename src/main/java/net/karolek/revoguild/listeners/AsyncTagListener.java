@@ -3,7 +3,8 @@ package net.karolek.revoguild.listeners;
 import net.karolek.revoguild.base.Guild;
 import net.karolek.revoguild.data.Config;
 import net.karolek.revoguild.data.Lang;
-import net.karolek.revoguild.manager.Manager;
+import net.karolek.revoguild.managers.AllianceManager;
+import net.karolek.revoguild.managers.GuildManager;
 import net.karolek.revoguild.utils.Util;
 
 import org.bukkit.entity.Player;
@@ -21,8 +22,8 @@ public class AsyncTagListener implements Listener {
 		Player p = e.getPlayer();
 		Player n = e.getNamedPlayer();
 
-		Guild g = Manager.GUILD.getGuild(p);
-		Guild o = Manager.GUILD.getGuild(n);
+		Guild g = GuildManager.getGuild(p);
+		Guild o = GuildManager.getGuild(n);
 
 		Scoreboard sb = p.getScoreboard();
 
@@ -38,7 +39,7 @@ public class AsyncTagListener implements Listener {
 				tag = Config.TAG_COLOR_FRIEND;
 			}
 
-		} else if ((g != null) && (Manager.ALLIANCE.hasAlliance(g, o))) {
+		} else if ((g != null) && (AllianceManager.hasAlliance(g, o))) {
 			tag = Config.TAG_COLOR_ALLIANCE;
 		} else {
 			tag = Config.TAG_COLOR_ENEMY;

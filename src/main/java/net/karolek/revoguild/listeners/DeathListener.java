@@ -1,16 +1,14 @@
 package net.karolek.revoguild.listeners;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
-
 import net.karolek.revoguild.base.Guild;
 import net.karolek.revoguild.base.User;
 import net.karolek.revoguild.data.Config;
 import net.karolek.revoguild.data.Lang;
-import net.karolek.revoguild.manager.Manager;
-import net.karolek.revoguild.tablist.TabThread;
-import net.karolek.revoguild.utils.Logger;
+import net.karolek.revoguild.managers.CombatManager;
+import net.karolek.revoguild.managers.GuildManager;
+import net.karolek.revoguild.managers.UserManager;
+import net.karolek.revoguild.tablist.update.TabThread;
+import net.karolek.revoguild.utils.Util;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -24,51 +22,38 @@ public class DeathListener implements Listener {
 		final Player p = e.getEntity();
 		Player k = p.getKiller();
 		
-		User pUser = Manager.USER.getUser(p);
+		CombatManager.createPlayer(p);
+		
+		User pUser = UserManager.getUser(p);
 		User kUser = null;
 		
 		if(k == null) {
 			pUser.addDeath();
+			TabThread.restart();
 			return;
 		}
 		
-		kUser = Manager.USER.getUser(k);
+		kUser = UserManager.getUser(k);
 				
-		String algorithmWin = Config.RANKING_ALGORITHM_WIN;
+		String algorithmWin = Config.ALGORITHM_RANKING_WIN;
 		algorithmWin = algorithmWin.replace("{KILLER_POINTS}", Integer.toString(kUser.getPoints()));
 		algorithmWin = algorithmWin.replace("{PLAYER_POINTS}", Integer.toString(pUser.getPoints()));
 
-		ScriptEngineManager manager= new ScriptEngineManager();
-		ScriptEngine engine = manager.getEngineByName("js");
 		
-		int winPoints = 1;
-		try {
-			winPoints = ((Double) engine.eval(algorithmWin)).intValue();
-		} catch (ScriptException ex) {
-			Logger.exception(ex);
-		}
-		
-		String algorithmLose = Config.RANKING_ALGORITHM_LOSE;
+		int winPoints = Util.calculate(algorithmWin);
+	
+		String algorithmLose = Config.ALGORITHM_RANKING_LOSE;
 		algorithmLose = algorithmLose.replace("{WIN_POINTS}", Integer.toString(winPoints));
 		
-		int losePoints = 0;
-		
-		try {
-			losePoints = ((Double) engine.eval(algorithmLose)).intValue();
-		} catch (ScriptException ex) {
-			Logger.exception(ex);
-		}
-		
-		
-		
+		int losePoints = Util.calculate(algorithmLose);
 		
 		pUser.addDeath();
 		kUser.addKill();
 		pUser.removePoints(losePoints);
 		kUser.addPoints(winPoints);
 		
-		Guild pGuild = Manager.GUILD.getGuild(p);
-		Guild kGuild = Manager.GUILD.getGuild(k);
+		Guild pGuild = GuildManager.getGuild(p);
+		Guild kGuild = GuildManager.getGuild(k);
 		
 		String pGuildTag = pGuild != null ? Lang.parse(Config.CHAT_FORMAT_TAGDEATHMSG, pGuild) : "";
 		String kGuildTag = kGuild != null ? Lang.parse(Config.CHAT_FORMAT_TAGDEATHMSG, kGuild) : "";
@@ -81,8 +66,11 @@ public class DeathListener implements Listener {
 		mes = mes.replace("{KILLER}", k.getName());
 		mes = mes.replace("{WINPOINTS}", winPoints > 0 ? "+" + Integer.toString(winPoints) : "-" + Integer.toString(winPoints));
 		
+		TabThread.restart();
+		
 		if(mes != "")
-			e.setDeathMessage(mes);
+			e.setDeathMessage(Util.fixColor(mes));
+	
 		
 	}
 

@@ -9,9 +9,12 @@ import lombok.Getter;
 import lombok.Setter;
 import net.karolek.revoguild.GuildPlugin;
 import net.karolek.revoguild.data.Config;
-import net.karolek.revoguild.manager.Manager;
+import net.karolek.revoguild.data.Lang;
+import net.karolek.revoguild.managers.AllianceManager;
+import net.karolek.revoguild.managers.UserManager;
 import net.karolek.revoguild.store.Entry;
 import net.karolek.revoguild.utils.TimeUtil;
+import net.karolek.revoguild.utils.Util;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -28,7 +31,7 @@ public class Guild implements Entry, Comparable<Guild> {
 	private final String		name;
 	private User				owner;
 	private User				leader;
-	private final Cuboid		cuboid;
+	private Cuboid				cuboid;
 	private final Treasure	treasure;
 	private Location			home;
 	private final long		createTime;
@@ -38,6 +41,9 @@ public class Guild implements Entry, Comparable<Guild> {
 	private int					lives;
 	private boolean			pvp;
 	private boolean			preDeleted;
+	private String				banAdmin;
+	private long				banTime;
+	private String				banReason;
 	private final Set<User>	members			= new HashSet<User>();
 	private final Set<User>	treasureUsers	= new HashSet<User>();
 	private final Set<User>	invites			= new HashSet<User>();
@@ -45,9 +51,9 @@ public class Guild implements Entry, Comparable<Guild> {
 	public Guild(String tag, String name, Player owner) {
 		this.tag = tag;
 		this.name = name;
-		this.owner = Manager.USER.getUser(owner);
-		this.leader = Manager.USER.getUser(owner);
-		this.cuboid = new Cuboid(owner.getWorld().getName(), owner.getLocation().getBlockX(), owner.getLocation().getBlockZ(), 24);
+		this.owner = UserManager.getUser(owner);
+		this.leader = UserManager.getUser(owner);
+		this.cuboid = new Cuboid(owner.getWorld().getName(), owner.getLocation().getBlockX(), owner.getLocation().getBlockZ(), Config.CUBOID_SIZE_START);
 		this.treasure = new Treasure(this);
 		this.home = owner.getLocation();
 		this.createTime = System.currentTimeMillis();
@@ -57,13 +63,16 @@ public class Guild implements Entry, Comparable<Guild> {
 		this.lives = Config.UPTAKE_LIVES_START;
 		this.pvp = false;
 		this.preDeleted = false;
+		this.banAdmin = "";
+		this.banTime = -1L;
+		this.banReason = "";
 	}
 
 	public Guild(ResultSet rs) throws SQLException {
 		this.tag = rs.getString("tag");
 		this.name = rs.getString("name");
-		this.owner = Manager.USER.getUser(rs.getString("owner"));
-		this.leader = Manager.USER.getUser(rs.getString("leader"));
+		this.owner = UserManager.getUser(rs.getString("owner"));
+		this.leader = UserManager.getUser(rs.getString("leader"));
 		this.cuboid = new Cuboid(rs.getString("cuboidWorld"), rs.getInt("cuboidX"), rs.getInt("cuboidZ"), rs.getInt("cuboidSize"));
 		this.treasure = new Treasure(this, GuildPlugin.getStore().query("SELECT * FROM `{P}treasures` WHERE `tag` = '" + this.tag + "'"));
 		this.home = new Location(Bukkit.getWorld(rs.getString("homeWorld")), rs.getInt("homeX"), rs.getInt("homeY"), rs.getInt("homeZ"));
@@ -74,14 +83,17 @@ public class Guild implements Entry, Comparable<Guild> {
 		this.lives = rs.getInt("lives");
 		this.pvp = (rs.getInt("pvp") == 1);
 		this.preDeleted = false;
+		this.banAdmin = rs.getString("banAdmin");
+		this.banReason = rs.getString("banReason");
+		this.banTime = rs.getLong("banTime");
 
 		ResultSet r = GuildPlugin.getStore().query("SELECT * FROM `{P}members` WHERE `tag` = '" + this.tag + "'");
 		while (r.next())
-			this.members.add(Manager.USER.getUser(r.getString("uuid")));
+			this.members.add(UserManager.getUser(r.getString("uuid")));
 
 		ResultSet r1 = GuildPlugin.getStore().query("SELECT * FROM `{P}treasure_users` WHERE `tag` = '" + this.tag + "'");
 		while (r1.next())
-			this.treasureUsers.add(Manager.USER.getUser(r1.getString("uuid")));
+			this.treasureUsers.add(UserManager.getUser(r1.getString("uuid")));
 
 	}
 
@@ -110,24 +122,32 @@ public class Guild implements Entry, Comparable<Guild> {
 		}
 		return online;
 	}
-	
+
 	public int getPoints() {
+
+		String algorithm = Config.ALGORITHM_GUILD_POINTS;
+
 		int points = 0;
-		for(User u : this.members)
+		for (User u : this.members)
 			points += u.getPoints();
-		return points;
+
+		algorithm = algorithm.replace("{MEMBERS_POINTS}", Integer.toString(points));
+		algorithm = algorithm.replace("{MEMBERS_NUM}", Integer.toString(this.members.size()));
+
+		return Util.calculate(algorithm);
+
 	}
-	
+
 	public int getKills() {
 		int points = 0;
-		for(User u : this.members)
+		for (User u : this.members)
 			points += u.getKills();
 		return points;
 	}
-	
+
 	public int getDeaths() {
 		int points = 0;
-		for(User u : this.members)
+		for (User u : this.members)
 			points += u.getDeaths();
 		return points;
 	}
@@ -153,20 +173,10 @@ public class Guild implements Entry, Comparable<Guild> {
 	}
 
 	public boolean isMember(User u) {
-		// boolean is = false;
-		// for (User o : this.members)
-		// if (o.equals(u))
-		// is = true;
-		// return is;
 		return this.members.contains(u);
 	}
 
 	public boolean isTreasureUser(User u) {
-		//boolean is = false;
-		//for (User o : this.treasureUsers)
-		//	if (o.equals(u))
-		//		is = true;
-		//return is;
 		return this.treasureUsers.contains(u);
 	}
 
@@ -181,11 +191,6 @@ public class Guild implements Entry, Comparable<Guild> {
 	}
 
 	public boolean hasInvite(User u) {
-		//boolean is = false;
-		//for (User o : this.invites)
-		//	if (o.equals(u))
-		//		is = true;
-		//return is;
 		return this.invites.contains(u);
 	}
 
@@ -227,17 +232,47 @@ public class Guild implements Entry, Comparable<Guild> {
 		return true;
 	}
 
+	public boolean isBanned() {
+		// if (this.banTime < 0)
+		// return false;
+		// //if (this.banTime == 0 || this.banTime > System.currentTimeMillis())
+		// return true;
+		// return false;
+		return this.banTime > System.currentTimeMillis();
+	}
+
+	public boolean ban(String admin, String reason, long time) {
+		if (isBanned())
+			return false;
+		this.banAdmin = admin;
+		this.banReason = reason;
+		this.banTime = time;
+		GuildPlugin.getStore().update(false, "UPDATE `{P}guilds` SET `banAdmin` = '" + admin + "', `banTime`='" + time + "',`banReason`='" + reason + "' WHERE `tag` = '" + this.tag + "'");
+		for (Player p : getOnlineMembers())
+			p.kickPlayer(Lang.parse(Lang.BAN_KICKED, this));
+		return true;
+	}
+
+	public boolean unban() {
+		if (!isBanned())
+			return false;
+		this.banAdmin = "";
+		this.banReason = "";
+		this.banTime = -1L;
+		GuildPlugin.getStore().update(false, "UPDATE `{P}guilds` SET `banAdmin` = '" + this.banAdmin + "', `banTime`='" + this.banTime + "',`banReason`='" + this.banReason + "' WHERE `tag` = '" + this.tag + "'");
+		return true;
+	}
+
 	@Override
 	public void insert() {
-		String u = "INSERT INTO `{P}guilds` (`id`,`tag`,`name`,`owner`,`leader`,`cuboidWorld`,`cuboidX`,`cuboidZ`,`cuboidSize`,`homeWorld`,`homeX`,`homeY`,`homeZ`,`lives`,`createTime`,`expireTime`,`lastTakenLifeTime`,`pvp`) VALUES(NULL, '" + this.tag + "','" + this.name + "','" + this.owner + "','" + this.leader + "','" + this.cuboid.getWorld().getName() + "','" + this.cuboid.getCenterX() + "','" + this.cuboid.getCenterZ() + "','" + this.cuboid.getSize() + "','" + this.home.getWorld().getName() + "','" + this.home.getBlockX() + "','" + this.home.getBlockY() + "','" + this.home.getBlockZ() + "','" + this.lives + "','" + this.createTime + "','" + this.expireTime + "','" + this.lastTakenLifeTime + "','" + (this.pvp ? 1 : 0) + "')";
+		String u = "INSERT INTO `{P}guilds` (`id`,`tag`,`name`,`owner`,`leader`,`cuboidWorld`,`cuboidX`,`cuboidZ`,`cuboidSize`,`homeWorld`,`homeX`,`homeY`,`homeZ`,`lives`,`createTime`,`expireTime`,`lastTakenLifeTime`,`pvp`,`banAdmin`,`banReason`,`banTime`) VALUES(NULL, '" + this.tag + "','" + this.name + "','" + this.owner + "','" + this.leader + "','" + this.cuboid.getWorld().getName() + "','" + this.cuboid.getCenterX() + "','" + this.cuboid.getCenterZ() + "','" + this.cuboid.getSize() + "','" + this.home.getWorld().getName() + "','" + this.home.getBlockX() + "','" + this.home.getBlockY() + "','" + this.home.getBlockZ() + "','" + this.lives + "','" + this.createTime + "','" + this.expireTime + "','" + this.lastTakenLifeTime + "','" + (this.pvp ? 1 : 0) + "', '" + this.banAdmin + "', '" + this.banReason + "', '" + this.banTime + "')";
 		GuildPlugin.getStore().update(false, u);
 	}
 
 	@Override
 	public void update(boolean now) {
-		String update = "UPDATE `{P}guilds` SET `owner`='" + this.owner + "', `leader`='" + this.leader + "', `cuboidWorld`='" + this.cuboid.getWorld().getName() + "', `cuboidX`='" + this.cuboid.getCenterX() + "', `cuboidZ`='" + this.cuboid.getCenterZ() + "', `cuboidSize`='" + this.cuboid.getSize() + "', `homeWorld`='" + this.home.getWorld().getName() + "', `homeX`='" + this.home.getBlockX() + "', `homeY`='" + this.home.getBlockY() + "', `homeZ`='" + this.home.getBlockZ() + "', `createTime`='" + this.createTime + "', `expireTime`='" + this.expireTime + "', `lastTakenLifeTime` = '" + this.lastTakenLifeTime + "', `lives` = '" + this.lives + "', `pvp`='" + (this.pvp ? 1 : 0) + "' WHERE `tag`='" + this.tag + "'";
-		if (now)
-			GuildPlugin.getStore().update(now, update);
+		String update = "UPDATE `{P}guilds` SET `owner`='" + this.owner + "', `leader`='" + this.leader + "', `cuboidWorld`='" + this.cuboid.getWorld().getName() + "', `cuboidX`='" + this.cuboid.getCenterX() + "', `cuboidZ`='" + this.cuboid.getCenterZ() + "', `cuboidSize`='" + this.cuboid.getSize() + "', `homeWorld`='" + this.home.getWorld().getName() + "', `homeX`='" + this.home.getBlockX() + "', `homeY`='" + this.home.getBlockY() + "', `homeZ`='" + this.home.getBlockZ() + "', `createTime`='" + this.createTime + "', `expireTime`='" + this.expireTime + "', `lastTakenLifeTime` = '" + this.lastTakenLifeTime + "', `lives` = '" + this.lives + "', `pvp`='" + (this.pvp ? 1 : 0) + "',`banAdmin` = '" + this.banAdmin + "', `banTime`='" + this.banTime + "',`banReason`='" + this.banReason + "' WHERE `tag`='" + this.tag + "'";
+		GuildPlugin.getStore().update(now, update);
 
 	}
 
@@ -247,7 +282,7 @@ public class Guild implements Entry, Comparable<Guild> {
 		GuildPlugin.getStore().update(true, "DELETE FROM `{P}members` WHERE `tag` = '" + this.tag + "'");
 		GuildPlugin.getStore().update(true, "DELETE FROM `{P}treasure_users` WHERE `tag` = '" + this.tag + "'");
 		this.treasure.delete();
-		for (Alliance a : Manager.ALLIANCE.getGuildAlliances(this))
+		for (Alliance a : AllianceManager.getGuildAlliances(this))
 			a.delete();
 	}
 

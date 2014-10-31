@@ -3,7 +3,9 @@ package net.karolek.revoguild.listeners;
 import net.karolek.revoguild.base.Guild;
 import net.karolek.revoguild.data.Config;
 import net.karolek.revoguild.data.Lang;
-import net.karolek.revoguild.manager.Manager;
+import net.karolek.revoguild.managers.AllianceManager;
+import net.karolek.revoguild.managers.GuildManager;
+import net.karolek.revoguild.managers.UserManager;
 import net.karolek.revoguild.utils.ParticleUtil;
 import net.karolek.revoguild.utils.SpaceUtil;
 import net.karolek.revoguild.utils.TimeUtil;
@@ -33,7 +35,7 @@ public class UptakeListener implements Listener {
 		if (b == null)
 			return;
 
-		Guild g = Manager.GUILD.getGuild(b.getLocation());
+		Guild g = GuildManager.getGuild(b.getLocation());
 
 		if (g == null)
 			return;
@@ -57,7 +59,7 @@ public class UptakeListener implements Listener {
 		if (!b.getType().equals(Material.DRAGON_EGG))
 			return;
 
-		Guild g = Manager.GUILD.getGuild(b.getLocation());
+		Guild g = GuildManager.getGuild(b.getLocation());
 
 		if (g == null)
 			return;
@@ -66,15 +68,15 @@ public class UptakeListener implements Listener {
 
 		Player p = e.getPlayer();
 
-		if (g.isMember(Manager.USER.getUser(p)))
+		if (g.isMember(UserManager.getUser(p)))
 			return;
 
-		Guild o = Manager.GUILD.getGuild(p);
+		Guild o = GuildManager.getGuild(p);
 
 		if (o == null)
 			return;
 
-		if (Manager.ALLIANCE.hasAlliance(g, o))
+		if (AllianceManager.hasAlliance(g, o))
 			return;
 
 		if ((g.getLastTakenLifeTime() + TimeUtil.HOUR.getTime(Config.UPTAKE_LIVES_TIME)) > System.currentTimeMillis()) {
@@ -91,7 +93,7 @@ public class UptakeListener implements Listener {
 		l.setY(62);
 
 		if (g.getLives() <= 1) {
-			Manager.GUILD.removeGuild(g);
+			GuildManager.removeGuild(g);
 			Util.sendMsg(Util.getOnlinePlayers(), Lang.parse(Lang.BC_GUILD_TAKEN, g, o, p));
 			p.playSound(g.getCuboid().getCenter(), Sound.ENDERDRAGON_DEATH, 20, 20);
 			for (int i = 0; i < 10; i++)
@@ -114,7 +116,7 @@ public class UptakeListener implements Listener {
 			BlockFace dir = e.getDirection();
 			Location l = b.getLocation();
 			if (b.getType().equals(Material.DRAGON_EGG) || l.add(dir.getModX(), dir.getModY(), dir.getModZ()).getBlock().getType().equals(Material.DRAGON_EGG)) {
-				if (Manager.GUILD.getGuild(b.getLocation()) != null) {
+				if (GuildManager.getGuild(b.getLocation()) != null) {
 					e.setCancelled(true);
 					return;
 				}
@@ -126,7 +128,7 @@ public class UptakeListener implements Listener {
 	public void onPistonRetract(BlockPistonRetractEvent e) {
 		Block b = e.getBlock();
 		if (b.getType().equals(Material.DRAGON_EGG))
-			if (Manager.GUILD.getGuild(b.getLocation()) != null) {
+			if (GuildManager.getGuild(b.getLocation()) != null) {
 				e.setCancelled(true);
 				return;
 			}
@@ -134,7 +136,7 @@ public class UptakeListener implements Listener {
 
 	@EventHandler
 	public void onExplode(EntityExplodeEvent e) {
-		if (Manager.GUILD.getGuild(e.getEntity().getLocation()) == null)
+		if (GuildManager.getGuild(e.getEntity().getLocation()) == null)
 			return;
 
 		for (Block b : e.blockList()) {

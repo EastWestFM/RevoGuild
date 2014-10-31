@@ -2,7 +2,7 @@ package net.karolek.revoguild.listeners;
 
 import net.karolek.revoguild.base.Guild;
 import net.karolek.revoguild.data.Config;
-import net.karolek.revoguild.manager.Manager;
+import net.karolek.revoguild.managers.GuildManager;
 import net.karolek.revoguild.utils.Util;
 
 import org.bukkit.entity.Player;
@@ -17,12 +17,11 @@ public class InventoryListener implements Listener {
 	public void onInventoryClose(InventoryCloseEvent e) {
 		Player p = (Player) e.getPlayer();
 		
-		Guild g = Manager.GUILD.getGuild(p);
+		Guild g = GuildManager.getGuild(p);
 		
-		if(g == null) {
-			//p.closeInventory();
+		if(g == null) 
 			return;
-		}
+		
 		
 		Inventory inv = e.getInventory();
 		if (!Util.fixColor(Config.TREASURE_TITLE).equalsIgnoreCase(inv.getName()))

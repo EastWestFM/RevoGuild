@@ -2,11 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.karolek</groupId>
 	<artifactId>revoguild</artifactId>
-<<<<<<< HEAD
-	<version>0.2.0-b194</version>
-=======
-	<version>0.2.0-b191</version>
->>>>>>> origin/master
+	<version>0.2.0-b233</version>
 	<name>RevoGuild</name>
 	<description>Plugin na gildie.</description>
 	<properties>
@@ -80,6 +76,24 @@
 					<source>1.7</source>
 					<target>1.7</target>
 				</configuration>
+			</plugin>
+			  <plugin>
+			  <artifactId>maven-antrun-plugin</artifactId>
+			  <version>1.4</version>
+			  <executions>
+			    <execution>
+			      <phase>process-resources</phase>
+			      <configuration>
+			        <tasks>
+			           <copy file="${project.build.outputDirectory}/version.txt"
+			                 toFile="${basedir}/version.txt" overwrite="true" />
+			        </tasks>
+			      </configuration>
+			      <goals>
+			        <goal>run</goal>
+			      </goals>
+			    </execution>
+			  </executions>
 			</plugin>
 			<plugin>
 		        <groupId>org.codehaus.mojo</groupId>

@@ -33,12 +33,10 @@ public class Treasure implements Entry {
 		rs.next();
 		this.owner = g;
 		ItemStack[] items = ItemSerializer.stringToItems(rs.getString("content"));
-		if (items.length > this.items.length) {
+		if (items.length > this.items.length)
 			this.items = Arrays.copyOfRange(items, 0, this.items.length);
-			for (ItemStack item : Arrays.copyOfRange(items, this.items.length + 1, items.length))
-				if (item != null)
-					owner.getHome().getWorld().dropItem(owner.getHome(), item);
-		}
+		else 
+			this.items = items;
 	}
 
 	public String getContent() {
@@ -53,9 +51,7 @@ public class Treasure implements Entry {
 	@Override
 	public void update(boolean now) {
 		String query = "UPDATE `{P}treasures` SET `content` ='" + getContent() + "' WHERE `tag` = '" + this.owner.getTag() + "'";
-
 		GuildPlugin.getStore().update(now, query);
-
 	}
 
 	@Override

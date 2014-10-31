@@ -1,31 +1,28 @@
 package net.karolek.revoguild.listeners;
 
-import net.karolek.revoguild.GuildPlugin;
-import net.karolek.revoguild.tablist.TabManager;
+import net.karolek.revoguild.base.Guild;
+import net.karolek.revoguild.data.Lang;
+import net.karolek.revoguild.managers.GuildManager;
 
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
-import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.event.player.PlayerLoginEvent.Result;
 
 public class LoginListener implements Listener {
 
-	@EventHandler(priority = EventPriority.MONITOR)
+	@EventHandler(priority = EventPriority.LOWEST)
 	public void onLogin(PlayerLoginEvent e) {
-		final Player p = e.getPlayer();
-		if (p == null || e.getResult() != PlayerLoginEvent.Result.ALLOWED)
+		Guild g = GuildManager.getGuild(e.getPlayer());
+		if (g == null)
+			return;
+		if (!g.isBanned())
 			return;
 
-		new BukkitRunnable() {
+		String kickMsg = Lang.parse(Lang.BAN_KICKED, g);
 
-			@Override
-			public void run() {
-				TabManager.createTab(p);
-			}
-
-		}.runTask(GuildPlugin.getPlugin());
+		e.disallow(Result.KICK_BANNED, kickMsg);
 
 	}
 

@@ -9,7 +9,8 @@ import org.bukkit.scoreboard.Team;
 import net.karolek.revoguild.base.Guild;
 import net.karolek.revoguild.data.Config;
 import net.karolek.revoguild.data.Lang;
-import net.karolek.revoguild.manager.Manager;
+import net.karolek.revoguild.managers.AllianceManager;
+import net.karolek.revoguild.managers.GuildManager;
 import net.karolek.revoguild.nametags.NameTag;
 import net.karolek.revoguild.nametags.NameTagMode;
 import net.karolek.revoguild.utils.Util;
@@ -20,9 +21,9 @@ public class ScoreBoardNameTag implements NameTag {
 	public void initPlayer(Player p) {
 		Scoreboard sb = Bukkit.getScoreboardManager().getNewScoreboard();
 
-		Guild g = Manager.GUILD.getGuild(p);
+		Guild g = GuildManager.getGuild(p);
 		Team t;
-		for (Guild o : Manager.GUILD.getGuilds().values()) {
+		for (Guild o : GuildManager.getGuilds().values()) {
 			t = sb.getTeam(o.getTag());
 			if (t == null) {
 				t = sb.registerNewTeam(o.getTag());
@@ -35,7 +36,7 @@ public class ScoreBoardNameTag implements NameTag {
 				} else {
 					t.setPrefix(parse(Config.TAG_COLOR_FRIEND, o));
 				}
-			} else if (Manager.ALLIANCE.hasAlliance(o, g)) {
+			} else if (AllianceManager.hasAlliance(o, g)) {
 				t.setPrefix(parse(Config.TAG_COLOR_ALLIANCE, o));
 			} else {
 				t.setPrefix(parse(Config.TAG_COLOR_ENEMY, o));
@@ -53,7 +54,7 @@ public class ScoreBoardNameTag implements NameTag {
 		for (Player online : Bukkit.getOnlinePlayers()) {
 			online.getScoreboard().getTeam(g != null ? g.getTag() : "noguild").addPlayer(p);
 
-			Guild onlineguild = Manager.GUILD.getGuild(online);
+			Guild onlineguild = GuildManager.getGuild(online);
 
 			p.getScoreboard().getTeam(onlineguild != null ? onlineguild.getTag() : "noguild").addPlayer(online);
 		}

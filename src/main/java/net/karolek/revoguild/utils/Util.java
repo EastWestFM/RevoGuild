@@ -18,6 +18,10 @@ import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
+
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -66,6 +70,29 @@ public class Util {
 		for (String s : strings)
 			colors.add(fixColor(s));
 		return colors;
+	}
+
+	/*
+	 * public static Object eval(String s) { ScriptEngineManager manager= new
+	 * ScriptEngineManager(); ScriptEngine engine =
+	 * manager.getEngineByName("js"); Object o = null; try { o = engine.eval(s);
+	 * } catch (ScriptException e) { e.printStackTrace(); } return o; }
+	 */
+
+	public static int calculate(String s) {
+		int i = 1;
+		ScriptEngineManager manager = new ScriptEngineManager();
+		ScriptEngine engine = manager.getEngineByName("js");
+		Number n = 1;
+		try {
+			n = (Number) engine.eval(s);
+		} catch (ScriptException e) {
+			e.printStackTrace();
+		}
+
+		i = n.intValue();
+
+		return i;
 	}
 
 	public static String[] fixColor(String[] strings) {
@@ -136,7 +163,7 @@ public class Util {
 	public static String getDate(long time) {
 		return new SimpleDateFormat("dd/MM/yyyy, HH:mm:ss").format(new Date(time));
 	}
-	
+
 	public static String getTime(long time) {
 		return new SimpleDateFormat("HH:mm:ss").format(new Date(time));
 	}

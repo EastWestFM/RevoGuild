@@ -4,3 +4,43 @@ version: '${project.version}'
 authors: [Karolek, kamcio96]
 website: 'http://karolek.net/plugins/revoguild'
 description: '${project.description}'
+permissions:
+  revoguild.*:
+    description: Uprawnia do dostepu dla wszystkich komend uzytkownika
+    children:
+      revoguild.alliance: true
+      revoguild.create: true
+      revoguild.delete: true
+      revoguild.enlarge: true
+      revoguild.home: true
+      revoguild.info: true
+      revoguild.invite: true
+      revoguild.join: true
+      revoguild.kick: true
+      revoguild.leader: true
+      revoguild.leave: true
+      revoguild.list: true
+      revoguild.owner: true
+      revoguild.prolong: true
+      revoguild.pvp: true
+      revoguild.sethome: true
+      revoguild.treasure: true
+      revoguild.top: true
+      revoguild.ranking: true
+      revoguild.main: true
+    default: true
+  revoguild.admin.*:
+    description: Uprawnia do dostepu dla waszystkich komend administratora
+    children:
+      revoguild.admin.ban: true
+      revoguild.admin.delete: true
+      revoguild.admin.kick: true
+      revoguild.admin.reload: true
+      revoguild.admin.setcuboid: true
+      revoguild.admin.setsize: true
+      revoguild.admin.tp: true
+      revoguild.admin.unban: true
+      revoguild.admin.reset: true
+      revoguild.admin.set: true
+      revoguild.admin.main: true
+    default: op

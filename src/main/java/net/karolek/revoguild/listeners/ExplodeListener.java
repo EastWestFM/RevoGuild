@@ -6,7 +6,8 @@ import java.util.GregorianCalendar;
 import net.karolek.revoguild.base.Guild;
 import net.karolek.revoguild.data.Config;
 import net.karolek.revoguild.data.Lang;
-import net.karolek.revoguild.manager.Manager;
+import net.karolek.revoguild.managers.GuildManager;
+import net.karolek.revoguild.managers.UserManager;
 import net.karolek.revoguild.utils.TimeUtil;
 import net.karolek.revoguild.utils.Util;
 
@@ -29,7 +30,7 @@ public class ExplodeListener implements Listener {
 				e.setCancelled(true);
 		}
 
-		Guild g = Manager.GUILD.getGuild(e.getEntity().getLocation());
+		Guild g = GuildManager.getGuild(e.getEntity().getLocation());
 
 		if (g == null)
 			return;
@@ -51,11 +52,11 @@ public class ExplodeListener implements Listener {
 			return;
 
 		Player p = e.getPlayer();
-		Guild g = Manager.GUILD.getGuild(e.getBlockPlaced().getLocation());
+		Guild g = GuildManager.getGuild(e.getBlockPlaced().getLocation());
 		if (g == null)
 			return;
 
-		if (!g.isMember(Manager.USER.getUser(p)))
+		if (!g.isMember(UserManager.getUser(p)))
 			return;
 
 		// System.out.println((System.currentTimeMillis() -

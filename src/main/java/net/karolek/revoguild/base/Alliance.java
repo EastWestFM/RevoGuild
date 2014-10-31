@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import lombok.Getter;
 import lombok.Setter;
 import net.karolek.revoguild.GuildPlugin;
-import net.karolek.revoguild.manager.Manager;
+import net.karolek.revoguild.managers.GuildManager;
 import net.karolek.revoguild.store.Entry;
 
 @Getter
@@ -21,8 +21,8 @@ public class Alliance implements Entry {
 	}
 
 	public Alliance(ResultSet rs) throws SQLException {
-		this.guild1 = Manager.GUILD.getGuild(rs.getString("guild_1"));
-		this.guild2 = Manager.GUILD.getGuild(rs.getString("guild_2"));
+		this.guild1 = GuildManager.getGuild(rs.getString("guild_1"));
+		this.guild2 = GuildManager.getGuild(rs.getString("guild_2"));
 	}
 
 	@Override

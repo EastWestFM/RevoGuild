@@ -4,7 +4,8 @@ package net.karolek.revoguild.listeners;
 import net.karolek.revoguild.base.Guild;
 import net.karolek.revoguild.data.Config;
 import net.karolek.revoguild.data.Lang;
-import net.karolek.revoguild.manager.Manager;
+import net.karolek.revoguild.managers.GuildManager;
+import net.karolek.revoguild.managers.UserManager;
 import net.karolek.revoguild.utils.Util;
 
 import org.bukkit.Location;
@@ -56,11 +57,11 @@ public class ActionsListener implements Listener {
 		
 		if(!Config.ACTIONS_PROTECTEDID.contains(b.getTypeId())) return;
 		
-		Guild g = Manager.GUILD.getGuild(b.getLocation());
+		Guild g = GuildManager.getGuild(b.getLocation());
 		
 		if(g == null) return;
 		
-		if(g.isMember(Manager.USER.getUser(p))) return;
+		if(g.isMember(UserManager.getUser(p))) return;
 		
 		e.setCancelled(true);
 		Util.sendMsg(p, Lang.ERROR_CANT_USE);
@@ -70,11 +71,11 @@ public class ActionsListener implements Listener {
 		if (p.isOp())
 			return false;
 
-		Guild g = Manager.GUILD.getGuild(l);
+		Guild g = GuildManager.getGuild(l);
 		if (g == null)
 			return false;
 
-		if (g.isMember(Manager.USER.getUser(p)))
+		if (g.isMember(UserManager.getUser(p)))
 			return false;
 
 		Util.sendMsg(p, message);

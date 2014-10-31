@@ -9,7 +9,6 @@ import lombok.Setter;
 import net.karolek.revoguild.GuildPlugin;
 import net.karolek.revoguild.data.Config;
 import net.karolek.revoguild.store.Entry;
-import net.karolek.revoguild.tablist.TabThread;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -40,7 +39,7 @@ public class User implements Entry, Comparable<User> {
 
 	public User(ResultSet rs) throws SQLException {
 		this.uuid = Config.USEUUID ? UUID.fromString(rs.getString("uuid")) : null;
-		this.name = Config.USEUUID ? getOfflinePlayer().getName() : rs.getString("uuid");
+		this.name = rs.getString("lastNick");
 		this.kills = rs.getInt("kills");
 		this.deaths = rs.getInt("deaths");
 		this.points = rs.getInt("points");
@@ -55,13 +54,11 @@ public class User implements Entry, Comparable<User> {
 	public void addKill() {
 		this.kills += 1;
 		GuildPlugin.getStore().update(false, "UPDATE `{P}users` SET `kills` = '" + this.kills + "' WHERE `uuid` = '" + this.toString() + "'");
-		TabThread.restart();
 	}
 
 	public void addDeath() {
 		this.deaths += 1;
 		GuildPlugin.getStore().update(false, "UPDATE `{P}users` SET `deaths` = '" + this.deaths + "' WHERE `uuid` = '" + this.toString() + "'");
-		TabThread.restart();
 	}
 
 	public void addPoints(int points) {
@@ -94,12 +91,12 @@ public class User implements Entry, Comparable<User> {
 
 	@Override
 	public void insert() {
-		GuildPlugin.getStore().update(true, "INSERT INTO `{P}users` (`id`,`uuid`,`points`,`kills`,`deaths`,`timePlay`) VALUES(NULL, '" + this.toString() + "','" + this.points + "','" + this.kills + "','" + this.deaths + "','" + this.timePlay + "')");
+		GuildPlugin.getStore().update(true, "INSERT INTO `{P}users` (`id`,`uuid`,`lastNick`,`points`,`kills`,`deaths`,`timePlay`) VALUES(NULL, '" + this.toString() + "','" + this.name + "','" + this.points + "','" + this.kills + "','" + this.deaths + "','" + this.timePlay + "')");
 	}
 
 	@Override
 	public void update(boolean now) {
-		GuildPlugin.getStore().update(now, "UPDATE `{P}users` SET `points` = '" + this.points + "',`kills` = '" + this.kills + "',`deaths` = '" + this.deaths + "',`timePlay` = '" + this.timePlay + "' WHERE `uuid` = '" + this.toString() + "'");
+		GuildPlugin.getStore().update(now, "UPDATE `{P}users` SET `lastNick` = '" + this.name + "',`points` = '" + this.points + "',`kills` = '" + this.kills + "',`deaths` = '" + this.deaths + "',`timePlay` = '" + this.timePlay + "' WHERE `uuid` = '" + this.toString() + "'");
 	}
 
 	@Override
