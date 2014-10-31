@@ -134,8 +134,6 @@ config:
 
 ````
 
-*Opiszę w wolnej w chwili ;)*
-
 =======
 #### Konfiguracja tablisty (plik tablist.yml):
 ````yaml
