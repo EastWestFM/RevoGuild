@@ -34,7 +34,7 @@ public class TreasureCommand extends SubCommand {
 			if (g.isTreasureUser(pU)) {
 				if(Config.TREASURE_OPENONLYONGUILD) {
 					Guild o = GuildManager.getGuild(p.getLocation());
-					if (o != null && !o.equals(g))
+					if (o == null || !o.equals(g))
 						return Util.sendMsg(p, Lang.ERROR_CANT_OPEN_TREASURE_OUTSIDE_CUBOID);
 				}
 				g.openTreasure(p);
