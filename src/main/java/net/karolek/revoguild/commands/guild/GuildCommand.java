@@ -73,6 +73,9 @@ public class GuildCommand extends SubCommand {
 
 		if (sc == null)
 			return Util.sendMsg(p, Lang.CMD_MAIN_HELP);
+		
+		if (!p.hasPermission(sc.getPermission()))
+			return Util.sendMsg(p, "&cYou don't have permissions to run that command! &7(" + sc.getPermission() + ")");
 
 		return sc.onCommand(p, Arrays.copyOfRange(args, 1, args.length));
 

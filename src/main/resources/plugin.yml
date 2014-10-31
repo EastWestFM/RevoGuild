@@ -28,7 +28,7 @@ permissions:
       revoguild.top: true
       revoguild.ranking: true
       revoguild.main: true
-    default: true
+    default: false
   revoguild.admin.*:
     description: Uprawnia do dostepu dla waszystkich komend administratora
     children:
