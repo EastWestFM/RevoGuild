@@ -5,88 +5,13 @@ RevoGuild
 
 Rewolucyjny system gildii na Twój serwer! ;)
 
-###### Lista TODO:
-- [x] komendy administratora
-- [x] wsparcie dla pluginów od czatu
-- [ ] czat gildyjny oraz sojuszniczy
-- [x] wsparcie dla pluginów rankingowych
-- [x] tablista
-- [ ] optymalizacja! :smile:
-
-========
-#### Komendy:
-
-Komenda|Uprawnienie|Opis działania
-:-------------|:-------------:|:-------------
-/g (subkomenda)|rg.cmd.user|główna komenda systemu gildii
-/zaloz (tag) (nazwa)|rg.cmd.user.create|tworzenie gildii
-/usun|rg.cmd.user.delete|usuwanie gildii
-/sojusz (tag/nazwa)|rg.cmd.user.alliance|zarzadzanie sojuszami gildii
-/zapros (gracz)|rg.cmd.user.invite|zapraszanie gracza do gildii
-/dolacz (tag/nazwa)|rg.cmd.user.join|dolaczanie do gildii
-/wyrzuc (gracz)|rg.cmd.user.kick|wyrzucanie gracza z gildii
-/opusc|rg.cmd.user.leave|opuszczanie gildii
-/skarbiec [dodaj (gracz) / usun (gracz) / lista]|rg.cmd.user.treasure|zarzadzanie skarbcem gildii
-/dom|rg.cmd.user.home|teleportowanie do domu gildii
-/ustawdom|rg.cmd.user.sethome|ustawianie domu gildii
-/pvp|rg.cmd.user.pvp|zmienianie statusu pvp w gildii
-/info (tag/nazwa)|rg.cmd.user.info|wyswietlanie podstawowych informacji o gidlii
-/lider (gracz)|rg.cmd.user.leader|zmienianie lidera gildii
-/zalozyciel (gracz)|rg.cmd.user.owner|zmienianie zalozyciela gildii
-/lista|rg.cmd.user.list|wyswietlanie listy wszystkich gildii
-/powieksz|rg.cmd.user.enlarge|powiekszanie terenu gildii
-/przedluz|rg.cmd.user.prolong|przedluzanie waznosci gildii
-
-
-Wszystkie komendy mogą być wykonywane jako **subkomenda** do komendy `/g` (przykład: `/g zaloz (tag) (nazwa)`) lub jako **osobne**, **indywidualne** komendy (przykład: `/zaloz (tag) (nazwa)`)
-
-========
-#### Komendy administratora:
-
-Komenda|Uprawnienie|Opis działania
-:-------------|:-------------:|:-------------
-/ga (subkomenda)|rg.cmd.admin|główna komenda 
-/ga usun (tag/nazwa)|rg.cmd.admin.delete|usuwanie gildii
-/ga tp (tag/nazwa|rg.cmd.admin.tp|teleport do gildii
-/ga reload|rg.cmd.admin.reload|przeladowanie plikow konfiguracyjnych
-
-========
-#### Komendy dot. rankingu:
-
-Komenda|Uprawnienie|Opis działania
-:-------------|:-------------:|:-------------
-/ranking [gracz]|rg.cmd.user.ranking|wyświetlanie rankingu gracza 
-/top|rg.cmd.user.top|lista top10 graczy
-
-
-
-=======
-#### Zmienne (plik lang.yml):
-
-Komenda|Opis działania
-:-------------|:-------------
-{TAG}|tag gildii
-{NAME}|nazwa gildii
-{OWNER}|zalozyciel gildii
-{LEADER}|lider gildii
-{CREATETIME}|data utworzenia gildii
-{EXPIRETIME}|data wygasniecia gildii
-{SIZE}|rozmiar gildii
-{MEMBERS}|czlonkowie gildii
-{MEMBERNUM}|liczba czlonkow w gildii
-{ONLINENUM}|liczba czlonkow online w gildii
-{PLAYER}|nick gracza
-
-Istnieją również zmienne dotyczące drugiej gildii, jednak ze względu na ich budowę pokażę tylko schemat: `{TAG2}` - zwróci nam tag drugiej gildii.
-
-======
 #### Konfiguracja (plik config.yml):
 ````yaml
 config:
-  enabled: false
-  useuuid: true
+  enabled: false #Aktywnosc pluginu: true/false
+  useuuid: true #Uzywanie UUID jako identyfikatora gracza: true/false (jesli nie korzystasz z wersji powyżej 1.7.9 ustaw false)
   database:
-    mode: mysql
+    mode: sqlite #Tryb bazy danych: sqlite/mysql
     tableprefix: ks_
     mysql:
       host: localhost
@@ -97,50 +22,55 @@ config:
     sqlite:
       name: minecraft.db
   tag:
-    mode: tagapi
-    format: '&8[{COLOR}{TAG}&8] {COLOR}'
+    mode: tagapi #Tryb tagów nad głową: tagapi/scoreboard
+    format: '&8[{COLOR}{TAG}&8] {COLOR}' #Format tagu nad głową
     color:
-      noguild: '&7'
-      friend: '&a'
-      friendpvp: '&9'
-      enemy: '&c'
-      alliance: '&6'
+      noguild: '&7' #Brak gildii
+      friend: '&a' #Własna gildia
+      friendpvp: '&9' #Własna gildia z włączonym pvp
+      enemy: '&c' #Wróg
+      alliance: '&6' #Sojusznik
   chat:
     format:
-      tag: '&8[&2{TAG}&8]&r '
-      rank: '&8[&2{RANK}&8]&r '
-      tagdeathmsg: '&7[&2{TAG}&7]&r '
+      tag: '&8[&2{TAG}&8]&r ' #Format tagu gildii na czacie
+      rank: '&8[&2{RANK}&8]&r ' #Format rankignu gracza na czacie
+      tagdeathmsg: '&7[&2{TAG}&7]&r ' #Format tagu gildii w wiadomosci od śmierci
   ranking:
-    startpoints: 1000
-    deathmessage: '&2Gracz {PGUILD} &7{PLAYER} ({LOSEPOINTS}) &2zostal zabity przez
-      {KGUILD} &7{KILLER} ({WINPOINTS})&2!'
-    algorithm:
-      win: (300 + (({KILLER_POINTS} - {PLAYER_POINTS}) * (-0.2)))
-      lose: Math.abs({WIN_POINTS}/2)
-  enlarge:
-    algorithm: ({CUBOID_SIZE} - 24)/5 +1
+    startpoints: 1000 #Początkowa ilość punktów rankingu
+    deathmessage: '&2Gracz {PGUILD} &7{PLAYER} ({LOSEPOINTS}) &2zostal zabity przez {KGUILD} &7{KILLER} ({WINPOINTS})&2!' #Wiadomosc po śmierci
+  escape:
+    pointsremove: 50 #Ilość punktów usuwana podczas ucieczki z pvp
+    broadcast: '&2Gracz {PGUILD} &7{PLAYER} &7(-50) &2wylogowal sie podczas walki!' #Wiadomosc po ucieczce
+  algorithm:
+    ranking:
+      win: (300 + (({KILLER_POINTS} - {PLAYER_POINTS}) * (-0.2))) #Algorytm obliczania rankingu dla zwycięzcy pojedynku
+      lose: Math.abs({WIN_POINTS}/2) #Algorytm obliczania rankingu dla przegranego pojedynku
+    guild:
+      points: '{MEMBERS_POINTS} - ({MEMBERS_NUM}*1000)' #Algorytm obliczania rankingu gildii
+    enlarge: ({CUBOID_SIZE} - 24)/5 +1 #Algorytm określający ilosć pobieranych itemów podczas powiększania
   actions:
     block:
-      break: false
-      place: false
+      break: false #Mozliwosc niszczenie terenu gildii
+      place: false #Mozliwosc budowania na terenie gildii
     bucket:
-      empty: false
-      fill: false
-    protectedid:
+      empty: false #Mozliwosc opróżniania wiadra na terenie gildii
+      fill: false #Mozliwosc napełniania wiadra na terenie gildii
+    protectedid: #Id bloków, których nie można używać na terenie gildii
     - 54
   uptake:
-    enabled: false
+    enabled: false #Mozliwosc przejmowania gildii
     lives:
-      start: 3
-      max: 6
-      time: 24
+      start: 3 #Poczatkowa ilosc zyc
+      max: 6 #Maksymalna ilosc zyc
+      time: 24 #Czas pomiedzy przejęciem życia gildii (w godzinach)
   treasure:
-    enabled: false
-    title: 'Skarbiec gildii:'
-    rows: 6
+    enabled: false #Mozliwosc korzystania ze skarbcow gildii
+    openonlyonguild: true #Mozliwosc otwierania skarbca tylko na terenie gildii
+    title: 'Skarbiec gildii #Nazwa ekwipunku skarbca
+    rows: 6 #Ilosc wierszy ekwipunku skarbca
   tnt:
     'off':
-      enabled: false
+      enabled: false #Mozliwosc wylaczanie TNT w godzinach podanych nizej
       hours:
       - 0
       - 1
@@ -152,84 +82,111 @@ config:
       - 7
       - 8
     protection:
-      enabled: false
-      time: 24
+      enabled: false #Mozliwosc ochrony nowej gildii przed TNT
+      time: 24 #Czas ochrony przez TNT (w godzinach)
     cantbuild:
-      enabled: false
-      time: 90
+      enabled: false #Nie możność budowania po wybuchu TNT na tereni gildii
+      time: 90 #Czas blokady budowania (w sekundach)
     durability:
-      enabled: false
-      blocks:
+      enabled: false #Mozliwosc zmiany wytrzymalosci blokow (np. możliwość niszczenia obsydianu poprzez TNT)
+      blocks: #Lista blokow; format: '<nazwa bloku> <wytrzymalosc>'
       - OBSIDIAN 73.6
       - WATER 10.0
       - STATIONARY_WATER 10.0
-  cost:
-    create: 1:0-10;
-    join: 1:0-10;
-    leader: 1:0-10;
-    owner: 1:0-10;
-    enlarge: 1:0-10;
-    prolong: 1:0-10;
-  size:
-    start: 24
-    max: 74
-    add: 1
-    between: 50
+  cost: #Ilość przedmiotów potrzebnych do poszczególnych akcji. Normal - użytkownik bez uprawnienia revoguild.vip; vip - użytkownik z uprawnieniem revoguild.vip; format: '<id>:<subid>-<ilosc>;<id>:<subid>-<ilosc>;<id>:<subid>-<ilosc>;'
+    create: #Tworzenie gildii
+      normal: 1:0-10;
+      vip: 1:0-5;
+    join: #Dołączanie do gildii
+      normal: 1:0-10;
+      vip: 1:0-5;
+    leader: #Zmiana lidera gildii
+      normal: 1:0-10;
+      vip: 1:0-5;
+    owner: #Zmiana założyciela gildii
+      normal: 1:0-10;
+      vip: 1:0-5;
+    enlarge: #Powiększanie gildii
+      normal: 1:0-10;
+      vip: 1:0-5;
+    prolong: #Przedłużanie gildii
+      normal: 1:0-10;
+      vip: 1:0-5;
+  cuboid: 
+    world: world #Świat, w którym możemy stworzyć gildię
+    size: #Rozmiary gildii
+      start: 24 #Początkowy rozmiar (promień!)
+      max: 74 #Maksymalny rozmiar (promień!)
+      add: 1 #Wartosc o jaką jest powiększana gildia
+      between: 50 #Odległość pomiędzy gildiami powiększonymi maksymalnie
+    spawn:
+      distance: 400 #Odległość od spawna (0,0)
   time:
-    start: 3
-    max: 14
-    add: 7
-    check: 3
-    teleport: 10
+    start: 3 #Poczatkowa ważność gildii (w dniach)
+    max: 14 #Maksymalna ważność gildii (w dniach)
+    add: 7 #Wartość o jaką jest przedłużana gildia (w dniach)
+    check: 3 #Odstęp pomiędzy sprawdzaniem ważnościem gildii (w godzinach)
+    teleport: 10 #Czas do teleport (w sekundach)
   tablist:
-    enabled: false
+    enabled: false #Mozliwosc korzystania z customowej tablisty
     refresh:
-      interval: 1
-    slots: in tablist.yml
+      interval: 1 #Czas do odświeżenia wartości pól wyróżnionych w tablist.yml -> update-slots
+
 ````
 
 *Opiszę w wolnej w chwili ;)*
 
 =======
 #### Konfiguracja tablisty (plik tablist.yml):
-
-Przykładowa konfiguracja:
 ````yaml
 tablist:
-  5: '&7|&6&lCRAFT&7|&l.PL'
-  13: '&2&l|TOP GRACZY:|'
-  14: '&2&l|INFORMACJE:|'
-  15: '&2&l|TOP GILDIE:|'
-  16: '&7|1.&6 |{PTOP-1}'
-  17: '&7|Godzina: |&c{TIME}'
-  18: '&7|1.&r&6 |{GTOP-1}'
-  19: '&7|2.&6 |{PTOP-2}'
-  20: '&7|Zabojstwa: |&c{KILLS}'
-  21: '&7|2.&r&6 |{GTOP-2}'
-  22: '&7|3.&6 |{PTOP-3}'
-  23: '&7|Smierci: |&c{DEATHS}'
-  24: '&7|3.&r&6 |{GTOP-3}'
-  25: '&7|4.&6 |{PTOP-4}'
-  26: '&7|Punkty: |&c{POINTS}'
-  27: '&7|4.&r&6 |{GTOP-4}'
-  28: '&7|5.&6 |{PTOP-5}'
-  29: '&7|Gildia: |&c{TAG}'
-  30: '&7|5.&r&6 |{GTOP-5}'
-  31: '&7|6.&6 |{PTOP-6}'
-  32: '&7|Ping: |&c{PING}'
-  33: '&7|6.&r&6 |{GTOP-6}'
-  34: '&7|7.&6 |{PTOP-7}'
-  35: '&7|Online: |&c{ONLINE}/300'
-  36: '&7|7.&r&6 |{GTOP-7}'
-  37: '&7|8.&6 |{PTOP-8}'
-  39: '&7|8.&r&6 |{GTOP-8}'
-  40: '&7|9.&6 |{PTOP-9}'
-  42: '&7|9.&r&6 |{GTOP-9}'
-  43: '&7|10.&6 |{PTOP-10}'
-  45: '&7|10.&r&6 |{GTOP-10}'
+  slots:
+    '5': ' &2MC.|&7&lKAROLEK|&8.NET'
+    '13': '  &2|Ranking graczy|'
+    '14': '     &2|INFORMACJE:|'
+    '15': '     &2|Ranking gildii|'
+    '16': '&7|1.&2 |{PTOP-1}'
+    '17': '&7|Godzina: |&2{TIME}'
+    '18': '&7|1.&r&2 |{GTOP-1}'
+    '19': '&7|2.&2 |{PTOP-2}'
+    '20': '&7|Zabójstwa: |&2{KILLS}'
+    '21': '&7|2.&r&2 |{GTOP-2}'
+    '22': '&7|3.&2 |{PTOP-3}'
+    '23': '&7|Smierci: |&2{DEATHS}'
+    '24': '&7|3.&r&2 |{GTOP-3}'
+    '25': '&7|4.&2 |{PTOP-4}'
+    '26': '&7|Punkty: |&2{POINTS}'
+    '27': '&7|4.&r&2 |{GTOP-4}'
+    '28': '&7|5.&2 |{PTOP-5}'
+    '29': '&7|Gildia: |&2{TAG}'
+    '30': '&7|5.&r&2 |{GTOP-5}'
+    '31': '&7|6.&2 |{PTOP-6}'
+    '32': '&7|Ping: |&2{PING}&7 ms'
+    '33': '&7|6.&r&2 |{GTOP-6}'
+    '34': '&7|7.&2 |{PTOP-7}'
+    '35': '&7|Online: |&2{ONLINE}/300'
+    '36': '&7|7.&r&2 |{GTOP-7}'
+    '37': '&7|8.&2 |{PTOP-8}'
+    '39': '&7|8.&r&2 |{GTOP-8}'
+    '40': '&7|9.&2 |{PTOP-9}'
+    '42': '&7|9.&r&2 |{GTOP-9}'
+    '43': '&7|10.&2 |{PTOP-10}'
+    '45': '&7|10.&r&2 |{GTOP-10}'
+    '52': '     &7|Facebook:|'
+    '53': '    &7|TeamSpeak3:|'
+    '54': '     &7|Strona WWW:|'
+    '55': '&2|fb.com/|karolek.net'
+    '56': '    &2|ts.karolek.net|'
+    '57': '&2|http://karolek|.net'
+  update-slots:
+  - 17
+  - 32
+  - 35
 ````
 
 Zapis ` 45: '&7|10.&r&6 |{GTOP-10}'` oznacza, że w 45 slocie zobaczymy właśnie taki tekst. Pustych slotów nie musimy definiować. Jeśli wartość w którymś slocie się powtórzy to dostaniemy crasha.
+
+W sekcji `update-slots` wpisujemy ID slotów, które mają być aktualizowane w sposób ciągły (np. czas lub ping). Wszystkie wartości dotyczące rankingu gildii/graczy aktualizowane są wtedy, gdy się zmienią.
 
 `PREFIX|NAME|SUFFIX` - prefix i suffix zmieniają się podczas odświeżania taba, name natomiast jest taki sam i reprezentuje dany team.
 
