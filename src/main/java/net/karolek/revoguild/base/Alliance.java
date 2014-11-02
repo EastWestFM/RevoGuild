@@ -8,6 +8,7 @@ import lombok.Setter;
 import net.karolek.revoguild.GuildPlugin;
 import net.karolek.revoguild.managers.GuildManager;
 import net.karolek.revoguild.store.Entry;
+import net.karolek.revoguild.store.values.Valueable;
 
 @Getter
 @Setter
@@ -34,6 +35,11 @@ public class Alliance implements Entry {
 	public void update(boolean paramBoolean) {
 		throw new RuntimeException("Can not update this object!");
 	}
+	
+	@Override
+	public void update(Valueable value) {
+	}
+
 
 	@Override
 	public void delete() {

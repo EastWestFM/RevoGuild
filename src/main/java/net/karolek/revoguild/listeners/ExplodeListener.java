@@ -36,12 +36,12 @@ public class ExplodeListener implements Listener {
 			return;
 
 		if (Config.TNT_PROTECTION_ENABLED)
-			if (g.getCreateTime() + TimeUtil.DAY.getTime(Config.TNT_PROTECTION_TIME) < System.currentTimeMillis())
+			if (g.getCreateTime().get() + TimeUtil.DAY.getTime(Config.TNT_PROTECTION_TIME) < System.currentTimeMillis())
 				e.setCancelled(true);
 
 		if (!Config.TNT_CANTBUILD_ENABLED)
 			return;
-		g.setLastExplodeTime(System.currentTimeMillis());
+		g.getLastExplodeTime().set(System.currentTimeMillis());
 
 	}
 
@@ -63,7 +63,7 @@ public class ExplodeListener implements Listener {
 		// g.getLastExplodeTime()) + " >=" +
 		// TimeUtil.SECOND.getTime(Config.TIME_BUILDAFTERTNT));
 
-		if (System.currentTimeMillis() - g.getLastExplodeTime() >= TimeUtil.SECOND.getTime(Config.TNT_CANTBUILD_TIME))
+		if (System.currentTimeMillis() - g.getLastExplodeTime().get() >= TimeUtil.SECOND.getTime(Config.TNT_CANTBUILD_TIME))
 			return;
 
 		e.setCancelled(true);

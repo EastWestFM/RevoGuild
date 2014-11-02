@@ -2,6 +2,7 @@ package net.karolek.revoguild;
 
 import lombok.Getter;
 import net.karolek.revoguild.commands.AdminCommand;
+import net.karolek.revoguild.commands.CombatCommand;
 import net.karolek.revoguild.commands.RevoGuildCommand;
 import net.karolek.revoguild.commands.guild.GuildCommand;
 import net.karolek.revoguild.commands.ranking.RankingCommand;
@@ -9,24 +10,8 @@ import net.karolek.revoguild.commands.ranking.TopCommand;
 import net.karolek.revoguild.data.Config;
 import net.karolek.revoguild.data.Lang;
 import net.karolek.revoguild.data.TabScheme;
-import net.karolek.revoguild.listeners.ActionsListener;
-import net.karolek.revoguild.listeners.AsyncChatListener;
-import net.karolek.revoguild.listeners.AsyncTagListener;
-import net.karolek.revoguild.listeners.DamageListener;
-import net.karolek.revoguild.listeners.DeathListener;
-import net.karolek.revoguild.listeners.ExplodeListener;
-import net.karolek.revoguild.listeners.InventoryListener;
-import net.karolek.revoguild.listeners.JoinQuitListener;
-import net.karolek.revoguild.listeners.LoginListener;
-import net.karolek.revoguild.listeners.MoveListener;
-import net.karolek.revoguild.listeners.TeleportListener;
-import net.karolek.revoguild.listeners.UptakeListener;
-import net.karolek.revoguild.managers.AllianceManager;
-import net.karolek.revoguild.managers.CombatManager;
-import net.karolek.revoguild.managers.CommandManager;
-import net.karolek.revoguild.managers.GuildManager;
-import net.karolek.revoguild.managers.NameTagManager;
-import net.karolek.revoguild.managers.UserManager;
+import net.karolek.revoguild.listeners.*;
+import net.karolek.revoguild.managers.*;
 import net.karolek.revoguild.nametags.NameTagMode;
 import net.karolek.revoguild.store.Store;
 import net.karolek.revoguild.store.StoreMode;
@@ -36,10 +21,12 @@ import net.karolek.revoguild.tablist.update.TabLowUpdateTask;
 import net.karolek.revoguild.tablist.update.TabThread;
 import net.karolek.revoguild.tasks.CheckValidityTask;
 import net.karolek.revoguild.tasks.CombatTask;
+import net.karolek.revoguild.tasks.RespawnCrystalTask;
 import net.karolek.revoguild.tasks.Updater;
 import net.karolek.revoguild.utils.BlockUtil;
 import net.karolek.revoguild.utils.Logger;
 import net.karolek.revoguild.utils.TimeUtil;
+import net.karolek.revoguild.utils.UptakeUtil;
 import net.karolek.revoguild.utils.Util;
 
 import org.bukkit.Bukkit;
@@ -103,6 +90,7 @@ public class GuildPlugin extends JavaPlugin {
 			UserManager.initUser(p);
 			NameTagManager.initPlayer(p);
 			CombatManager.createPlayer(p);
+			UptakeUtil.init(p);
 		}
 	}
 
@@ -148,6 +136,8 @@ public class GuildPlugin extends JavaPlugin {
 		CommandManager.register(new RankingCommand());
 		CommandManager.register(new TopCommand());
 		CommandManager.register(new RevoGuildCommand());
+		if(Config.ESCAPE_ENABLED)
+			CommandManager.register(new CombatCommand());
 	}
 
 	protected void registerListeners() {
@@ -159,10 +149,12 @@ public class GuildPlugin extends JavaPlugin {
 		pm.registerEvents(new TeleportListener(), this);
 		pm.registerEvents(new JoinQuitListener(), this);
 		pm.registerEvents(new DamageListener(), this);
-		pm.registerEvents(new UptakeListener(), this);
 		pm.registerEvents(new AsyncChatListener(), this);
 		pm.registerEvents(new DeathListener(), this);
 		pm.registerEvents(new LoginListener(), this);
+		pm.registerEvents(new PacketReceiveListener(), this);
+		if(Config.ESCAPE_ENABLED && Config.ESCAPE_DISABLEDCMD_ENABLED)
+			pm.registerEvents(new CommandsListener(), this);
 		if (Config.TREASURE_ENABLED)
 			pm.registerEvents(new InventoryListener(), this);
 		if (NameTagMode.getByName(Config.TAG_MODE).equals(NameTagMode.TAG_API))
@@ -173,7 +165,9 @@ public class GuildPlugin extends JavaPlugin {
 		Logger.info("Register tasks...");
 		new CheckValidityTask().runTaskTimerAsynchronously(this, TimeUtil.HOUR.getTick(3), TimeUtil.HOUR.getTick(Config.TIME_CHECK));
 		new TabLowUpdateTask().runTaskTimerAsynchronously(this, 20L, TimeUtil.SECOND.getTick(Config.TABLIST_REFRESH_INTERVAL));
-		new CombatTask().runTaskTimerAsynchronously(this, 40L, TimeUtil.SECOND.getTick(1));
+		new RespawnCrystalTask().runTaskTimerAsynchronously(this, 20L, TimeUtil.SECOND.getTick(60));
+		if (Config.ESCAPE_ENABLED)
+			new CombatTask().runTaskTimerAsynchronously(this, 40L, TimeUtil.SECOND.getTick(1));
 		new Updater().runTaskTimerAsynchronously(this, 20L, TimeUtil.MINUTE.getTick(5));
 		new TabThread();
 	}

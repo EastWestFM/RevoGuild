@@ -12,6 +12,7 @@ import net.karolek.revoguild.data.TabScheme;
 import net.karolek.revoguild.tablist.Tab;
 import net.karolek.revoguild.tablist.TabCell;
 import net.karolek.revoguild.tablist.update.RankList;
+import net.karolek.revoguild.tablist.update.RankList.Data;
 import net.karolek.revoguild.utils.PacketUtil;
 import net.karolek.revoguild.utils.Util;
 
@@ -78,23 +79,23 @@ public class TabManager {
 	public static String parse(String s, Player p) {
 		User pU = UserManager.getUser(p);
 		
-		List<RankList.Data> playerList = RankList.getTopPlayers();
-		for (int i = 0; i < 10; i++) {
+		List<Data<User>> playerList = RankList.getTopPlayers();
+		for (int i = 0; i < 20; i++) {
 			if (i >= playerList.size()) {
 				s = StringUtils.replace(s, "{PTOP-" + (i + 1) + "}", "brak");
 			} else {
-				RankList.Data u = playerList.get(i);
-				s = StringUtils.replace(s, "{PTOP-" + (i + 1) + "}", u == null ? "brak" : u.getName());
+				Data<User> u = playerList.get(i);
+				s = StringUtils.replace(s, "{PTOP-" + (i + 1) + "}", u == null ? "brak" : u.getKey().getName());
 			}
 		}
 
-		List<RankList.Data> guildList = RankList.getTopGuilds();
-		for (int i = 0; i < 10; i++) {
+		List<Data<Guild>> guildList = RankList.getTopGuilds();
+		for (int i = 0; i < 20; i++) {
 			if (i >= guildList.size()) {
 				s = StringUtils.replace(s, "{GTOP-" + (i + 1) + "}", "brak");
 			} else {
-				RankList.Data g = guildList.get(i);
-				s = StringUtils.replace(s, "{GTOP-" + (i + 1) + "}", g == null ? "brak" : g.getName() + " &7[" + g.getPoints() + "]");
+				Data<Guild> g = guildList.get(i);
+				s = StringUtils.replace(s, "{GTOP-" + (i + 1) + "}", g == null ? "brak" : g.getKey().getTag() + " &7[" + g.getPoints() + "]");
 			}
 		}
 

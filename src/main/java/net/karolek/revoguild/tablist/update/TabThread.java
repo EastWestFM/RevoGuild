@@ -12,6 +12,7 @@ import net.karolek.revoguild.base.Guild;
 import net.karolek.revoguild.base.User;
 import net.karolek.revoguild.managers.GuildManager;
 import net.karolek.revoguild.managers.UserManager;
+import net.karolek.revoguild.tablist.update.RankList.Data;
 import net.karolek.revoguild.utils.Logger;
 import lombok.Getter;
 
@@ -47,11 +48,11 @@ public class TabThread extends Thread {
 				List<User> stats = new ArrayList<>();
 				stats.addAll(UserManager.getUsers().values());
 				Collections.sort(stats, getUsersComparator());
-				List<RankList.Data> toAddPlayers = new LinkedList<>();
+				List<Data<User>> toAddPlayers = new LinkedList<>();
 				
-				for (int i = 0; i < Math.min(10, stats.size()); i++) {
+				for (int i = 0; i < Math.min(20, stats.size()); i++) {
 					User u = stats.get(i);
-					toAddPlayers.add(new RankList.Data(u.getName(), u.getPoints()));
+					toAddPlayers.add(new Data<User>(u, u.getPoints().get()));
 				}
 
 				RankList.setTopPlayers(toAddPlayers);
@@ -59,11 +60,11 @@ public class TabThread extends Thread {
 				List<Guild> guilds = new ArrayList<>();
 				guilds.addAll(GuildManager.getGuilds().values());
 				Collections.sort(guilds, getGuildsComparator());
-				List<RankList.Data> toAddGuilds = new LinkedList<>();
+				List<Data<Guild>> toAddGuilds = new LinkedList<>();
 				
-				for (int i = 0; i < Math.min(10, guilds.size()); i++) {
+				for (int i = 0; i < Math.min(20, guilds.size()); i++) {
 					Guild g = guilds.get(i);
-					toAddGuilds.add(new RankList.Data(g.getTag(), g.getPoints()));
+					toAddGuilds.add(new Data<Guild>(g, g.getPoints()));
 				}
 				
 				RankList.setTopGuilds(toAddGuilds);
@@ -88,7 +89,7 @@ public class TabThread extends Thread {
 	private static Comparator<User>	usersComparator	= new Comparator<User>() {
 																			@Override
 																			public int compare(User o1, User o2) {
-																				return o2.getPoints() - o1.getPoints();
+																				return o2.getPoints().get() - o1.getPoints().get();
 																			}
 																		};
 

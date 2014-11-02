@@ -38,7 +38,7 @@ public class KickCommand extends SubCommand {
 			return Util.sendMsg(p, Lang.ERROR_CANT_KICK_LEADER_OR_OWNER);
 		
 		if(g.isLeader(u))
-			g.setLeader(g.getOwner());
+			g.getLeader().set(g.getOwner().get());
 		
 		g.removeMember(u);
 

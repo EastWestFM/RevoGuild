@@ -16,8 +16,9 @@ public class PacketUtil {
 		if (handleMethod == null)
 			throw new RuntimeException("HandleMethod can not be null!");
 		Object handle = handleMethod.invoke(player);
-		for (Object o : objects)
+		for (Object o : objects) 
 			sendPacket.invoke(playerConnection.get(handle), o);
+		
 	}
 	
 	public static int getPing(Player p) {

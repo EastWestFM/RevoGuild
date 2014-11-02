@@ -37,10 +37,10 @@ import org.bukkit.inventory.ItemStack;
 public class Util {
 
 	public static boolean sendMsg(CommandSender sender, String message, String permission) {
-		if (permission != null)
-			if (!sender.hasPermission(permission))
-				sender.sendMessage(fixColor(message));
-		sender.sendMessage(fixColor(message));
+			if (permission != null)
+				if (!sender.hasPermission(permission))
+					sender.sendMessage(fixColor(message));
+			sender.sendMessage(fixColor(message));
 		return true;
 	}
 

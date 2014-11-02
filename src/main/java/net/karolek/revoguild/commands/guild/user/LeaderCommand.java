@@ -37,7 +37,7 @@ public class LeaderCommand extends SubCommand {
 
 		@SuppressWarnings("deprecation")
 		Player o = Bukkit.getPlayer(args[0]);
-		User u = UserManager.getUser(p);
+		User u = UserManager.getUser(o);
 		if (o == null)
 			return Util.sendMsg(p, Lang.ERROR_CANT_FIND_PLAYER);
 
@@ -49,7 +49,7 @@ public class LeaderCommand extends SubCommand {
 		if (!ItemUtil.checkAndRemove(items, p))
 			return Util.sendMsg(p, Lang.ERROR_DONT_HAVE_ITEMS);
 
-		g.setLeader(u);
+		g.getLeader().set(u);
 
 		Util.sendMsg(p, Lang.INFO_LEADER_CHANGED);
 		return Util.sendMsg(o, Lang.INFO_NOW_LEADER);

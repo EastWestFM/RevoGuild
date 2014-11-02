@@ -26,9 +26,9 @@ public class ResetCommand extends SubCommand {
 		if(u == null) 
 			return Util.sendMsg(p, Lang.ERROR_CANT_FIND_USER);
 
-		u.setPoints(Config.RANKING_STARTPOINTS);
-		u.setKills(0);
-		u.setDeaths(0);
+		u.getPoints().set(Config.RANKING_STARTPOINTS);
+		u.getKills().set(0);
+		u.getDeaths().set(0);
 		TabThread.restart();
 		return Util.sendMsg(p, Lang.INFO_RESETED);
 	}

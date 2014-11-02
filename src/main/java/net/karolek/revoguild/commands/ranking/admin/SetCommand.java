@@ -35,13 +35,13 @@ public class SetCommand extends SubCommand {
 		
 		switch (args[1]) {
 			case "kills":
-				u.setKills(value);
+				u.getKills().set(value);
 				break;
 			case "deaths":
-				u.setDeaths(value);
+				u.getDeaths().set(value);
 				break;
 			case "points":
-				u.setPoints(value);
+				u.getPoints().set(value);
 				break;
 			default:
 				return Util.sendMsg(p, Lang.parse(Lang.CMD_CORRECT_USAGE, this));

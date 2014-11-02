@@ -9,6 +9,7 @@ import lombok.Setter;
 import net.karolek.revoguild.GuildPlugin;
 import net.karolek.revoguild.data.Config;
 import net.karolek.revoguild.store.Entry;
+import net.karolek.revoguild.store.values.Valueable;
 import net.karolek.revoguild.utils.ItemSerializer;
 import net.karolek.revoguild.utils.Util;
 
@@ -57,6 +58,10 @@ public class Treasure implements Entry {
 	@Override
 	public void delete() {
 		GuildPlugin.getStore().update(true, "DELETE FROM `{P}treasures` WHERE `tag` = '" + this.owner.getTag() + "'");
+	}
+	
+	@Override
+	public void update(Valueable value) {
 	}
 
 }

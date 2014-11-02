@@ -49,7 +49,7 @@ public class OwnerCommand extends SubCommand {
 		if (!ItemUtil.checkAndRemove(items, p))
 			return Util.sendMsg(p, Lang.ERROR_DONT_HAVE_ITEMS);
 
-		g.setOwner(u);
+		g.getOwner().set(u);
 
 		Util.sendMsg(p, Lang.INFO_OWNER_CHANGED);
 		return Util.sendMsg(o, Lang.INFO_NOW_OWNER);

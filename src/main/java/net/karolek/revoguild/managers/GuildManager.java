@@ -13,6 +13,7 @@ import net.karolek.revoguild.data.Config;
 import net.karolek.revoguild.tablist.update.TabThread;
 import net.karolek.revoguild.utils.Logger;
 import net.karolek.revoguild.utils.SpaceUtil;
+import net.karolek.revoguild.utils.UptakeUtil;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -36,9 +37,8 @@ public class GuildManager {
 		owner.teleport(g.getCuboid().getCenter());
 		g.setHome(g.getCuboid().getCenter());
 		g.update(false);
-		Location center = g.getCuboid().getCenter();
-		center.setY(100);
 		TabThread.restart();
+		UptakeUtil.respawnGuild(g);
 		return g;
 	}
 
@@ -48,6 +48,7 @@ public class GuildManager {
 		NameTagManager.removeGuild(g);
 		guilds.remove(g.getTag().toUpperCase());
 		TabThread.restart();
+		UptakeUtil.despawnGuild(g);
 	}
 
 	public static Guild getGuild(String tag) {
@@ -88,23 +89,23 @@ public class GuildManager {
 
 	public static void setGuildRoom(Guild g) {
 		Location c = g.getCuboid().getCenter();
+		c.setY(59);
 		for (Location loc : SpaceUtil.getSquare(c, 4, 3))
 			loc.getBlock().setType(Material.AIR);
 		for (Location loc : SpaceUtil.getSquare(c, 4))
 			loc.getBlock().setType(Material.OBSIDIAN);
-		c.add(0, 1, 0);
-		c.getBlock().setType(Material.DRAGON_EGG);
 		for (Location loc : SpaceUtil.getCorners(c, 4, 3))
 			loc.getBlock().setType(Material.OBSIDIAN);
-		c.add(0, 3, 0);
+		c.add(0, 4, 0);
 		for (Location loc : SpaceUtil.getWalls(c, 4))
 			loc.getBlock().setType(Material.OBSIDIAN);
-		g.getCuboid().getCenter().getBlock().setType(Material.BEDROCK);;
+		//g.getCuboid().getCenter().getBlock().setType(Material.BEDROCK);
 	}
 
 	public static void removeGuildRoom(Guild g) {
 		Location c = g.getCuboid().getCenter();
-		for (Location loc : SpaceUtil.getSquare(c, 4, 3))
+		c.setY(59);
+		for (Location loc : SpaceUtil.getSquare(c, 4, 4))
 			loc.getBlock().setType(Material.AIR);
 	}
 

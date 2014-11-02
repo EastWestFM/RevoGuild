@@ -29,10 +29,9 @@ public class LeaveCommand extends SubCommand {
 		if (g.isOwner(u))
 			return Util.sendMsg(p, Lang.ERROR_OWNER_CANT_LEAVE_GUILD);
 
-		if (g.isLeader(u)) {
-			g.setOwner(g.getOwner());
-			g.update(false);
-		}
+		if (g.isLeader(u)) 
+			g.getOwner().set(g.getOwner().get());
+		
 
 		g.removeMember(u);
 

@@ -101,6 +101,7 @@ public class Lang {
 	public static String					INFO_SIZE_CHANGED									= "&6Zmieniono rozmiar gildii!";
 	public static String					INFO_FIGHT_START									= "&cJestes w trakcie walki! Nie mozesz sie wylogowac przez 20 sekund!";
 	public static String					INFO_FIGHT_END										= "&aSkonczyles walczyc! Mozesz sie spokojnie wylogowac! ;)";
+	public static String					INFO_FIGHT_TIME									= "&6Mozesz sie wylogowac za &7{TIME}s&6!";
 
 	public static String					TELEPORT_START										= "&6Teleport nastapi za &7{TIME} &6sekund! Prosze sie nie ruszac!";
 	public static String					TELEPORT_END										= "&6Przeteleportowano!";
@@ -181,21 +182,21 @@ public class Lang {
 
 	public static String parse(String msg, User u) {
 		msg = msg.replace("{NAME}", u.getName());
-		msg = msg.replace("{POINTS}", Integer.toString(u.getPoints()));
-		msg = msg.replace("{KILLS}", Integer.toString(u.getKills()));
-		msg = msg.replace("{DEATHS}", Integer.toString(u.getDeaths()));
-		msg = msg.replace("{TIMEPLAY}", Util.secondsToString(u.getTimePlay()));
+		msg = msg.replace("{POINTS}", Integer.toString(u.getPoints().get()));
+		msg = msg.replace("{KILLS}", Integer.toString(u.getKills().get()));
+		msg = msg.replace("{DEATHS}", Integer.toString(u.getDeaths().get()));
+		msg = msg.replace("{TIMEPLAY}", Util.secondsToString(u.getTimePlay().get()));
 		return Util.fixColor(msg);
 	}
 
 	public static String parse(String msg, Guild g) {
 		msg = msg.replace("{TAG}", g.getTag());
 		msg = msg.replace("{NAME}", g.getName());
-		msg = msg.replace("{OWNER}", g.getOwner().getOfflinePlayer().getName());
-		msg = msg.replace("{LEADER}", g.getLeader().getOfflinePlayer().getName());
-		msg = msg.replace("{CREATETIME}", Util.getDate(g.getCreateTime()));
-		msg = msg.replace("{EXPIRETIME}", Util.getDate(g.getExpireTime()));
-		msg = msg.replace("{LASTTAKENLIFETIME}", Util.getDate(g.getLastTakenLifeTime()));
+		msg = msg.replace("{OWNER}", g.getOwner().get().getName());
+		msg = msg.replace("{LEADER}", g.getLeader().get().getName());
+		msg = msg.replace("{CREATETIME}", Util.getDate(g.getCreateTime().get()));
+		msg = msg.replace("{EXPIRETIME}", Util.getDate(g.getExpireTime().get()));
+		msg = msg.replace("{LASTTAKENLIFETIME}", Util.getDate(g.getLastTakenLifeTime().get()));
 		msg = msg.replace("{SIZE}", Integer.toString(g.getCuboid().getSize() * 2 + 1));
 		msg = msg.replace("{PVP}", (g.isPvp() ? "tak" : "nie"));
 		msg = msg.replace("{MEMBERS}", getMembers(g));
@@ -204,7 +205,7 @@ public class Lang {
 		msg = msg.replace("{POINTS}", Integer.toString(g.getPoints()));
 		msg = msg.replace("{KILLS}", Integer.toString(g.getKills()));
 		msg = msg.replace("{DEATHS}", Integer.toString(g.getDeaths()));
-		msg = msg.replace("{LIVES}", Integer.toString(g.getLives()));
+		msg = msg.replace("{LIVES}", Integer.toString(g.getLives().get()));
 		msg = msg.replace("{BANTIME}", Util.getDate(g.getBanTime()));
 		msg = msg.replace("{BANADMIN}", g.getBanAdmin());
 		msg = msg.replace("{BANREASON}", g.getBanReason());
@@ -222,11 +223,11 @@ public class Lang {
 		msg = parse(msg, g);
 		msg = msg.replace("{TAG2}", g1.getTag());
 		msg = msg.replace("{NAME2}", g1.getName());
-		msg = msg.replace("{OWNER2}", g1.getOwner().getOfflinePlayer().getName());
-		msg = msg.replace("{LEADER2}", g1.getLeader().getOfflinePlayer().getName());
-		msg = msg.replace("{CREATETIME2}", Util.getDate(g1.getCreateTime()));
-		msg = msg.replace("{EXPIRETIME2}", Util.getDate(g1.getExpireTime()));
-		msg = msg.replace("{LASTTAKENLIFETIME2}", Util.getDate(g1.getLastTakenLifeTime()));
+		msg = msg.replace("{OWNER2}", g1.getOwner().get().getName());
+		msg = msg.replace("{LEADER2}", g1.getLeader().get().getName());
+		msg = msg.replace("{CREATETIME2}", Util.getDate(g1.getCreateTime().get()));
+		msg = msg.replace("{EXPIRETIME2}", Util.getDate(g1.getExpireTime().get()));
+		msg = msg.replace("{LASTTAKENLIFETIME2}", Util.getDate(g1.getLastTakenLifeTime().get()));
 		msg = msg.replace("{SIZE2}", Integer.toString(g1.getCuboid().getSize() * 2 + 1));
 		msg = msg.replace("{PVP2}", (g1.isPvp() ? "tak" : "nie"));
 		msg = msg.replace("{MEMBERS2}", getMembers(g1));
@@ -235,7 +236,7 @@ public class Lang {
 		msg = msg.replace("{POINTS2}", Integer.toString(g1.getPoints()));
 		msg = msg.replace("{KILLS2}", Integer.toString(g1.getKills()));
 		msg = msg.replace("{DEATHS2}", Integer.toString(g1.getDeaths()));
-		msg = msg.replace("{LIVES2}", Integer.toString(g1.getLives()));
+		msg = msg.replace("{LIVES2}", Integer.toString(g1.getLives().get()));
 		return Util.fixColor(msg);
 	}
 

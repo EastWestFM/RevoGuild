@@ -46,7 +46,7 @@ public class AllianceCommand extends SubCommand {
 			return Util.sendMsg(Util.getOnlinePlayers(), Lang.parse(Lang.BC_GUILD_ALLIANCE_CREATED, g, o));
 		}
 
-		OfflinePlayer owner = o.getOwner().getOfflinePlayer();
+		OfflinePlayer owner = o.getOwner().get().getOfflinePlayer();
 
 		if (!owner.isOnline())
 			return Util.sendMsg(p, Lang.ERROR_OWNER_NOT_ONLINE);
