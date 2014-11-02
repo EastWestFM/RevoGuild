@@ -27,7 +27,7 @@ public class PacketManager {
 
 	static {
 		try {
-			clientChannel = Reflection.getField(Reflection.getMinecraftClass("NetworkManager"), "m", Channel.class);
+			clientChannel = Reflection.getField(Reflection.getMinecraftClass("NetworkManager"), Channel.class, 0);
 			playerConnection = Reflection.getSimpleField(Reflection.getMinecraftClass("EntityPlayer"), "playerConnection");
 			networkManager = Reflection.getSimpleField(Reflection.getMinecraftClass("PlayerConnection"), "networkManager");
 			handleMethod = Reflection.getMethod(Reflection.getCraftBukkitClass("entity.CraftEntity"), "getHandle");

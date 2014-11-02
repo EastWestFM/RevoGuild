@@ -88,7 +88,7 @@ public class PacketReceiveListener implements Listener {
 				g.getCuboid().getWorld().strikeLightning(g.getCuboid().getCenter());
 			ParticleUtil.sendParticleToLocation(l, ParticleType.ENCHANTMENT_TABLE, 2, 2, 2, 9, 10);
 		} else {
-			g.getLives().remove(1);;
+			g.getLives().remove(1);
 			g.getLastTakenLifeTime().set(System.currentTimeMillis());
 			p.playSound(g.getCuboid().getCenter(), Sound.ANVIL_USE, 20, 20);
 			ParticleUtil.sendParticleToLocation(l, ParticleType.FLAME, 0.5F, 0.5F, 0.5F, 9, 10);
