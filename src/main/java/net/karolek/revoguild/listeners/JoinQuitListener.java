@@ -4,16 +4,11 @@ import net.karolek.revoguild.base.Guild;
 import net.karolek.revoguild.base.User;
 import net.karolek.revoguild.data.Config;
 import net.karolek.revoguild.data.Lang;
-import net.karolek.revoguild.managers.CombatManager;
-import net.karolek.revoguild.managers.GuildManager;
-import net.karolek.revoguild.managers.NameTagManager;
-import net.karolek.revoguild.managers.TabManager;
-import net.karolek.revoguild.managers.UserManager;
+import net.karolek.revoguild.managers.*;
 import net.karolek.revoguild.packetlistener.PacketManager;
 import net.karolek.revoguild.tablist.update.TabThread;
 import net.karolek.revoguild.utils.UptakeUtil;
 import net.karolek.revoguild.utils.Util;
-
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -23,80 +18,80 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 public class JoinQuitListener implements Listener {
 
-	@EventHandler
-	public void onJoin(PlayerJoinEvent e) {
-		final Player p = e.getPlayer();
-		
-		PacketManager.registerPlayer(p);
-		
-		NameTagManager.getNameTag().initPlayer(p);
-		
-		User u = UserManager.getUser(p);
-		
-		if (u == null)
-			u = UserManager.createUser(p);
-		
-		u.setJoinTime(System.currentTimeMillis());
-		
-		UserManager.initUser(p);
-		
-		if (Config.TABLIST_ENABLED)
-			TabManager.createTab(p);
-		
-		if (Config.ESCAPE_ENABLED)
-			CombatManager.createPlayer(p);
-		
-					UptakeUtil.init(p);
+    @EventHandler
+    public void onJoin(PlayerJoinEvent e) {
+        final Player p = e.getPlayer();
 
-	}
+        PacketManager.registerPlayer(p);
 
-	@EventHandler
-	public void onQuit(PlayerQuitEvent e) {
-		escape(e.getPlayer());
-		leave(e.getPlayer());
-	}
+        NameTagManager.getNameTag().initPlayer(p);
 
-	@EventHandler
-	public void onKick(PlayerKickEvent e) {
-		escape(e.getPlayer());
-		leave(e.getPlayer());
-	}
+        User u = UserManager.getUser(p);
 
-	private void leave(Player p) {
-		User u = UserManager.getUser(p);
-		if (u == null)
-			throw new RuntimeException("User not exists!");
+        if (u == null)
+            u = UserManager.createUser(p);
 
-		long time = System.currentTimeMillis() - u.getJoinTime();
-		u.getTimePlay().add((int) (time / 1000));
-	}
+        u.setJoinTime(System.currentTimeMillis());
 
-	private void escape(Player p) {
+        UserManager.initUser(p);
 
-		if (!Config.ESCAPE_ENABLED)
-			return;
+        if (Config.TABLIST_ENABLED)
+            TabManager.createTab(p);
 
-		if (!CombatManager.isInFight(p))
-			return;
+        if (Config.ESCAPE_ENABLED)
+            CombatManager.createPlayer(p);
 
-		User u = UserManager.getUser(p);
+        UptakeUtil.init(p);
 
-		Guild pGuild = GuildManager.getGuild(p);
+    }
 
-		String pGuildTag = pGuild != null ? Lang.parse(Config.CHAT_FORMAT_TAGDEATHMSG, pGuild) : "";
+    @EventHandler
+    public void onQuit(PlayerQuitEvent e) {
+        escape(e.getPlayer());
+        leave(e.getPlayer());
+    }
 
-		String mes = Config.ESCAPE_BROADCAST;
-		mes = mes.replace("{PGUILD}", pGuildTag);
-		mes = mes.replace("{PLAYER}", p.getName());
+    @EventHandler
+    public void onKick(PlayerKickEvent e) {
+        escape(e.getPlayer());
+        leave(e.getPlayer());
+    }
 
-		u.getDeaths().add(1);
-		u.getPoints().remove(Config.ESCAPE_POINTSREMOVE);
-		p.setHealth(0D);
+    private void leave(Player p) {
+        User u = UserManager.getUser(p);
+        if (u == null)
+            throw new RuntimeException("User not exists!");
 
-		TabThread.restart();
+        long time = System.currentTimeMillis() - u.getJoinTime();
+        u.getTimePlay().add((int) (time / 1000));
+    }
 
-		Util.sendMsg(Util.getOnlinePlayers(), mes);
+    private void escape(Player p) {
 
-	}
+        if (!Config.ESCAPE_ENABLED)
+            return;
+
+        if (!CombatManager.isInFight(p))
+            return;
+
+        User u = UserManager.getUser(p);
+
+        Guild pGuild = GuildManager.getGuild(p);
+
+        String pGuildTag = pGuild != null ? Lang.parse(Config.CHAT_FORMAT_TAGDEATHMSG, pGuild) : "";
+
+        String mes = Config.ESCAPE_BROADCAST;
+        mes = mes.replace("{PGUILD}", pGuildTag);
+        mes = mes.replace("{PLAYER}", p.getName());
+
+        u.getDeaths().add(1);
+        u.getPoints().remove(Config.ESCAPE_POINTSREMOVE);
+        p.setHealth(0D);
+
+        TabThread.restart();
+
+        Util.sendMsg(Util.getOnlinePlayers(), mes);
+
+    }
 
 }
