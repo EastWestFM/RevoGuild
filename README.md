@@ -1,11 +1,14 @@
 RevoGuild
 =========
 
-#### W przyszłości bardziej opiszę cały plugin, tymczasem musisz zadowolić się tym opisem. Jeśli będziesz miał jakiś problem pisz na GG: 37846242
+**Propozycje/błędy/bugi: [Issues](https://github.com/EastWestFM/RevoGuild/issues)**
+**Download: [Releases](https://github.com/EastWestFM/RevoGuild/releases)**
+
+*W przyszłości bardziej opiszę cały plugin, tymczasem musisz zadowolić się tym opisem. Jeśli będziesz miał jakiś problem pisz na GG: `37846242`*
 
 Rewolucyjny system gildii na Twój serwer! ;)
 
-#### Konfiguracja (plik config.yml):
+#### Konfiguracja (plik config.yml) (ciut nie aktualny :smile:):
 ````yaml
 config:
   enabled: false #Aktywnosc pluginu: true/false
