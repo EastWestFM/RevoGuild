@@ -1,11 +1,15 @@
 RevoGuild
 =========
 
-#### W przyszłości bardziej opiszę cały plugin, tymczasem musisz zadowolić się tym opisem. Jeśli będziesz miał jakiś problem pisz na GG: 37846242
+**Propozycje/błędy/bugi: [Issues](https://github.com/EastWestFM/RevoGuild/issues)**
+
+**Download: [Releases](https://github.com/EastWestFM/RevoGuild/releases)**
+
+*W przyszłości bardziej opiszę cały plugin, tymczasem musisz zadowolić się tym opisem. Jeśli będziesz miał jakiś problem pisz na GG: `37846242`*
 
 Rewolucyjny system gildii na Twój serwer! ;)
 
-#### Konfiguracja (plik config.yml):
+#### Konfiguracja (plik config.yml) (ciut nie aktualny :smile:):
 ````yaml
 config:
   enabled: false #Aktywnosc pluginu: true/false
@@ -147,7 +151,7 @@ tablist:
     '17': '&7|Godzina: |&2{TIME}'
     '18': '&7|1.&r&2 |{GTOP-1}'
     '19': '&7|2.&2 |{PTOP-2}'
-    '20': '&7|Zabójstwa: |&2{KILLS}'
+    '20': '&7|Zabojstwa: |&2{KILLS}'
     '21': '&7|2.&r&2 |{GTOP-2}'
     '22': '&7|3.&2 |{PTOP-3}'
     '23': '&7|Smierci: |&2{DEATHS}'
