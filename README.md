@@ -151,7 +151,7 @@ tablist:
     '17': '&7|Godzina: |&2{TIME}'
     '18': '&7|1.&r&2 |{GTOP-1}'
     '19': '&7|2.&2 |{PTOP-2}'
-    '20': '&7|Zabójstwa: |&2{KILLS}'
+    '20': '&7|Zabojstwa: |&2{KILLS}'
     '21': '&7|2.&r&2 |{GTOP-2}'
     '22': '&7|3.&2 |{PTOP-3}'
     '23': '&7|Smierci: |&2{DEATHS}'
