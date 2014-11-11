@@ -2,6 +2,7 @@ RevoGuild
 =========
 
 **Propozycje/błędy/bugi: [Issues](https://github.com/EastWestFM/RevoGuild/issues)**
+
 **Download: [Releases](https://github.com/EastWestFM/RevoGuild/releases)**
 
 *W przyszłości bardziej opiszę cały plugin, tymczasem musisz zadowolić się tym opisem. Jeśli będziesz miał jakiś problem pisz na GG: `37846242`*
