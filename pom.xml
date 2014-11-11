@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.karolek</groupId>
     <artifactId>revoguild</artifactId>
-    <version>0.3.9-b300</version>
+    <version>0.3.9-b301</version>
     <name>RevoGuild</name>
     <description>Plugin na gildie.</description>
     <properties>

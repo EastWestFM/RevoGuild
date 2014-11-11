@@ -150,6 +150,8 @@ public class GuildPlugin extends JavaPlugin {
         pm.registerEvents(new PacketReceiveListener(), this);
         if (Config.ESCAPE_ENABLED && Config.ESCAPE_DISABLEDCMD_ENABLED)
             pm.registerEvents(new CommandsListener(), this);
+        if(Config.ESCAPE_ENABLED)
+            pm.registerEvents(new CombatListener(), this);
         if (Config.TREASURE_ENABLED)
             pm.registerEvents(new InventoryListener(), this);
         if (NameTagMode.getByName(Config.TAG_MODE).equals(NameTagMode.TAG_API))
