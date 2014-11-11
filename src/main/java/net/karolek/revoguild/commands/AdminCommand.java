@@ -18,7 +18,7 @@ public class AdminCommand extends SubCommand {
     private static final SubCommand raCmd = new RankingAdminCommand();
 
     public AdminCommand() {
-        super("admin", "komenda adminsitratora", "", "revoguild.admin", "adm", "administrator");
+        super("admin", "komenda adminsitratora", "/admin <g/r>", "revoguild.admin", "adm", "administrator");
         CommandManager.register(gaCmd);
         CommandManager.register(raCmd);
     }

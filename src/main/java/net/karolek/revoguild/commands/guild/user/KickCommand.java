@@ -15,7 +15,7 @@ import org.bukkit.entity.Player;
 public class KickCommand extends SubCommand {
 
     public KickCommand() {
-        super("wyrzuc", "wyrzucanie gracza z gildii", "<gracz>", "revoguild.kick", "kick");
+        super("wyrzuc", "wyrzucanie gracza z gildii", "/g wyrzuc <gracz>", "revoguild.kick", "kick");
     }
 
     @Override

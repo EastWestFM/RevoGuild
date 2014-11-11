@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 public class LeaveCommand extends SubCommand {
 
     public LeaveCommand() {
-        super("opusc", "opuszczanie gildii", "", "revoguild.leave", "leave");
+        super("opusc", "opuszczanie gildii", "/g opusc", "revoguild.leave", "leave");
     }
 
     @Override

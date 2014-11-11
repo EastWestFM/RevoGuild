@@ -15,7 +15,7 @@ import org.bukkit.entity.Player;
 public class TreasureCommand extends SubCommand {
 
     public TreasureCommand() {
-        super("skarbiec", "skarbiec gildii", "[dodaj <gracz> / usun <gracz> / lista]", "revoguild.treasure", "skrzynia", "treasure");
+        super("skarbiec", "skarbiec gildii", "/g skarbiec [dodaj <gracz> / usun <gracz> / lista]", "revoguild.treasure", "skrzynia", "treasure");
     }
 
     @SuppressWarnings("deprecation")

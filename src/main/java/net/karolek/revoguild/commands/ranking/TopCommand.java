@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 public class TopCommand extends SubCommand {
 
     public TopCommand() {
-        super("top", "top10 graczy", "", "revoguild.top", "topka", "top10");
+        super("top", "top10 graczy", "/top", "revoguild.top", "topka", "top10");
     }
 
     @Override

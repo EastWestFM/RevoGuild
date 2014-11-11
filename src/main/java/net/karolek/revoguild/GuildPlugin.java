@@ -147,10 +147,11 @@ public class GuildPlugin extends JavaPlugin {
         pm.registerEvents(new AsyncChatListener(), this);
         pm.registerEvents(new DeathListener(), this);
         pm.registerEvents(new LoginListener(), this);
-        pm.registerEvents(new PacketReceiveListener(), this);
+        if (Config.UPTAKE_ENABLED)
+            pm.registerEvents(new PacketReceiveListener(), this);
         if (Config.ESCAPE_ENABLED && Config.ESCAPE_DISABLEDCMD_ENABLED)
             pm.registerEvents(new CommandsListener(), this);
-        if(Config.ESCAPE_ENABLED)
+        if (Config.ESCAPE_ENABLED)
             pm.registerEvents(new CombatListener(), this);
         if (Config.TREASURE_ENABLED)
             pm.registerEvents(new InventoryListener(), this);
@@ -165,7 +166,8 @@ public class GuildPlugin extends JavaPlugin {
         new RespawnCrystalTask().runTaskTimerAsynchronously(this, 20L, TimeUtil.SECOND.getTick(60));
         if (Config.ESCAPE_ENABLED)
             new CombatTask().runTaskTimerAsynchronously(this, 40L, TimeUtil.SECOND.getTick(1));
-        new Updater().runTaskTimerAsynchronously(this, 20L, TimeUtil.MINUTE.getTick(5));
+        if (Config.UPDATER)
+            new Updater().runTaskTimerAsynchronously(this, 20L, TimeUtil.MINUTE.getTick(5));
         new TabThread();
     }
 

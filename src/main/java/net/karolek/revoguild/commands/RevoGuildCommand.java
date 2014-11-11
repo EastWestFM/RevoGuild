@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 public class RevoGuildCommand extends SubCommand {
 
     public RevoGuildCommand() {
-        super("revoguild", "main RevoGuild command", "", "revoguild.main", "rg");
+        super("revoguild", "main RevoGuild command", "/revoguild", "revoguild.main");
     }
 
     @Override

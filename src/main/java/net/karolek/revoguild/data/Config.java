@@ -14,6 +14,7 @@ public class Config {
 
     public static boolean ENABLED = false;
     public static boolean USEUUID = true;
+    public static boolean UPDATER = true;
 
     public static String DATABASE_MODE = "sqlite";
     public static String DATABASE_TABLEPREFIX = "ks_";
@@ -42,6 +43,14 @@ public class Config {
 
     public static int RANKING_STARTPOINTS = 1000;
     public static String RANKING_DEATHMESSAGE = "&2Gracz {PGUILD} &7{PLAYER} ({LOSEPOINTS}) &2zostal zabity przez {KGUILD} &7{KILLER} ({WINPOINTS})&2!";
+
+    public static boolean EFFECTS_ENABLED = false;
+    public static double EFFECTS_CHANCE = 50.00;
+    public static int EFFECTS_LEVEL_MIN = 0;
+    public static int EFFECTS_LEVEL_MAX = 3;
+    public static int EFFECTS_TIME_MIN = 10;
+    public static int EFFECTS_TIME_MAX = 3600;
+    public static List<String> EFFECTS_TYPES = Arrays.asList("FAST_DIGGING", "REGENERATION", "INCREASE_DAMAGE");
 
     public static boolean ESCAPE_ENABLED = true;
     public static int ESCAPE_TIME = 10;
@@ -90,12 +99,14 @@ public class Config {
     public static String COST_OWNER_NORMAL = "1:0-10;";
     public static String COST_ENLARGE_NORMAL = "1:0-10;";
     public static String COST_PROLONG_NORMAL = "1:0-10;";
+    public static String COST_EFFECT_NORMAL = "1:0-10;";
     public static String COST_CREATE_VIP = "1:0-5;";
     public static String COST_JOIN_VIP = "1:0-5;";
     public static String COST_LEADER_VIP = "1:0-5;";
     public static String COST_OWNER_VIP = "1:0-5;";
     public static String COST_ENLARGE_VIP = "1:0-5;";
     public static String COST_PROLONG_VIP = "1:0-5;";
+    public static String COST_EFFECT_VIP = "1:0-10;";
 
     public static String CUBOID_WORLD = "world";
     public static int CUBOID_SIZE_START = 24;

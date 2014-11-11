@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 public class ReloadCommand extends SubCommand {
 
     public ReloadCommand() {
-        super("reload", "przeladowanie plikow konfiguracyjnych", "", "revoguild.admin.reload", "przeladuj");
+        super("reload", "przeladowanie plikow konfiguracyjnych", "/ga reload", "revoguild.admin.reload", "przeladuj");
     }
 
     @Override

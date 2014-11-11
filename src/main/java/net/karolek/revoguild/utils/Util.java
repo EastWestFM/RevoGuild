@@ -178,6 +178,14 @@ public class Util {
         return (Pattern.matches("-?[0-9]+", string.subSequence(0, string.length())));
     }
 
+    public static boolean getBoolean(String s) {
+        if ("true".equalsIgnoreCase(s) || "tak".equalsIgnoreCase(s) || "t".equalsIgnoreCase(s) || "1".equalsIgnoreCase(s) || "yes".equalsIgnoreCase(s) || "y".equalsIgnoreCase(s))
+            return true;
+        if ("false".equalsIgnoreCase(s) || "nie".equalsIgnoreCase(s) || "n".equalsIgnoreCase(s) || "0".equalsIgnoreCase(s) || "no".equalsIgnoreCase(s))
+            return false;
+        return false;
+    }
+
     public static Location getLocation(String world, int x, int y, int z) {
         return new Location(Bukkit.getWorld(world), x, y, z);
     }

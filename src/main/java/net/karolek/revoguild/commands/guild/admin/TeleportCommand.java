@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 public class TeleportCommand extends SubCommand {
 
     public TeleportCommand() {
-        super("tp", "teleport do wybranej gildii", "<tag/nazwa>", "revoguild.admin.tp", "teleport");
+        super("tp", "teleport do wybranej gildii", "/ga tp <tag/nazwa>", "revoguild.admin.tp", "teleport");
     }
 
     @Override

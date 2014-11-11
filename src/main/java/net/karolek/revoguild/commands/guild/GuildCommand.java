@@ -19,7 +19,7 @@ public class GuildCommand extends SubCommand {
     private static final Set<SubCommand> subCommands = new HashSet<SubCommand>();
 
     public GuildCommand() {
-        super("gildia", "glowna komenda systemu gildii", "", "revoguild.main", "gildie", "guild", "g");
+        super("gildia", "glowna komenda systemu gildii", "/g <subkomenda>", "revoguild.main", "gildie", "guild", "g");
         subCommands.add(new CreateCommand());
         subCommands.add(new DeleteCommand());
         subCommands.add(new HomeCommand());
@@ -36,6 +36,8 @@ public class GuildCommand extends SubCommand {
         subCommands.add(new SetHomeCommand());
         subCommands.add(new ProlongCommand());
         subCommands.add(new AllianceCommand());
+        if(Config.EFFECTS_ENABLED)
+            subCommands.add(new EffectCommand());
 
         if (Config.TREASURE_ENABLED)
             subCommands.add(new TreasureCommand());

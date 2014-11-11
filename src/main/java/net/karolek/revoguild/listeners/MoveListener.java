@@ -4,6 +4,7 @@ import net.karolek.revoguild.base.Guild;
 import net.karolek.revoguild.data.Config;
 import net.karolek.revoguild.data.Lang;
 import net.karolek.revoguild.managers.GuildManager;
+import net.karolek.revoguild.managers.UserManager;
 import net.karolek.revoguild.utils.TimeUtil;
 import net.karolek.revoguild.utils.Util;
 import org.bukkit.entity.Player;
@@ -36,6 +37,7 @@ public class MoveListener implements Listener {
             if ((from == null) && (to != null)) {
                 Util.sendMsg(p, Lang.parse(Lang.INFO_MOVE_IN, to));
                 if (Config.MOVEMENT_NOTIFY_INTRUDER_ENABLED) {
+                    if(to.isMember(UserManager.getUser(e.getPlayer()))) return;
                     Long time = times.get(to);
                     if (time == null || System.currentTimeMillis() - time >= TimeUtil.SECOND.getTime(30)) {
                         Util.sendMsg(to.getOnlineMembers(), Lang.INFO_MOVE_INTRUDER);

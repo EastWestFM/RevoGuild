@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 public class SetCuboidCommand extends SubCommand {
 
     public SetCuboidCommand() {
-        super("setcuboid", "zmiana cuboida wybranej gildii", "<tag/nazwa>", "revoguild.admin.setcuboid", "setcub", "ustawteren");
+        super("setcuboid", "zmiana cuboida wybranej gildii", "/ga setcub <tag/nazwa>", "revoguild.admin.setcuboid", "setcub", "ustawteren");
     }
 
     @Override

@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 public class InfoCommand extends SubCommand {
 
     public InfoCommand() {
-        super("info", "informacje o gildii", "<tag>", "revoguild.info", "informacje");
+        super("info", "informacje o gildii", "/g info <tag/nazwa>", "revoguild.info", "informacje");
     }
 
     @Override

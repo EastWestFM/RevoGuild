@@ -13,7 +13,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 public class DeleteCommand extends SubCommand {
 
     public DeleteCommand() {
-        super("usun", "usuwanie gildii", "", "revoguild.delete", "delete");
+        super("usun", "/g usun usuwanie gildii", "", "revoguild.delete", "delete");
     }
 
     @Override

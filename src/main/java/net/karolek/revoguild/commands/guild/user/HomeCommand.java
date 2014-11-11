@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 public class HomeCommand extends SubCommand {
 
     public HomeCommand() {
-        super("dom", "teleport do domu gildii", "", "revoguild.home", "baza", "home");
+        super("dom", "teleport do domu gildii", "/g dom", "revoguild.home", "baza", "home");
     }
 
     @Override

@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 public class UnBanCommand extends SubCommand {
 
     public UnBanCommand() {
-        super("unban", "odbanowanie wybranej gildii", "<tag/nazwa>", "revoguild.admin.unban", "odbanuj");
+        super("unban", "odbanowanie wybranej gildii", "/ga unban <tag/nazwa>", "revoguild.admin.unban", "odbanuj");
     }
 
     @Override

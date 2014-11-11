@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 public class PvpCommand extends SubCommand {
 
     public PvpCommand() {
-        super("pvp", "zmiana statusu pvp w gildii", "", "revoguild.pvp", "ff", "friendlyfire");
+        super("pvp", "zmiana statusu pvp w gildii", "/g pvp", "revoguild.pvp", "ff", "friendlyfire");
     }
 
     @Override

@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 public class CombatCommand extends SubCommand {
 
     public CombatCommand() {
-        super("combat", "sprawdzanie czasu walki", "", "revoguild.combat", "ct", "tag", "walka", "pvp", "logout");
+        super("combat", "sprawdzanie czasu walki", "/combat", "revoguild.combat", "ct", "tag", "walka", "pvp", "logout");
     }
 
     @Override

@@ -17,15 +17,15 @@ public class GuildAdminCommand extends SubCommand {
     private static final Set<SubCommand> subCommands = new HashSet<SubCommand>();
 
     public GuildAdminCommand() {
-        super("gildiaadmin", "glowna komenda adminsitratora systemu gildii", "", "revoguild.admin.main", "gildieadmin", "guildadmin", "ga");
+        super("gildiaadmin", "glowna komenda adminsitratora systemu gildii", "/ga <subkomenda>", "revoguild.admin.main", "gildieadmin", "guildadmin", "ga");
         subCommands.add(new TeleportCommand());
         subCommands.add(new ReloadCommand());
         subCommands.add(new DeleteCommand());
         subCommands.add(new SetCuboidCommand());
-        subCommands.add(new SetSizeCommand());
         subCommands.add(new KickCommand());
         subCommands.add(new BanCommand());
         subCommands.add(new UnBanCommand());
+        subCommands.add(new SetCommand());
     }
 
     @Override

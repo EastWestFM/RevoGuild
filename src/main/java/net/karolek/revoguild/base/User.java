@@ -47,7 +47,6 @@ public class User implements Entry {
         this.timePlay = new IntegerValue("timePlay", this, rs.getInt("timePlay"));
     }
 
-    @SuppressWarnings("deprecation")
     public OfflinePlayer getOfflinePlayer() {
         return Config.USEUUID ? Bukkit.getOfflinePlayer(this.uuid) : Bukkit.getOfflinePlayer(name);
     }
@@ -76,6 +75,11 @@ public class User implements Entry {
 		this.timePlay += time;
 		GuildPlugin.getStore().update(false, "UPDATE `{P}users` SET `timePlay` = '" + this.timePlay + "' WHERE `uuid` = '" + this.toString() + "'");
 	}*/
+
+    @Deprecated
+    public double getKDRatio() {
+    return 0;
+    }
 
     @Override
     public void insert() {

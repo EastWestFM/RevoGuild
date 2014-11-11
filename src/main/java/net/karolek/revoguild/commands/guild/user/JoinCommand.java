@@ -17,7 +17,7 @@ import java.util.List;
 public class JoinCommand extends SubCommand {
 
     public JoinCommand() {
-        super("dolacz", "dolaczanie do gildii", "<tag/nazwa>", "revoguild.join", "join");
+        super("dolacz", "dolaczanie do gildii", "/g dolacz <tag/nazwa>", "revoguild.join", "join");
     }
 
     @Override

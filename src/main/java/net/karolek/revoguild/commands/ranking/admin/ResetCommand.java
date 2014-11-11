@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 public class ResetCommand extends SubCommand {
 
     public ResetCommand() {
-        super("reset", "reset rankingu wybranego gracza", "<gracz>", "revoguild.admin.reset");
+        super("reset", "reset rankingu wybranego gracza", "/ra reset <gracz>", "revoguild.admin.reset");
     }
 
     @Override

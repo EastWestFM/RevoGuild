@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 public class BanCommand extends SubCommand {
 
     public BanCommand() {
-        super("ban", "banowanie wybranej gildii", "<tag/nazwa> <czas> <powod>", "revoguild.admin.ban", "zbanuj");
+        super("ban", "banowanie wybranej gildii", "/ga ban <tag/nazwa> <czas> <powod>", "revoguild.admin.ban", "zbanuj");
     }
 
     @Override

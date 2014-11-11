@@ -19,11 +19,11 @@ import java.lang.reflect.Field;
 public class Lang {
 
     private static final String prefix = "lang.";
-    public static String CMD_MAIN_HELP = "&7&m----------&r &6RevoGUILD: komendy uzytkownika &7&m----------&r\n  &6/g sojusz <tag/nazwa> &7- zarzadzanie sojuszami gildii\n  &6/g zaloz <tag> <nazwa> &7- tworzenie gildii\n  &6/g usun &7- usuwanie gildii\n  &6/g powieksz &7- powiekszanie gildii\n  &6/g dom &7- teleport do domu gildii\n  &6/g info <tag/nazwa> &7- podstawowe informacje o gildii\n  &6/g zapros <gracz> &7- zapraszanie graczy do gildii\n  &6/g dolacz <tag/nazwa> &7- dolaczanie do gildii\n  &6/g wyrzuc <gracz> &7- wyrzucanie graczy z gildii\n  &6/g lider <gracz> &7- zmiana lidera gildii\n  &6/g opusc &7- opuszczanie gildii\n  &6/g lista &7- lista wszystkich gildii\n  &6/g zalozyciel <gracz> &7- zmiana zalozyciela gildii\n  &6/g przedluz &7- przedluzanie waznosci gildii\n  &6/g pvp &7- zmiana statusu pvp w gildii\n  &6/g ustawdom &7- ustawianie domu gildii\n  &6/g skarbiec [dodaj <gracz> | usun <gracz> | lista] &7- zarzadzanie skarbcem gildii\n&7&m----------------------------------------------------";
+    public static String CMD_MAIN_HELP = "&7&m----------&r &6RevoGUILD: komendy uzytkownika &7&m----------&r\n  &6/g sojusz <tag/nazwa> &7- zarzadzanie sojuszami gildii\n  &6/g efekt &7- losowanie efektu dla gildii\n  &6/g zaloz <tag> <nazwa> &7- tworzenie gildii\n  &6/g usun &7- usuwanie gildii\n  &6/g powieksz &7- powiekszanie gildii\n  &6/g dom &7- teleport do domu gildii\n  &6/g info <tag/nazwa> &7- podstawowe informacje o gildii\n  &6/g zapros <gracz> &7- zapraszanie graczy do gildii\n  &6/g dolacz <tag/nazwa> &7- dolaczanie do gildii\n  &6/g wyrzuc <gracz> &7- wyrzucanie graczy z gildii\n  &6/g lider <gracz> &7- zmiana lidera gildii\n  &6/g opusc &7- opuszczanie gildii\n  &6/g lista &7- lista wszystkich gildii\n  &6/g zalozyciel <gracz> &7- zmiana zalozyciela gildii\n  &6/g przedluz &7- przedluzanie waznosci gildii\n  &6/g pvp &7- zmiana statusu pvp w gildii\n  &6/g ustawdom &7- ustawianie domu gildii\n  &6/g skarbiec [dodaj <gracz> | usun <gracz> | lista] &7- zarzadzanie skarbcem gildii\n&7&m----------------------------------------------------";
     public static String CMD_MAIN_ADMIN_HELP = "&7&m-------&r &6RevoGUILD: komendy administratora &7&m-------&r\n  &6/admin g &7- administracja gildiami\n  &6/admin r &7- administracja rankingiem\n&7&m----------------------------------------------------";
-    public static String CMD_MAIN_ADMIN_GUILD_HELP = "&7&m-------&r &6RevoGUILD: komendy administratora gildii &7&m-------&r\n  &6/ga tp <tag/nazwa> &7- teleport do gildii\n  &6/ga usun <tag/nazwa> &7- usuwanie gildii\n  &6/ga ban <tag/nazwa> <czas> <powod> &7- banowanie gildii\n  &6/ga unban <tag/nazwa> &7- odbanowywanie gildii\n  &6/ga setsize <tag/nazwa> <rozmiar> &7- zmiana rozmiaru cuboida gildii\n  &6/ga setcuboid <tag/nazwa> &7- zmiana cuboida gildii\n  &6/ga wyrzuc <tag/nazwa> <gracz> &7- wyrzucanie gracza z gildii\n  &6/ga reload &7- przeladowanie plikow konfiguracyjnych\n&7&m----------------------------------------------------";
+    public static String CMD_MAIN_ADMIN_GUILD_HELP = "&7&m-------&r &6RevoGUILD: komendy administratora gildii &7&m-------&r\n  &6/ga tp <tag/nazwa> &7- teleport do gildii\n  &6/ga usun <tag/nazwa> &7- usuwanie gildii\n  &6/ga ban <tag/nazwa> <czas> <powod> &7- banowanie gildii\n  &6/ga unban <tag/nazwa> &7- odbanowywanie gildii\n  &6/ga set <tag/nazwa> <leader|owner|lives|pvp|size> <wartosc> &7- zmiana wartosci pola wybranej gildii\n  &6/ga setcuboid <tag/nazwa> &7- zmiana cuboida gildii\n  &6/ga wyrzuc <tag/nazwa> <gracz> &7- wyrzucanie gracza z gildii\n  &6/ga reload &7- przeladowanie plikow konfiguracyjnych\n&7&m----------------------------------------------------";
     public static String CMD_MAIN_ADMIN_RANKING_HELP = "&7&m-------&r &6RevoGUILD: komendy administratora rankingu &7&m-------&r\n  &6/ra reset <gracz> &7- reset rankingu gracza\n  &6/ga set <gracz> <kills|deaths|points> <warotsc> &7- ustawianie wartosci gracza\n&7&m----------------------------------------------------";
-    public static String CMD_CORRECT_USAGE = "&6Prawidlowe uzycie: &7/g {NAME} {USAGE}&6!";
+    public static String CMD_CORRECT_USAGE = "&6Prawidlowe uzycie: &7{USAGE}&6!";
     public static String ERROR_HAVE_GUILD = "&4Blad: &cMasz juz gildie!";
     public static String ERROR_TAG_AND_NAME_FORMAT = "&4Blad: &cTag oraz nazwa musza miec odpowiednia dlugosc!";
     public static String ERROR_TAG_AND_NAME_ALFANUM = "&4Blad: &cTag oraz nazwa musza byc alfanumeryczne! (AZaz09)";
@@ -49,17 +49,16 @@ public class Lang {
     public static String ERROR_CANT_OPEN_TREASURE = "&4Blad: &cNie jestes uprawniony do otwierania skarbca gildii!";
     public static String ERROR_PLAYER_IS_TREASURE_USER = "&4Blad: &cGracz jest juz uzytkownikiem skarbca gildii!";
     public static String ERROR_PLAYER_ISNT_TREASURE_USER = "&4Blad: Gracz nie jest uzytkownikiem skarbca gildii!";
-    public static String ERROR_TREASURE_NOT_ENABLED = "&4Blad: &cSkarbce gildii nie zostaly aktywowane!";
     public static String ERROR_CANT_ATTACK_PLAYER = "&4Blad: &cNie mozesz atakowac tego gracza!";
     public static String ERROR_CANT_ADD_TIME = "&4Blad: &cWaznosc gildii nie moze byc wieksza niz 14 dni!";
     public static String ERROR_OWNER_NOT_ONLINE = "&4Blad: &cZalozyciel gildii nie jest online!";
-    public static String ERROR_CANT_BUILD_NEAR_EGG = "&4Blad: &cNie mozesz budowac w poblizu smoczego jaja!";
     public static String ERROR_CANT_USE = "&4Blad: &cNie mozesz tego uzywac!";
     public static String ERROR_CANT_OPEN_TREASURE_OUTSIDE_CUBOID = "&4Blad: &cSkarbiec gildii mozna otwierac tylko na terenie gildii!";
     public static String ERROR_CANT_SET_CUBOID = "&4Blad: &cNie mozna przeniesc cuboida gildii poniewaz w poblizu znajduje sie inna gildia/spawn!";
     public static String ERROR_CANT_FIND_USER = "&4Blad: Uzytkownik nie istnieje w bazie danych!";
     public static String ERROR_GUILD_HAVE_BAN = "&4Blad: &cGildia ma juz bana!";
     public static String ERROR_GUILD_DONT_HAVE_BAN = "&4Blad: &cGildia nie ma bana!";
+    public static String ERROR_DONT_HAVE_LUCKY_TO_EFFECT = "&4Blad: &cEfekt nie zostal wylosowany! Nie masz szczescia i straciles itemy! :(";
     public static String INFO_CONFIRM_DELETE = "&6Potwierdz usuniecie gildii: &7/g usun&6!";
     public static String INFO_INVITE_SEND = "&6Zaproszenie zostalo wyslane!";
     public static String INFO_INVITE_BACK = "&6Zaproszenie zostalo cofniete!";
@@ -91,9 +90,9 @@ public class Lang {
     public static String INFO_RELOADED = "&6Przeladowano plik config.yml oraz lang.yml!";
     public static String INFO_CUBOID_SET = "&6Zmieniono teren gildii!";
     public static String INFO_RESETED = "&6Zresetowano ranking gracza!";
+    public static String INFO_CHANGED_GUILD = "&6Zmieniono wartosc pola {FIELD} dla gildii {TAG}!";
     public static String INFO_SETTED = "&6Zmieniono wartosci gracza!";
     public static String INFO_USER_KICKED = "&6Wyrzucono gracza z gildii!";
-    public static String INFO_SIZE_CHANGED = "&6Zmieniono rozmiar gildii!";
     public static String INFO_FIGHT_START = "&cJestes w trakcie walki! Nie mozesz sie wylogowac przez 20 sekund!";
     public static String INFO_FIGHT_END = "&aSkonczyles walczyc! Mozesz sie spokojnie wylogowac! ;)";
     public static String INFO_FIGHT_TIME = "&6Mozesz sie wylogowac za &7{TIME}s&6!";
@@ -120,6 +119,8 @@ public class Lang {
     public static String BC_GUILD_EXPIRED = "&6Gildia &7[{TAG}] {NAME}&6 stracila swoja waznosc! Jej stare koorydynaty: &7[x: {X}; z: {Z}]&6!";
     public static String BC_GUILD_ALLIANCE_CREATED = "&6Gildia &7[{TAG}] {NAME}&6 zawarla sojusz z gildia &7[{TAG2}] {NAME2}&6!";
     public static String BC_GUILD_ALLIANCE_DELETED = "&6Gildia &7[{TAG}] {NAME}&6 zerwala sojusz z gildia &7[{TAG2}] {NAME2}&6!";
+    public static String BC_GUILD_EFFECT = "&6Gildia &7[{TAG}] {NAME}&6 wylosowala efekt &7{EFFECT} ({LEVEL}) &6na okres &7{TIME}&6!";
+
     private static File file = new File(GuildPlugin.getPlugin().getDataFolder(), "lang.yml");
     private static FileConfiguration c = null;
 

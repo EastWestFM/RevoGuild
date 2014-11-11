@@ -14,7 +14,7 @@ import org.bukkit.entity.Player;
 public class InviteCommand extends SubCommand {
 
     public InviteCommand() {
-        super("zapros", "zapraszanie graczy do gildii", "<gracz>", "sguilds.cmd.user.invite", "dodaj", "invite");
+        super("zapros", "zapraszanie graczy do gildii", "/g zapros <gracz>", "sguilds.cmd.user.invite", "dodaj", "invite");
     }
 
     @Override

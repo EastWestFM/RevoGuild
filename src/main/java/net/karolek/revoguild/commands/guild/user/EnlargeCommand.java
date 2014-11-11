@@ -16,7 +16,7 @@ import java.util.List;
 public class EnlargeCommand extends SubCommand {
 
     public EnlargeCommand() {
-        super("powieksz", "powiekszanie terenu gildii", "", "revoguild.enlarge", "resize", "enlarge");
+        super("powieksz", "powiekszanie terenu gildii", "/g powieksz", "revoguild.enlarge", "resize", "enlarge");
     }
 
     @Override

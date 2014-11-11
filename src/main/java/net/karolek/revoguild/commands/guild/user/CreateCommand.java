@@ -16,7 +16,7 @@ import java.util.List;
 public class CreateCommand extends SubCommand {
 
     public CreateCommand() {
-        super("zaloz", "tworzenie gildii", "<tag> <nazwa>", "revoguild.create", "nowa", "create");
+        super("zaloz", "tworzenie gildii", "/g zaloz  <tag> <nazwa>", "revoguild.create", "nowa", "create");
     }
 
     @Override

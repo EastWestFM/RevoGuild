@@ -18,7 +18,7 @@ import java.util.List;
 public class LeaderCommand extends SubCommand {
 
     public LeaderCommand() {
-        super("lider", "zmienianie lidera gildii", "", "revoguild.leader", "leader");
+        super("lider", "zmienianie lidera gildii", "/g lider <gracz>", "revoguild.leader", "leader");
     }
 
     @Override

@@ -18,7 +18,7 @@ public class RankingAdminCommand extends SubCommand {
     private static final Set<SubCommand> subCommands = new HashSet<SubCommand>();
 
     public RankingAdminCommand() {
-        super("rankingadmin", "glowna komenda adminsitratora rankingu", "", "revoguild.admin.main", "ra");
+        super("rankingadmin", "glowna komenda adminsitratora rankingu", "/ra <subkomenda>", "revoguild.admin.main", "ra");
         subCommands.add(new ResetCommand());
         subCommands.add(new SetCommand());
     }

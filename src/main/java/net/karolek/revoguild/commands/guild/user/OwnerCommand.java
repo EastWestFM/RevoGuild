@@ -18,7 +18,7 @@ import java.util.List;
 public class OwnerCommand extends SubCommand {
 
     public OwnerCommand() {
-        super("zalozyciel", "zmienianie zalozyciela gildii", "", "revoguild.owner", "owner");
+        super("zalozyciel", "zmienianie zalozyciela gildii", "/g zalozyciel <gracz>", "revoguild.owner", "owner");
     }
 
     @Override

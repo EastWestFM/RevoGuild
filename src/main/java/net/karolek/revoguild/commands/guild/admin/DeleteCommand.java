@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 public class DeleteCommand extends SubCommand {
 
     public DeleteCommand() {
-        super("usun", "usuwanie wybranej gildii", "<tag/nazwa>", "revoguild.admin.delete", "delete");
+        super("usun", "usuwanie wybranej gildii", "/ga usun <tag/nazwa>", "revoguild.admin.delete", "delete");
     }
 
     @Override

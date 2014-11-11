@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 public class RankingCommand extends SubCommand {
 
     public RankingCommand() {
-        super("ranking", "sprawdzanie rankingu gracza", "[gracz]", "revoguild.ranking", "elo", "gracz", "points");
+        super("ranking", "sprawdzanie rankingu gracza", "/ranking [gracz]", "revoguild.ranking", "elo", "gracz", "points");
     }
 
     @Override

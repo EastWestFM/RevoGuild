@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 public class ProlongCommand extends SubCommand {
 
     public ProlongCommand() {
-        super("przedluz", "przedluzanie waznosci gildii", "", "revoguild.prolong", "prolong", "addtime");
+        super("przedluz", "przedluzanie waznosci gildii", "/g przedluz", "revoguild.prolong", "prolong", "addtime");
     }
 
     @Override
@@ -31,7 +31,7 @@ public class ProlongCommand extends SubCommand {
         if (!ItemUtil.checkAndRemove(ItemUtil.getItems(p.hasPermission("revoguild.vip") ? Config.COST_PROLONG_VIP : Config.COST_PROLONG_NORMAL, 1), p))
             return Util.sendMsg(p, Lang.ERROR_DONT_HAVE_ITEMS);
 
-        g.getExpireTime().add(TimeUtil.DAY.getTick(Config.TIME_ADD));
+        g.getExpireTime().add(TimeUtil.DAY.getTime(Config.TIME_ADD));
 
         return Util.sendMsg(p, Lang.INFO_PROLONGED_VALIDITY);
     }

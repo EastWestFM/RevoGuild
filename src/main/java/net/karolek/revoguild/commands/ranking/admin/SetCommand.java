@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 public class SetCommand extends SubCommand {
 
     public SetCommand() {
-        super("set", "ustawianie wartosci wybranego gracza", "<gracz> <kills|deaths|points> <wartosc>", "revoguild.admin.set", "ustaw");
+        super("set", "ustawianie wartosci wybranego gracza", "/ra set <gracz> <kills|deaths|points> <wartosc>", "revoguild.admin.set", "ustaw");
     }
 
     @Override

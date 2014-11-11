@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 public class AllianceCommand extends SubCommand {
 
     public AllianceCommand() {
-        super("sojusz", "zarzadzanie sojuszami gildii", "<tag/nazwa>", "revoguild.alliance", "alliance");
+        super("sojusz", "zarzadzanie sojuszami gildii", "/g sojusz <tag/nazwa>", "revoguild.alliance", "alliance");
     }
 
     @Override

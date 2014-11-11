@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 public class SetHomeCommand extends SubCommand {
 
     public SetHomeCommand() {
-        super("ustawdom", "ustawianie domu gildii", "", "revoguild.sethome", "ustawbaze", "sethome");
+        super("ustawdom", "ustawianie domu gildii", "/g ustawdom", "revoguild.sethome", "ustawbaze", "sethome");
     }
 
     @Override

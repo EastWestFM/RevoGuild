@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 public class ListCommand extends SubCommand {
 
     public ListCommand() {
-        super("lista", "lista wszystkich gildii", "", "revoguild.list", "list");
+        super("lista", "lista wszystkich gildii", "/g lista", "revoguild.list", "list");
     }
 
     @Override
