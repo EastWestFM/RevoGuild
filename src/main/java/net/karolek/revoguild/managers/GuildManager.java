@@ -76,8 +76,17 @@ public class GuildManager {
         if (!loc.getWorld().getName().equals(Config.CUBOID_WORLD))
             return false;
 
-        if ((Math.abs(loc.getBlockX()) < Config.CUBOID_SPAWN_DISTANCE) && (Math.abs(loc.getBlockZ()) < Config.CUBOID_SPAWN_DISTANCE))
-            return false;
+        int spawnX = loc.getWorld().getSpawnLocation().getBlockX();
+        int spawnZ = loc.getWorld().getSpawnLocation().getBlockZ();
+
+        if (Config.CUBOID_SPAWN_ENBLAED)
+            if (Math.abs(loc.getBlockX() - spawnX) < Config.CUBOID_SPAWN_DISTANCE && Math.abs(loc.getBlockZ() - spawnZ) < Config.CUBOID_SPAWN_DISTANCE)
+                return false;
+
+
+        // if (Config.CUBOID_SPAWN_ENBLAED)
+        //      if ((Math.abs(loc.getBlockX()) < Config.CUBOID_SPAWN_DISTANCE) && (Math.abs(loc.getBlockZ()) < Config.CUBOID_SPAWN_DISTANCE))
+        //        return false;
 
         int mindistance = Config.CUBOID_SIZE_MAX * 2 + Config.CUBOID_SIZE_BETWEEN;
         for (Guild g : guilds.values())

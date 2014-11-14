@@ -53,6 +53,7 @@ public class Lang {
     public static String ERROR_CANT_ADD_TIME = "&4Blad: &cWaznosc gildii nie moze byc wieksza niz 14 dni!";
     public static String ERROR_OWNER_NOT_ONLINE = "&4Blad: &cZalozyciel gildii nie jest online!";
     public static String ERROR_CANT_USE = "&4Blad: &cNie mozesz tego uzywac!";
+    public static String ERROR_MUST_WAIT = "&4Blad: Musisz poczekac 5 minut przed kolejnym losowaniem!";
     public static String ERROR_CANT_OPEN_TREASURE_OUTSIDE_CUBOID = "&4Blad: &cSkarbiec gildii mozna otwierac tylko na terenie gildii!";
     public static String ERROR_CANT_SET_CUBOID = "&4Blad: &cNie mozna przeniesc cuboida gildii poniewaz w poblizu znajduje sie inna gildia/spawn!";
     public static String ERROR_CANT_FIND_USER = "&4Blad: Uzytkownik nie istnieje w bazie danych!";

@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 public class SetCommand extends SubCommand {
 
     public SetCommand() {
-        super("set", "zmiana wartosci wybranej gildii", "/ga set <tag/nazwa> <leader|owner|lives|pvp|size> <wartosc>", "revoguild.admin.setsize", "ustawrozmiar");
+        super("set", "zmiana wartosci wybranej gildii", "/ga set <tag/nazwa> <leader|owner|lives|pvp|size> <wartosc>", "revoguild.admin.set", "ustawrozmiar");
     }
 
     @Override

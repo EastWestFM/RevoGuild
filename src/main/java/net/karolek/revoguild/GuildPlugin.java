@@ -150,7 +150,9 @@ public class GuildPlugin extends JavaPlugin {
         if (Config.UPTAKE_ENABLED)
             pm.registerEvents(new PacketReceiveListener(), this);
         if (Config.ESCAPE_ENABLED && Config.ESCAPE_DISABLEDCMD_ENABLED)
-            pm.registerEvents(new CommandsListener(), this);
+            pm.registerEvents(new FightCommandsListener(), this);
+        if (Config.CUBOID_DISABLECMD_ENABLED)
+            pm.registerEvents(new GuildCommandsListener(), this);
         if (Config.ESCAPE_ENABLED)
             pm.registerEvents(new CombatListener(), this);
         if (Config.TREASURE_ENABLED)

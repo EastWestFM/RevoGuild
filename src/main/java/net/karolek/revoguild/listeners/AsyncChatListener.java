@@ -26,6 +26,8 @@ public class AsyncChatListener implements Listener {
         Player p = e.getPlayer();
         User u = UserManager.getUser(p);
 
+        if(u == null) return;
+
         Guild g = GuildManager.getGuild(p);
 
         String guildTag = g != null ? Lang.parse(Config.CHAT_FORMAT_TAG, g) : "";

@@ -50,6 +50,7 @@ public class Config {
     public static int EFFECTS_LEVEL_MAX = 3;
     public static int EFFECTS_TIME_MIN = 10;
     public static int EFFECTS_TIME_MAX = 3600;
+    public static int EFFECTS_TIME_INTERVAL = 5;
     public static List<String> EFFECTS_TYPES = Arrays.asList("FAST_DIGGING", "REGENERATION", "INCREASE_DAMAGE");
 
     public static boolean ESCAPE_ENABLED = true;
@@ -113,7 +114,12 @@ public class Config {
     public static int CUBOID_SIZE_MAX = 74;
     public static int CUBOID_SIZE_ADD = 1;
     public static int CUBOID_SIZE_BETWEEN = 50;
+    public static boolean CUBOID_SPAWN_ENBLAED = true;
     public static int CUBOID_SPAWN_DISTANCE = 400;
+    public static boolean CUBOID_DISABLECMD_ENABLED = true;
+    public static List<String> CUBOID_DISABLEDCMD_COMMANDS = Arrays.asList("g dom", "g efekt", "g skarbiec", "g ustawdom");
+    public static boolean CUBOID_DISABLEDCMD_NOTIFY_ENABLED = false;
+    public static String CUBOID_DISABLEDCMD_NOTIFY_MESSAGE = "&4Blad: &cNie mozesz uzywac tej komendy na terenie innej gildii!";
 
     public static int TIME_START = 3;
     public static int TIME_MAX = 14;
