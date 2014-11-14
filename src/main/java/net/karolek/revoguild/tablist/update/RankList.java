@@ -13,18 +13,19 @@ import java.util.List;
 public class RankList {
 
     @Getter
-    private static List<Data<User>> topPlayers = Collections.synchronizedList(new ArrayList<Data<User>>());
+    private List<Data<User>> topPlayers = Collections.synchronizedList(new ArrayList<Data<User>>());
     @Getter
-    private static List<Data<Guild>> topGuilds = Collections.synchronizedList(new ArrayList<Data<Guild>>());
+    private List<Data<Guild>> topGuilds = Collections.synchronizedList(new ArrayList<Data<Guild>>());
 
-    public static void setTopPlayers(Collection<Data<User>> data) {
+    public void setTopPlayers(Collection<Data<User>> data) {
         topPlayers.clear();
-        topPlayers.addAll(data);
+        topPlayers.addAll(data); for(Data<User> guildData: data)System.out.println("User: " + guildData.getKey().getName());
     }
 
-    public static void setTopGuilds(Collection<Data<Guild>> data) {
+    public void setTopGuilds(Collection<Data<Guild>> data) {
         topGuilds.clear();
         topGuilds.addAll(data);
+        for(Data<Guild> guildData: data)System.out.println("Gildia: " + guildData.getKey().getTag());
     }
 
     @Getter

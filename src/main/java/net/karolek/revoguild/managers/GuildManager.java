@@ -5,6 +5,7 @@ import net.karolek.revoguild.GuildPlugin;
 import net.karolek.revoguild.base.Guild;
 import net.karolek.revoguild.base.User;
 import net.karolek.revoguild.data.Config;
+import net.karolek.revoguild.tablist.update.RankList;
 import net.karolek.revoguild.tablist.update.TabThread;
 import net.karolek.revoguild.utils.Logger;
 import net.karolek.revoguild.utils.SpaceUtil;
@@ -79,7 +80,7 @@ public class GuildManager {
         int spawnX = loc.getWorld().getSpawnLocation().getBlockX();
         int spawnZ = loc.getWorld().getSpawnLocation().getBlockZ();
 
-        if (Config.CUBOID_SPAWN_ENBLAED)
+        if (Config.CUBOID_SPAWN_ENABLED)
             if (Math.abs(loc.getBlockX() - spawnX) < Config.CUBOID_SPAWN_DISTANCE && Math.abs(loc.getBlockZ() - spawnZ) < Config.CUBOID_SPAWN_DISTANCE)
                 return false;
 
@@ -94,6 +95,15 @@ public class GuildManager {
                 return false;
         return true;
     }
+
+    public static int getPosition(Guild guild
+    ) {
+        for (RankList.Data<Guild> userData : TabThread.getInstance().getRankList().getTopGuilds())
+            if (userData.getKey().equals(guild))
+                return TabThread.getInstance().getRankList().getTopPlayers().indexOf(userData)+1;
+        return -1;
+    }
+
 
     public static void setGuildRoom(Guild g) {
         Location c = g.getCuboid().getCenter();

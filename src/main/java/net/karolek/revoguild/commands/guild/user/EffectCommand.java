@@ -37,7 +37,7 @@ public class EffectCommand extends SubCommand {
         if (cooldown != null && ((System.currentTimeMillis() - cooldown.longValue()) < TimeUtil.MINUTE.getTime(Config.EFFECTS_TIME_INTERVAL)))
             return Util.sendMsg(p, Lang.ERROR_MUST_WAIT);
 
-        if (!ItemUtil.checkAndRemove(ItemUtil.getItems(p.hasPermission("revoguild.vip") ? Config.COST_ENLARGE_VIP : Config.COST_ENLARGE_NORMAL, 1), p))
+        if (!ItemUtil.checkAndRemove(ItemUtil.getItems(p.hasPermission("revoguild.vip") ? Config.COST_EFFECT_VIP : Config.COST_EFFECT_NORMAL, 1), p))
             return Util.sendMsg(p, Lang.ERROR_DONT_HAVE_ITEMS);
 
         if (!RandomUtil.getChance(Config.EFFECTS_CHANCE))

@@ -3,8 +3,8 @@ package net.karolek.revoguild.commands.ranking;
 import net.karolek.revoguild.base.User;
 import net.karolek.revoguild.commands.SubCommand;
 import net.karolek.revoguild.data.Lang;
-import net.karolek.revoguild.tablist.update.RankList;
 import net.karolek.revoguild.tablist.update.RankList.Data;
+import net.karolek.revoguild.tablist.update.TabThread;
 import net.karolek.revoguild.utils.Util;
 import org.bukkit.entity.Player;
 
@@ -19,7 +19,7 @@ public class TopCommand extends SubCommand {
         Util.sendMsg(p, Lang.LIST_RANKING_HEADER);
 
         int i = 1;
-        for (Data<User> u : RankList.getTopPlayers()) {
+        for (Data<User> u : TabThread.getInstance().getRankList().getTopPlayers()) {
             if (i > 10)
                 break;
 

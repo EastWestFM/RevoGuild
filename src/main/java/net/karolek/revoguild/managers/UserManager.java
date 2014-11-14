@@ -4,6 +4,8 @@ import lombok.Getter;
 import net.karolek.revoguild.GuildPlugin;
 import net.karolek.revoguild.base.User;
 import net.karolek.revoguild.data.Config;
+import net.karolek.revoguild.tablist.update.RankList;
+import net.karolek.revoguild.tablist.update.TabThread;
 import net.karolek.revoguild.utils.Logger;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -31,6 +33,13 @@ public class UserManager {
             }
         }
         return null;
+    }
+
+    public static int getPosition(User user) {
+        for (RankList.Data<User> userData : TabThread.getInstance().getRankList().getTopPlayers())
+            if (userData.getKey().equals(user))
+                return TabThread.getInstance().getRankList().getTopPlayers().indexOf(userData)+1;
+        return -1;
     }
 
     private static User getOfflineUser(OfflinePlayer p) {

@@ -28,6 +28,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.mcstats.Metrics;
+
+import java.io.IOException;
 
 public class GuildPlugin extends JavaPlugin {
 
@@ -42,6 +45,13 @@ public class GuildPlugin extends JavaPlugin {
     public void onEnable() {
         plugin = this;
         saveDefaultConfig();
+
+        try {
+            Metrics metrics = new Metrics(this);
+            metrics.start();
+        } catch (IOException e) {
+            Logger.warning("Failed to connect Metrics!");
+        }
 
         Config.reloadConfig();
         Lang.reloadLang();
@@ -151,7 +161,7 @@ public class GuildPlugin extends JavaPlugin {
             pm.registerEvents(new PacketReceiveListener(), this);
         if (Config.ESCAPE_ENABLED && Config.ESCAPE_DISABLEDCMD_ENABLED)
             pm.registerEvents(new FightCommandsListener(), this);
-        if (Config.CUBOID_DISABLECMD_ENABLED)
+        if (Config.CUBOID_DISABLEDCMD_ENABLED)
             pm.registerEvents(new GuildCommandsListener(), this);
         if (Config.ESCAPE_ENABLED)
             pm.registerEvents(new CombatListener(), this);

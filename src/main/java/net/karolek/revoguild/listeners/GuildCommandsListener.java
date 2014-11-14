@@ -21,10 +21,10 @@ public class GuildCommandsListener implements Listener {
         Guild g = GuildManager.getGuild(p.getLocation());
 
 
-        if (!Config.CUBOID_DISABLECMD_ENABLED) return;
+        if (!Config.CUBOID_DISABLEDCMD_ENABLED) return;
         if (g == null) return;
         if (g.isMember(UserManager.getUser(p))) return;
-        for (String s : Config.ESCAPE_DISABLEDCMD_COMMANDS) {
+        for (String s : Config.CUBOID_DISABLEDCMD_COMMANDS) {
             if (!msg.contains("/" + s))
                 continue;
             e.setCancelled(true);

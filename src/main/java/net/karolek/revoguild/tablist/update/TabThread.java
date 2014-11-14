@@ -10,12 +10,15 @@ import net.karolek.revoguild.tablist.update.RankList.Data;
 import net.karolek.revoguild.utils.Logger;
 
 import java.util.*;
+import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicInteger;
 
+@Getter
 public class TabThread extends Thread {
 
     @Getter
     private static TabThread instance;
+
     @Getter
     private static Comparator<User> usersComparator = new Comparator<User>() {
         @Override
@@ -23,6 +26,7 @@ public class TabThread extends Thread {
             return o2.getPoints().get() - o1.getPoints().get();
         }
     };
+
     @Getter
     private static Comparator<Guild> guildsComparator = new Comparator<Guild>() {
         @Override
@@ -30,65 +34,72 @@ public class TabThread extends Thread {
             return o2.getPoints() - o1.getPoints();
         }
     };
-    private Object lock;
-    @Getter
-    private boolean run;
-    private AtomicInteger ai = new AtomicInteger();
+    private static AtomicInteger ai = new AtomicInteger();
+    private RankList rankList;
+    private Executor executor;
+    private Object locker;
 
     public TabThread() {
 
         instance = this;
-        lock = new Object();
-        run = true;
+        rankList = new RankList();
+        locker = new Object();
 
+        this.setName("TabThread");
         this.start();
+
     }
 
     public static void restart() {
-        synchronized (instance.lock) {
-            instance.lock.notify();
+        System.out.println("Metoda restart");
+        if (instance == null) {
+            Logger.warning("TabThread instance cannot be null!");
+            return;
         }
+
+        synchronized (instance.locker) {
+            instance.locker.notify();
+        }
+
     }
 
     @Override
     public void run() {
         try {
-            while (run) {
-
+            while (true) {
                 System.out.println("Petla #" + ai.getAndIncrement());
-
                 List<User> stats = new ArrayList<>();
                 stats.addAll(UserManager.getUsers().values());
                 Collections.sort(stats, getUsersComparator());
                 List<Data<User>> toAddPlayers = new LinkedList<>();
 
-                for (int i = 0; i < Math.min(20, stats.size()); i++) {
+                for (int i = 0; i < stats.size(); i++) {
                     User u = stats.get(i);
                     toAddPlayers.add(new Data<User>(u, u.getPoints().get()));
                 }
 
-                RankList.setTopPlayers(toAddPlayers);
+                rankList.setTopPlayers(toAddPlayers);
 
                 List<Guild> guilds = new ArrayList<>();
                 guilds.addAll(GuildManager.getGuilds().values());
                 Collections.sort(guilds, getGuildsComparator());
                 List<Data<Guild>> toAddGuilds = new LinkedList<>();
 
-                for (int i = 0; i < Math.min(20, guilds.size()); i++) {
+                for (int i = 0; i < guilds.size(); i++) {
                     Guild g = guilds.get(i);
                     toAddGuilds.add(new Data<Guild>(g, g.getPoints()));
                 }
 
-                RankList.setTopGuilds(toAddGuilds);
+                rankList.setTopGuilds(toAddGuilds);
                 new TabHighUpdateTask().runTaskLaterAsynchronously(GuildPlugin.getPlugin(), 1L);
-
-                synchronized (lock) {
-                    lock.wait();
+                synchronized (locker) {
+                    locker.wait();
                 }
             }
         } catch (Exception e) {
-            Logger.exception(e);
+            e.printStackTrace();
         }
     }
+
 
 }

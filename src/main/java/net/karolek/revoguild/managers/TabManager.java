@@ -7,8 +7,8 @@ import net.karolek.revoguild.data.Lang;
 import net.karolek.revoguild.data.TabScheme;
 import net.karolek.revoguild.tablist.Tab;
 import net.karolek.revoguild.tablist.TabCell;
-import net.karolek.revoguild.tablist.update.RankList;
 import net.karolek.revoguild.tablist.update.RankList.Data;
+import net.karolek.revoguild.tablist.update.TabThread;
 import net.karolek.revoguild.utils.PacketUtil;
 import net.karolek.revoguild.utils.Util;
 import org.apache.commons.lang.StringUtils;
@@ -78,7 +78,7 @@ public class TabManager {
     public static String parse(String s, Player p) {
         User pU = UserManager.getUser(p);
 
-        List<Data<User>> playerList = RankList.getTopPlayers();
+        List<Data<User>> playerList = TabThread.getInstance().getRankList().getTopPlayers();
         for (int i = 0; i < 20; i++) {
             if (i >= playerList.size()) {
                 s = StringUtils.replace(s, "{PTOP-" + (i + 1) + "}", "brak");
@@ -88,7 +88,7 @@ public class TabManager {
             }
         }
 
-        List<Data<Guild>> guildList = RankList.getTopGuilds();
+        List<Data<Guild>> guildList = TabThread.getInstance().getRankList().getTopGuilds();
         for (int i = 0; i < 20; i++) {
             if (i >= guildList.size()) {
                 s = StringUtils.replace(s, "{GTOP-" + (i + 1) + "}", "brak");

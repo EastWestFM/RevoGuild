@@ -4,6 +4,8 @@ import net.karolek.revoguild.GuildPlugin;
 import net.karolek.revoguild.base.Guild;
 import net.karolek.revoguild.base.User;
 import net.karolek.revoguild.commands.SubCommand;
+import net.karolek.revoguild.managers.GuildManager;
+import net.karolek.revoguild.managers.UserManager;
 import net.karolek.revoguild.utils.Logger;
 import net.karolek.revoguild.utils.Util;
 import org.apache.commons.lang.StringUtils;
@@ -78,7 +80,7 @@ public class Lang {
     public static String INFO_MOVE_OUT = "&6Opusciles teren gildii &7[{TAG}] {NAME}&6!";
     public static String INFO_MOVE_INTRUDER = "&4Intruz na terenie Twojej gildii!";
     public static String INFO_GUILD = "&7&m---------&r &7Gildia &6[{TAG}] {NAME} &7&m---------&r\n  &6Zalozyciel: &7{OWNER}\n  &6Lider: &7{LEADER}\n  &6Utworzona: &7{CREATETIME}\n  &6Wygasa: &7{EXPIRETIME}\n  &6Ostatni atak: &7{LASTTAKENLIFETIME}\n  &6Zgony: &7{DEATHS}\n  &6Zabicia: &7{KILLS}\n  &6Punkty: &7{POINTS}\n  &6Pvp: &7{PVP}\n  &6Zycia: &7{LIVES}\n  &6Rozmiar: &7{SIZE}x{SIZE}\n  &6Czlonkow: &7{MEMBERSNUM}, online: {ONLINENUM}\n  &6Czlonkowie: &7{MEMBERS}\n";
-    public static String INFO_PLAYER = "&7&m---------&r &7Gracz &6{NAME} &7&m---------&r\n  &6Punkty: &7{POINTS}\n  &6Zabicia: &7{KILLS}\n  &6Zgony: &7{DEATHS}";
+    public static String INFO_PLAYER = "&7&m---------&r &7Gracz &6{NAME} &7&m---------&r\n  &6Punkty: &7{POINTS}\n  &6Zabicia: &7{KILLS}\n  &6Zgony: &7{DEATHS}\n  &6Pozycja: &7{POSITION}";
     public static String INFO_TREASURE_OPENED = "&6Otwarto skarbiec gildii!";
     public static String INFO_TREASURE_USER_ADD = "&6Gracz &7{PLAYER} &6jest od teraz uzytkownikiem skarbca gildii!";
     public static String INFO_TREASURE_USER_ADD_INFO = "&6Gracz &7{PLAYER} &6nadal Ci uprawnienia do skarbca gildii!";
@@ -179,6 +181,8 @@ public class Lang {
         msg = msg.replace("{KILLS}", Integer.toString(u.getKills().get()));
         msg = msg.replace("{DEATHS}", Integer.toString(u.getDeaths().get()));
         msg = msg.replace("{TIMEPLAY}", Util.secondsToString(u.getTimePlay().get()));
+        msg = msg.replace("{POSITION}", Integer.toString(UserManager.getPosition(u)));
+
         return Util.fixColor(msg);
     }
 
@@ -202,6 +206,7 @@ public class Lang {
         msg = msg.replace("{BANTIME}", Util.getDate(g.getBanTime()));
         msg = msg.replace("{BANADMIN}", g.getBanAdmin());
         msg = msg.replace("{BANREASON}", g.getBanReason());
+        msg = msg.replace("{POSITION}", Integer.toString(GuildManager.getPosition(g)));
 
         return Util.fixColor(msg);
     }
@@ -230,6 +235,8 @@ public class Lang {
         msg = msg.replace("{KILLS2}", Integer.toString(g1.getKills()));
         msg = msg.replace("{DEATHS2}", Integer.toString(g1.getDeaths()));
         msg = msg.replace("{LIVES2}", Integer.toString(g1.getLives().get()));
+        msg = msg.replace("{POSITION2}", Integer.toString(GuildManager.getPosition(g1)));
+
         return Util.fixColor(msg);
     }
 

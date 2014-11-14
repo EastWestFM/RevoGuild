@@ -114,9 +114,9 @@ public class Config {
     public static int CUBOID_SIZE_MAX = 74;
     public static int CUBOID_SIZE_ADD = 1;
     public static int CUBOID_SIZE_BETWEEN = 50;
-    public static boolean CUBOID_SPAWN_ENBLAED = true;
+    public static boolean CUBOID_SPAWN_ENABLED = true;
     public static int CUBOID_SPAWN_DISTANCE = 400;
-    public static boolean CUBOID_DISABLECMD_ENABLED = true;
+    public static boolean CUBOID_DISABLEDCMD_ENABLED = true;
     public static List<String> CUBOID_DISABLEDCMD_COMMANDS = Arrays.asList("g dom", "g efekt", "g skarbiec", "g ustawdom");
     public static boolean CUBOID_DISABLEDCMD_NOTIFY_ENABLED = false;
     public static String CUBOID_DISABLEDCMD_NOTIFY_MESSAGE = "&4Blad: &cNie mozesz uzywac tej komendy na terenie innej gildii!";
