@@ -19,13 +19,12 @@ public class RankList {
 
     public void setTopPlayers(Collection<Data<User>> data) {
         topPlayers.clear();
-        topPlayers.addAll(data); for(Data<User> guildData: data)System.out.println("User: " + guildData.getKey().getName());
+        topPlayers.addAll(data);
     }
 
     public void setTopGuilds(Collection<Data<Guild>> data) {
         topGuilds.clear();
         topGuilds.addAll(data);
-        for(Data<Guild> guildData: data)System.out.println("Gildia: " + guildData.getKey().getTag());
     }
 
     @Getter
