@@ -34,7 +34,11 @@ public class CombatManager {
     }
 
     public static boolean wasInFight(Player p) {
-        return (System.currentTimeMillis() - combats.get(p.getName()) - 1000L < TimeUtil.SECOND.getTime(Config.ESCAPE_TIME));
+        Long time = combats.get(p.getName());
+
+        if(time == null) return false;
+
+        return (System.currentTimeMillis() - time - 1000L < TimeUtil.SECOND.getTime(Config.ESCAPE_TIME));
     }
 
     public static long getTimeToEnd(Player p) {

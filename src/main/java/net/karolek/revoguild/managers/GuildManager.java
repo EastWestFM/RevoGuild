@@ -96,11 +96,10 @@ public class GuildManager {
         return true;
     }
 
-    public static int getPosition(Guild guild
-    ) {
-        for (RankList.Data<Guild> userData : TabThread.getInstance().getRankList().getTopGuilds())
-            if (userData.getKey().equals(guild))
-                return TabThread.getInstance().getRankList().getTopPlayers().indexOf(userData)+1;
+    public static int getPosition(Guild guild) {
+        for (RankList.Data<Guild> guildData : TabThread.getInstance().getRankList().getTopGuilds())
+            if (guildData.getKey().equals(guild))
+                return TabThread.getInstance().getRankList().getTopGuilds().indexOf(guildData) + 1;
         return -1;
     }
 

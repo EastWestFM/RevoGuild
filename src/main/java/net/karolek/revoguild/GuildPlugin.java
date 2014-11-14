@@ -41,6 +41,7 @@ public class GuildPlugin extends JavaPlugin {
 
     private boolean enabled = false;
 
+
     @Override
     public void onEnable() {
         plugin = this;
@@ -82,6 +83,7 @@ public class GuildPlugin extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        Bukkit.getScheduler().cancelTasks(this);
         if (enabled)
             if (store != null)
                 store.disconnect();
@@ -182,6 +184,7 @@ public class GuildPlugin extends JavaPlugin {
             new Updater().runTaskTimerAsynchronously(this, 20L, TimeUtil.MINUTE.getTick(5));
         new TabThread();
     }
+
 
     protected void registerOthers() {
         Logger.info("Register others...");
