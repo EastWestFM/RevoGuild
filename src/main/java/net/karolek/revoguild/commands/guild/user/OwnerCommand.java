@@ -46,7 +46,7 @@ public class OwnerCommand extends SubCommand {
         List<ItemStack> items = ItemUtil.getItems(p.hasPermission("revoguild.vip") ? Config.COST_OWNER_VIP : Config.COST_OWNER_NORMAL, 1);
 
         if (!ItemUtil.checkAndRemove(items, p))
-            return Util.sendMsg(p, Lang.ERROR_DONT_HAVE_ITEMS);
+            return Util.sendMsg(p, Lang.ERROR_DONT_HAVE_ITEMS.replace("{ITEMS}", ItemUtil.getItems(items)));
 
         g.getOwner().set(u);
 

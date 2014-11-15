@@ -63,7 +63,7 @@ public class Guild implements Entry {
         this.createTime = new LongValue(this, System.currentTimeMillis());
         this.expireTime = new LongValue("expireTime", this, System.currentTimeMillis() + TimeUtil.DAY.getTime(Config.TIME_START));
         this.lastExplodeTime = new LongValue(this, System.currentTimeMillis() - TimeUtil.SECOND.getTime(Config.TNT_CANTBUILD_TIME));
-        this.lastTakenLifeTime = new LongValue(this, System.currentTimeMillis());
+        this.lastTakenLifeTime = new LongValue(this, 0);
         this.lives = new IntegerValue("lives", this, Config.UPTAKE_LIVES_START);
         this.pvp = false;
         this.preDeleted = false;

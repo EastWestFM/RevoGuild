@@ -7,6 +7,7 @@ import net.karolek.revoguild.utils.Reflection.ConstructorInvoker;
 import net.karolek.revoguild.utils.Reflection.FieldAccessor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 
@@ -93,6 +94,9 @@ public class UptakeUtil {
     }
 
     public static void init(Player p) {
+
+        p.setItemInHand(p.getItemInHand().getAmount() <= 1 ? null : new ItemStack(p.getItemInHand().getType(), p.getItemInHand().getAmount()-1));
+
         for (Guild g : GuildManager.getGuilds().values())
             respawnGuild(p, g);
     }

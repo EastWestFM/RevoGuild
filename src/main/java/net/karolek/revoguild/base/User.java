@@ -76,9 +76,13 @@ public class User implements Entry {
 		GuildPlugin.getStore().update(false, "UPDATE `{P}users` SET `timePlay` = '" + this.timePlay + "' WHERE `uuid` = '" + this.toString() + "'");
 	}*/
 
+    public String getKD() {
+        return "";
+    }
+
     @Deprecated
     public double getKDRatio() {
-    return 0;
+        return 0;
     }
 
     @Override

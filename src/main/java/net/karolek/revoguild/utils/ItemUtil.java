@@ -4,25 +4,12 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ItemUtil {
 
-    public static ItemStack getItem(Material m, int a, String name, String... lore) {
-        ItemStack item = new ItemStack(m, a);
-        ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(Util.fixColor(name));
-        if (lore != null)
-            meta.setLore(Util.fixColor(Arrays.asList(lore)));
-        item.setItemMeta(meta);
-        return item;
-    }
-
-    @SuppressWarnings("deprecation")
     public static List<ItemStack> getItems(String string, int modifier) {
         List<ItemStack> items = new ArrayList<ItemStack>();
         for (String s : string.split(";")) {
@@ -40,6 +27,19 @@ public class ItemUtil {
             if (!p.getInventory().containsAtLeast(item, item.getAmount()))
                 return false;
         return true;
+    }
+
+    public static String getItems(List<ItemStack> items) {
+        StringBuilder sb = new StringBuilder();
+        for (ItemStack item : items) {
+            sb.append(item.getType().name().toLowerCase().replace("_", " "));
+            sb.append(" ");
+            if (item.getData().getData() != 0)
+                sb.append("(" + sb.append(item.getTypeId()) + "/" + item.getData().getData() + ")");
+            else sb.append("(" + item.getTypeId() + ")");
+            sb.append(", ").append(item.getAmount() + " szt.").append("\n");
+        }
+        return sb.toString();
     }
 
     public static void removeItems(List<ItemStack> items, Player player) {

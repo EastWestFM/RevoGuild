@@ -9,6 +9,9 @@ import net.karolek.revoguild.utils.ItemUtil;
 import net.karolek.revoguild.utils.TimeUtil;
 import net.karolek.revoguild.utils.Util;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.List;
 
 public class ProlongCommand extends SubCommand {
 
@@ -28,8 +31,10 @@ public class ProlongCommand extends SubCommand {
         if ((t - System.currentTimeMillis()) >= TimeUtil.DAY.getTime(Config.TIME_MAX))
             return Util.sendMsg(p, Lang.ERROR_CANT_ADD_TIME);
 
-        if (!ItemUtil.checkAndRemove(ItemUtil.getItems(p.hasPermission("revoguild.vip") ? Config.COST_PROLONG_VIP : Config.COST_PROLONG_NORMAL, 1), p))
-            return Util.sendMsg(p, Lang.ERROR_DONT_HAVE_ITEMS);
+        List<ItemStack> items = ItemUtil.getItems(p.hasPermission("revoguild.vip") ? Config.COST_PROLONG_VIP : Config.COST_PROLONG_NORMAL, 1);
+
+        if (!ItemUtil.checkAndRemove(items, p))
+            return Util.sendMsg(p, Lang.ERROR_DONT_HAVE_ITEMS.replace("{ITEMS}", ItemUtil.getItems(items)));
 
         g.getExpireTime().add(TimeUtil.DAY.getTime(Config.TIME_ADD));
 

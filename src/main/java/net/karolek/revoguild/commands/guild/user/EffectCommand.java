@@ -11,10 +11,12 @@ import net.karolek.revoguild.utils.RandomUtil;
 import net.karolek.revoguild.utils.TimeUtil;
 import net.karolek.revoguild.utils.Util;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class EffectCommand extends SubCommand {
@@ -37,8 +39,10 @@ public class EffectCommand extends SubCommand {
         if (cooldown != null && ((System.currentTimeMillis() - cooldown.longValue()) < TimeUtil.MINUTE.getTime(Config.EFFECTS_TIME_INTERVAL)))
             return Util.sendMsg(p, Lang.ERROR_MUST_WAIT);
 
-        if (!ItemUtil.checkAndRemove(ItemUtil.getItems(p.hasPermission("revoguild.vip") ? Config.COST_EFFECT_VIP : Config.COST_EFFECT_NORMAL, 1), p))
-            return Util.sendMsg(p, Lang.ERROR_DONT_HAVE_ITEMS);
+        List<ItemStack> items = ItemUtil.getItems(p.hasPermission("revoguild.vip") ? Config.COST_EFFECT_VIP : Config.COST_EFFECT_NORMAL, 1);
+
+        if (!ItemUtil.checkAndRemove(items, p))
+            return Util.sendMsg(p, Lang.ERROR_DONT_HAVE_ITEMS.replace("{ITEMS}", ItemUtil.getItems(items)));
 
         if (!RandomUtil.getChance(Config.EFFECTS_CHANCE))
             return Util.sendMsg(p, Lang.ERROR_DONT_HAVE_LUCKY_TO_EFFECT);

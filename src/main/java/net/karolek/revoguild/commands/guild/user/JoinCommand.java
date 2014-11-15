@@ -34,10 +34,16 @@ public class JoinCommand extends SubCommand {
         if (g == null)
             return Util.sendMsg(p, Lang.ERROR_CANT_FIND_GUILD);
 
-        List<ItemStack> items = ItemUtil.getItems(p.hasPermission("revoguild.vip") ? Config.COST_JOIN_VIP : Config.COST_JOIN_NORMAL, 1);
+        String algorithm = Config.ALGORITHM_JOIN;
+        algorithm = algorithm.replace("{MEMBERS_NUM}", Integer.toString(g.getMembers().size()));
+
+        int modifier = Util.calculate(algorithm);
+
+        List<ItemStack> items = ItemUtil.getItems(p.hasPermission("revoguild.vip") ? Config.COST_JOIN_VIP : Config.COST_JOIN_NORMAL, modifier);
+
 
         if (!ItemUtil.checkItems(items, p))
-            return Util.sendMsg(p, Lang.ERROR_DONT_HAVE_ITEMS);
+            return Util.sendMsg(p, Lang.ERROR_DONT_HAVE_ITEMS.replace("{ITEMS}", ItemUtil.getItems(items)));
 
         if (!g.addMember(UserManager.getUser(p)))
             return Util.sendMsg(p, Lang.ERROR_DONT_HAVE_INVITE);

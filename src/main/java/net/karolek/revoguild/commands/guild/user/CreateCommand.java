@@ -45,7 +45,7 @@ public class CreateCommand extends SubCommand {
         List<ItemStack> items = ItemUtil.getItems(p.hasPermission("revoguild.vip") ? Config.COST_CREATE_VIP : Config.COST_CREATE_NORMAL, 1);
 
         if (!ItemUtil.checkAndRemove(items, p))
-            return Util.sendMsg(p, Lang.ERROR_DONT_HAVE_ITEMS);
+            return Util.sendMsg(p, Lang.ERROR_DONT_HAVE_ITEMS.replace("{ITEMS}", ItemUtil.getItems(items)));
 
         Guild g = GuildManager.createGuild(tag, name, p);
 

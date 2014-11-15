@@ -3,6 +3,7 @@ package net.karolek.revoguild.managers;
 import lombok.Getter;
 import net.karolek.revoguild.base.Guild;
 import net.karolek.revoguild.base.User;
+import net.karolek.revoguild.data.Config;
 import net.karolek.revoguild.data.Lang;
 import net.karolek.revoguild.data.TabScheme;
 import net.karolek.revoguild.tablist.Tab;
@@ -11,7 +12,6 @@ import net.karolek.revoguild.tablist.update.RankList.Data;
 import net.karolek.revoguild.tablist.update.TabThread;
 import net.karolek.revoguild.utils.PacketUtil;
 import net.karolek.revoguild.utils.Util;
-import org.apache.commons.lang.StringUtils;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -79,31 +79,36 @@ public class TabManager {
         User pU = UserManager.getUser(p);
 
         List<Data<User>> playerList = TabThread.getInstance().getRankList().getTopPlayers();
+
         for (int i = 0; i < 20; i++) {
+            String format = Config.TABLIST_FORMAT_PTOP;
             if (i >= playerList.size()) {
-                s = StringUtils.replace(s, "{PTOP-" + (i + 1) + "}", "brak");
+                format = format.replace("{NAME}", "brak");
             } else {
                 Data<User> u = playerList.get(i);
-                s = StringUtils.replace(s, "{PTOP-" + (i + 1) + "}", u == null ? "brak" : u.getKey().getName());
+                format = format.replace("{NAME}", u == null ? "brak" : u.getKey().getName());
             }
+            s = s.replace("{PTOP-" + (i + 1) + "}", format);
         }
 
         List<Data<Guild>> guildList = TabThread.getInstance().getRankList().getTopGuilds();
         for (int i = 0; i < 20; i++) {
+            String format = Config.TABLIST_FORMAT_GTOP;
             if (i >= guildList.size()) {
-                s = StringUtils.replace(s, "{GTOP-" + (i + 1) + "}", "brak");
+                format = "brak";
             } else {
                 Data<Guild> g = guildList.get(i);
-                s = StringUtils.replace(s, "{GTOP-" + (i + 1) + "}", g == null ? "brak" : g.getKey().getTag() + " &7[" + g.getPoints() + "]");
+                format = Lang.parse(format, g.getKey());
             }
+            s = s.replace("{GTOP-" + (i + 1) + "}", format);
         }
 
         s = Lang.parse(s, pU);
-        s = StringUtils.replace(s, "{ONLINE}", Integer.toString(Util.getOnlinePlayers().size()));
-        s = StringUtils.replace(s, "{TIME}", Util.getTime(System.currentTimeMillis()));
+        s = s.replace("{ONLINE}", Integer.toString(Util.getOnlinePlayers().size()));
+        s = s.replace("{TIME}", Util.getTime(System.currentTimeMillis()));
         Guild g = GuildManager.getGuild(p);
-        s = StringUtils.replace(s, "{TAG}", g == null ? "brak" : g.getTag());
-        s = StringUtils.replace(s, "{PING}", Integer.toString(PacketUtil.getPing(p)));
+        s = s.replace("{TAG}", g == null ? "brak" : g.getTag());
+        s = s.replace("{PING}", Integer.toString(PacketUtil.getPing(p)));
         return Util.fixColor(s);
     }
 }

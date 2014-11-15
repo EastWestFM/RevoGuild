@@ -59,6 +59,7 @@ public class Lang {
     public static String ERROR_CANT_OPEN_TREASURE_OUTSIDE_CUBOID = "&4Blad: &cSkarbiec gildii mozna otwierac tylko na terenie gildii!";
     public static String ERROR_CANT_SET_CUBOID = "&4Blad: &cNie mozna przeniesc cuboida gildii poniewaz w poblizu znajduje sie inna gildia/spawn!";
     public static String ERROR_CANT_FIND_USER = "&4Blad: Uzytkownik nie istnieje w bazie danych!";
+    public static String ERROR_ALLIANCES_MAXCOUNT = "&4Blad: &cTwoja gildia ma juz maksymalna ilosc sojuszy!";
     public static String ERROR_GUILD_HAVE_BAN = "&4Blad: &cGildia ma juz bana!";
     public static String ERROR_GUILD_DONT_HAVE_BAN = "&4Blad: &cGildia nie ma bana!";
     public static String ERROR_DONT_HAVE_LUCKY_TO_EFFECT = "&4Blad: &cEfekt nie zostal wylosowany! Nie masz szczescia i straciles itemy! :(";

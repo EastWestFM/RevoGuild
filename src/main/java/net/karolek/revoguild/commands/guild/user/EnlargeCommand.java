@@ -37,7 +37,7 @@ public class EnlargeCommand extends SubCommand {
         List<ItemStack> items = ItemUtil.getItems(p.hasPermission("revoguild.vip") ? Config.COST_ENLARGE_VIP : Config.COST_ENLARGE_NORMAL, modifier);
 
         if (!ItemUtil.checkItems(items, p))
-            return Util.sendMsg(p, Lang.ERROR_DONT_HAVE_ITEMS);
+            return Util.sendMsg(p, Lang.ERROR_DONT_HAVE_ITEMS.replace("{ITEMS}", ItemUtil.getItems(items)));
 
         if (!g.addSize())
             return Util.sendMsg(p, Lang.ERROR_MAX_SIZE);

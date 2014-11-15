@@ -126,6 +126,8 @@ public class Util {
     }
 
     public static String secondsToString(int seconds) {
+        if(seconds == 0) return "nigdy";
+
         LinkedHashMap<Integer, String> values = new LinkedHashMap<Integer, String>(6);
 
         values.put(60 * 60 * 24 * 30 * 12, "y");
